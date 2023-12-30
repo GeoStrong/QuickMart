@@ -1,0 +1,24 @@
+.card {
+  border-color: $secondary !important;
+
+  &__img-container {
+    background-color: $secondary;
+    width: 50%;
+    height: 60vh;
+    background-image: url(../../../assets/images/password-success.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+
+  &-body {
+    width: 50%;
+  }
+
+  &-text {
+    color: $gray-700;
+  }
+}

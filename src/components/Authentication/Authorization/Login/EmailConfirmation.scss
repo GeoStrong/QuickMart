@@ -1,0 +1,30 @@
+.form {
+  &-group {
+    width: 50%;
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+
+  &-label {
+    font-size: 0.8rem;
+  }
+
+  &-control {
+    font-size: 0.7rem;
+    box-shadow: none !important;
+  }
+
+  &-text {
+    min-height: 1.3rem;
+    font-size: 0.7rem;
+  }
+
+  &-btn {
+    width: 25%;
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+}

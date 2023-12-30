@@ -1,0 +1,47 @@
+.authorization {
+  &__header {
+    &-img {
+      width: 15% !important;
+
+      @media (max-width: 768px) {
+        width: 30% !important;
+      }
+    }
+
+    &-description {
+      font-size: 0.8rem;
+      color: $gray-700;
+    }
+  }
+
+  &__link {
+    font-size: 0.8rem;
+  }
+
+  .form {
+    &-label {
+      font-size: 0.8rem;
+    }
+
+    &-control {
+      font-size: 0.7rem;
+
+      box-shadow: none !important;
+
+      @media (max-width: 768px) {
+        width: 100% !important;
+      }
+    }
+
+    &-text {
+      min-height: 1.2rem;
+      font-size: 0.7rem;
+    }
+
+    &-btn {
+      @media (max-width: 768px) {
+        width: 100% !important;
+      }
+    }
+  }
+}

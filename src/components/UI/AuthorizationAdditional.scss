@@ -1,0 +1,18 @@
+.top {
+  border-bottom: 1px solid $gray-100;
+}
+
+.row {
+  &__link {
+    width: 15% !important;
+  }
+
+  &__page {
+    width: 85%;
+  }
+
+  &__text {
+    color: $gray-700;
+    font-size: 0.8rem;
+  }
+}

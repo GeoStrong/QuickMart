@@ -1,0 +1,22 @@
+.form {
+  &__control {
+    width: 5rem !important;
+    height: 3rem;
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      appearance: none;
+    }
+
+    @media (max-width: 768px) {
+      width: 20% !important;
+      height: 2.5rem;
+    }
+  }
+
+  &__buttons {
+    width: 25%;
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+}

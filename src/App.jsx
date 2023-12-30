@@ -16,7 +16,7 @@ import { action } from './helper/action';
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: '/QuickMart/',
     element: <Root />,
     children: [
       {

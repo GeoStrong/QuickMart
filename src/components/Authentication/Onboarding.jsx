@@ -104,13 +104,13 @@ const Onboarding = () => {
               </Card.Text>
               <div className="onboarding__card--btn d-flex flex-md-column justify-content-between gap-1">
                 <Link
-                  to={`/${originPath}/login`}
+                  to={`/${originPath}/authentication/login`}
                   className="btn bg-white px-4 py-3 w-100 align-self-md-end"
                 >
                   Login
                 </Link>
                 <Link
-                  to={`/${originPath}/signup`}
+                  to={`/${originPath}/authentication/signup`}
                   className="btn bg-dark text-white px-4 py-3 w-100 align-self-md-end"
                 >
                   Get Started

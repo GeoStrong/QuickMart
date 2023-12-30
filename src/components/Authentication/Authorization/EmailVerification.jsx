@@ -28,13 +28,14 @@ const EmailVerification = () => {
         setCustomError(true);
         return;
       }
-      return navigate(`/${originPath}/${parentPath}/new password`);
+      return navigate(`/${originPath}/${parentPath}/login/new password`);
     },
   });
   const codeGenerator = () =>
     setVerificationCode((Math.random() * 10).toFixed(5).split('.').join(''));
 
   // console.log(verificationCode);
+
   const inputHandler = (event) => {
     const currentInput = event.target;
     const nextInput = event.target.nextElementSibling;

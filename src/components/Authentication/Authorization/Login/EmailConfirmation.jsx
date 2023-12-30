@@ -11,7 +11,7 @@ const EmailConfirmation = () => {
   const submit = useSubmit();
   const actionData = useActionData();
   const navigate = useNavigate();
-  const { originPath, parentPath } = useParentUrl();
+  const { originPath, parentPath } = useParentUrl(3);
   const [customError, setCustomError] = useState(null);
 
   useEffect(() => {
@@ -23,7 +23,6 @@ const EmailConfirmation = () => {
   }, [actionData]);
 
   console.log(actionData);
-  console.log(customError);
 
   const formik = useFormik({
     initialValues: {
@@ -34,7 +33,9 @@ const EmailConfirmation = () => {
     }),
     onSubmit: (values) => {
       submit(values, { method: 'POST' });
-      return navigate(`/${originPath}/${parentPath}/email verification`);
+      return navigate(
+        `/${originPath}/authentication/${parentPath}/email verification`
+      );
     },
   });
 

@@ -1,3 +1,31 @@
+.alert {
+  height: 5rem;
+  top: 0.5rem;
+  left: 50%;
+  font-size: 0.7rem;
+  transform: translateX(-50%);
+  background-color: #fff !important;
+  border-color: $gray-700 !important;
+
+  @media (max-width: 768px) {
+    width: 85%;
+    height: 5rem;
+  }
+
+  &-dismissible {
+    padding-right: 2rem !important;
+  }
+
+  &__code {
+    width: 50%;
+    height: 4rem;
+
+    @media (max-width: 768px) {
+      width: 75%;
+    }
+  }
+}
+
 .form {
   &__control {
     width: 5rem !important;

@@ -2,11 +2,11 @@ import { Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import './AuthorizationAdditional.scss';
 
-const AuthorizationAdditional = ({ page, title, text }) => {
+const AuthorizationAdditional = ({ whereTo = -1, page, title, text }) => {
   return (
     <>
       <Row className="top align-items-center flex-nowrap py-3">
-        <Link to={-1} className="row__link">
+        <Link to={whereTo} className="row__link">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="32"

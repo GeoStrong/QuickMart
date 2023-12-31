@@ -1,17 +1,49 @@
 import { Button, Container, Form } from 'react-bootstrap';
 import AuthorizationAdditional from '../../../UI/AuthorizationAdditional';
-import './NewPassword.scss';
-import { useNavigate } from 'react-router-dom';
+import { useActionData, useNavigation, useSubmit } from 'react-router-dom';
 import useParentUrl from '../../../../hooks/useParentUrl';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import './NewPassword.scss';
+import { useEffect } from 'react';
+import useCheckAuth from '../../../../hooks/useCheckAuth';
+import useCustomError from '../../../../hooks/useCustomError';
 
 const NewPassword = () => {
-  const navigate = useNavigate();
-  const { originPath, parentPath } = useParentUrl();
+  const navigation = useNavigation();
+  const submit = useSubmit();
+  const actionData = useActionData();
+  const { checkAuthHandler } = useCheckAuth();
+  const { parentPath } = useParentUrl(3);
+  const { customError } = useCustomError(actionData);
 
-  const submitHandler = (event) => {
-    event.preventDefault();
-    navigate(`/${originPath}/${parentPath}/success`);
+  useEffect(() => {
+    checkAuthHandler(`${parentPath}/reset`);
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      password: '',
+      confirmPassword: '',
+    },
+    validationSchema: Yup.object({
+      password: Yup.string()
+        .min(8, 'Too Short!')
+        .matches(/[A-Za-z -]/, 'Password can only contain Latin letters.')
+        .required('Required'),
+      confirmPassword: Yup.string()
+        .oneOf([Yup.ref('password'), null], 'Passwords must match')
+        .required('Required'),
+    }),
+    onSubmit: (values) => {
+      submit(values, { method: 'PATCH' });
+    },
+  });
+
+  const validationCheck = (name) => {
+    return formik.errors[name] && formik.touched[name];
   };
+
   return (
     <>
       <Container>
@@ -20,24 +52,62 @@ const NewPassword = () => {
           title="New Password"
           text="Enter your new password and remember it."
         />
-        <Form className="form" onSubmit={submitHandler}>
-          <Form.Group className="mb-3">
-            <Form.Label className="fw-medium">Password</Form.Label>
-            <Form.Control type="password" className="fw-normal py-3" />
+        <Form
+          className="form d-flex flex-column align-items-md-start"
+          onSubmit={formik.handleSubmit}
+        >
+          <Form.Group className="mb-3 w-100">
+            <Form.Label className="fw-medium">
+              Password{' '}
+              {(validationCheck('password') || customError) && (
+                <span className="text-danger">*</span>
+              )}
+            </Form.Label>
+            <Form.Control
+              type="password"
+              id="password"
+              className={`fw-normal py-3 ${
+                validationCheck('password') || customError
+                  ? 'border-danger'
+                  : 'border-primary'
+              }`}
+              {...formik.getFieldProps('password')}
+            />
+            <Form.Text className="text-danger d-block">
+              {(validationCheck('password') && formik.errors.password) ||
+                (customError && customError[0].message)}
+            </Form.Text>
           </Form.Group>
-          <Form.Group className="">
-            <Form.Label className="fw-medium">Confirm Password</Form.Label>
-            <Form.Control type="password" className="fw-normal py-3" />
+          <Form.Group className="w-100">
+            <Form.Label className="fw-medium">
+              Confirm Password{' '}
+              {(validationCheck('confirmPassword') || customError) && (
+                <span className="text-danger">*</span>
+              )}
+            </Form.Label>
+            <Form.Control
+              type="password"
+              id="confirmPassword"
+              className={`fw-normal py-3 ${
+                validationCheck('confirmPassword') || customError
+                  ? 'border-danger'
+                  : 'border-primary'
+              }`}
+              {...formik.getFieldProps('confirmPassword')}
+            />
+            <Form.Text className="text-danger d-block">
+              {(validationCheck('confirmPassword') &&
+                formik.errors.confirmPassword) ||
+                (customError && customError[0].message)}
+            </Form.Text>
           </Form.Group>
-          <div className="form__buttons mt-3  d-flex flex-column align-items-center">
-            <Button
-              variant="dark"
-              type="submit"
-              className="text-white w-100 py-3"
-            >
-              Save
-            </Button>
-          </div>
+          <Button
+            variant="dark"
+            type="submit"
+            className="text-white align-self-stretch align-self-md-end py-3"
+          >
+            {navigation.state === 'submitting' ? 'Saving...' : 'Save'}
+          </Button>
         </Form>
       </Container>
     </>

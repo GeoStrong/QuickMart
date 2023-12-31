@@ -4,6 +4,7 @@ const initialValues = {
   fullName: '',
   email: '',
   password: '',
+  id: '',
 };
 
 const accountSlice = createSlice({
@@ -11,7 +12,8 @@ const accountSlice = createSlice({
   initialState: initialValues,
   reducers: {
     setAccount(state, action) {
-      const { fullName, email, password } = action.payload;
+      const { id, fullName, email, password } = action.payload;
+      state.id = id;
       state.fullName = fullName;
       state.email = email;
       state.password = password;

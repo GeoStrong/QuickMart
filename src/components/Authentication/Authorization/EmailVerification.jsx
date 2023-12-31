@@ -1,40 +1,35 @@
-import { Button, Container, Form } from 'react-bootstrap';
+import { Alert, Button, Container, Form } from 'react-bootstrap';
 import AuthorizationAdditional from '../../UI/AuthorizationAdditional';
 import { useNavigate } from 'react-router-dom';
 import useParentUrl from '../../../hooks/useParentUrl';
 import { useEffect, useRef, useState } from 'react';
 import { useFormik } from 'formik';
+import alertImg from '../../../assets/images/alert.svg';
 import './EmailVerification.scss';
+import useCheckAuth from '../../../hooks/useCheckAuth';
 
 const EmailVerification = () => {
   const firstInputRef = useRef();
+  const lastInputRef = useRef();
   const navigate = useNavigate();
-  const { originPath, parentPath } = useParentUrl();
+  const { originPath, parentPath } = useParentUrl(3);
   const [verificationCode, setVerificationCode] = useState();
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [displayAlert, setDisplayAlert] = useState(false);
   const [customError, setCustomError] = useState(false);
 
-  const formik = useFormik({
-    initialValues: {
-      input0: '',
-      input1: '',
-      input2: '',
-      input3: '',
-      input4: '',
-      input5: '',
-    },
-    onSubmit: (values) => {
-      if (Object.values(values).join('') !== verificationCode) {
-        setCustomError(true);
-        return;
-      }
-      return navigate(`/${originPath}/${parentPath}/login/new password`);
-    },
-  });
+  const { checkAuthHandler } = useCheckAuth();
+
   const codeGenerator = () =>
     setVerificationCode((Math.random() * 10).toFixed(5).split('.').join(''));
 
-  // console.log(verificationCode);
+  const resendCodeHandler = () => {
+    codeGenerator();
+    setDisplayAlert(false);
+    setTimeout(() => {
+      setDisplayAlert(true);
+    }, 500);
+  };
 
   const inputHandler = (event) => {
     const currentInput = event.target;
@@ -70,11 +65,62 @@ const EmailVerification = () => {
 
   useEffect(() => {
     codeGenerator();
+    checkAuthHandler(`${parentPath}/reset`);
     firstInputRef.current.focus();
   }, []);
 
+  const formik = useFormik({
+    initialValues: {
+      input0: '',
+      input1: '',
+      input2: '',
+      input3: '',
+      input4: '',
+      input5: '',
+    },
+    onSubmit: (values) => {
+      if (Object.values(values).join('') !== verificationCode) {
+        setCustomError(true);
+        lastInputRef.current.focus();
+        return;
+      }
+      return navigate(
+        `/${originPath}/authentication/${parentPath}/new password`
+      );
+    },
+  });
+
   return (
-    <Container>
+    <Container className="position-relative">
+      <Alert
+        dismissible
+        onClose={() => {
+          firstInputRef.current.focus();
+          setTimeout(() => {
+            setDisplayAlert(true);
+          }, 1000);
+        }}
+        className="alert position-absolute fw-light rounded-4 d-flex gap-2 align-items-center text-center text-dark"
+      >
+        <div className="alert-img bg-primary">
+          <img src={alertImg} alt="alert" />
+        </div>
+        Close this modal window to get the 6-digit Verification code.
+      </Alert>
+      {displayAlert && (
+        <Alert
+          dismissible
+          onClose={() => {
+            setDisplayAlert(false);
+          }}
+          className="alert alert__code position-absolute rounded-4 text-dark"
+        >
+          <Alert.Heading className="text-center h6 ">
+            Your verification code is{' '}
+            <span className="fw-bold d-block">{verificationCode}</span>
+          </Alert.Heading>
+        </Alert>
+      )}
       <AuthorizationAdditional
         page="Forgot Password"
         title="Email Verification"
@@ -151,6 +197,7 @@ const EmailVerification = () => {
             disabled
           />
           <Form.Control
+            ref={lastInputRef}
             type="number"
             id="input5"
             data-index="5"
@@ -172,7 +219,7 @@ const EmailVerification = () => {
             variant="white"
             type="button"
             className="text-primary text-center mb-2"
-            onClick={codeGenerator}
+            onClick={resendCodeHandler}
           >
             Resend code
           </Button>

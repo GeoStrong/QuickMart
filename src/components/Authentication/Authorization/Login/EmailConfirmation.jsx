@@ -2,27 +2,18 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Button, Container, Form } from 'react-bootstrap';
 import AuthorizationAdditional from '../../../UI/AuthorizationAdditional';
-import { useActionData, useNavigate, useSubmit } from 'react-router-dom';
+import { useActionData, useNavigation, useSubmit } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import useParentUrl from '../../../../hooks/useParentUrl';
 import './EmailConfirmation.scss';
+import useParentUrl from '../../../../hooks/useParentUrl';
+import useCustomError from '../../../../hooks/useCustomError';
 
 const EmailConfirmation = () => {
   const submit = useSubmit();
   const actionData = useActionData();
-  const navigate = useNavigate();
+  const navigation = useNavigation();
   const { originPath, parentPath } = useParentUrl(3);
-  const [customError, setCustomError] = useState(null);
-
-  useEffect(() => {
-    if (Array.isArray(actionData)) {
-      setCustomError(actionData);
-    } else {
-      setCustomError(null);
-    }
-  }, [actionData]);
-
-  console.log(actionData);
+  const { customError } = useCustomError(actionData);
 
   const formik = useFormik({
     initialValues: {
@@ -33,9 +24,6 @@ const EmailConfirmation = () => {
     }),
     onSubmit: (values) => {
       submit(values, { method: 'POST' });
-      return navigate(
-        `/${originPath}/authentication/${parentPath}/email verification`
-      );
     },
   });
 
@@ -44,6 +32,7 @@ const EmailConfirmation = () => {
   return (
     <Container>
       <AuthorizationAdditional
+        whereTo={`/${originPath}/authentication/${parentPath}`}
         page="Forgot Password"
         title="Confirmation Email"
         text="Enter your email address for verification."
@@ -55,11 +44,12 @@ const EmailConfirmation = () => {
         <Form.Group className="form-group">
           <Form.Label className="fw-medium">
             Email{' '}
-            {(isError || customError) && <span className="text-danger">*</span>}{' '}
+            {(isError || customError) && <span className="text-danger">*</span>}
           </Form.Label>
           <Form.Control
             type="email"
             id="email"
+            name="user_email"
             placeholder="Enter email"
             className={`fw-normal p-3 border-primary mb-2 ${
               (isError || customError) && 'border-danger'
@@ -74,9 +64,9 @@ const EmailConfirmation = () => {
         <Button
           variant="dark"
           type="submit"
-          className="form-btn text-white mt-1 py-3 align-self-center"
+          className="form-btn text-white mt-1 py-3 align-self-end"
         >
-          Send
+          {navigation === 'submitting' ? 'Sending...' : 'Send'}
         </Button>
       </Form>
     </Container>

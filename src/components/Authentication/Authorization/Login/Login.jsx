@@ -1,18 +1,21 @@
 import {
   useActionData,
+  // useNavigate,
   // useNavigation,
   useSubmit,
 } from 'react-router-dom';
 import Authorization from '../../../UI/Authorization';
 import { useDispatch } from 'react-redux';
-import { accountActions } from '../../../../assets/store/account';
+import { accountActions } from '../../../../store/account';
 import * as Yup from 'yup';
 
 const Login = () => {
   const actionData = useActionData();
   const submit = useSubmit();
+  // const navigate = useNavigate();
   // const navigation = useNavigation();
   const dispatch = useDispatch();
+
   const values = {
     email: '',
     password: '',
@@ -27,8 +30,9 @@ const Login = () => {
 
   const loginSubmit = (values) => {
     submit(values, { method: 'POST' });
-    if (!Array.isArray(actionData))
-      dispatch(accountActions.setAccount(actionData));
+    if (Array.isArray(actionData)) return;
+    dispatch(accountActions.setAccount(actionData));
+    // return navigate(`/${originPath}/${parentPath}/signup`);
   };
 
   return (

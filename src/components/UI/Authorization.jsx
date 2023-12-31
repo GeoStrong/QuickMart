@@ -14,8 +14,6 @@ const Authorization = ({
   submitHandler,
 }) => {
   const { parentPath, originPath } = useParentUrl();
-  console.log(parentPath);
-  console.log(originPath);
 
   const formik = useFormik({
     initialValues,
@@ -74,8 +72,6 @@ const Authorization = ({
                 id="fullName"
                 placeholder="Enter full name"
                 className={`w-50 fw-normal p-3
-                
-                
                 ${
                   validationCheck('fullName')
                     ? 'border-danger'

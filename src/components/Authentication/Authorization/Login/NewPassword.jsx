@@ -1,25 +1,39 @@
 import { Button, Container, Form } from 'react-bootstrap';
 import AuthorizationAdditional from '../../../UI/AuthorizationAdditional';
-import { useActionData, useNavigation, useSubmit } from 'react-router-dom';
+import {
+  useActionData,
+  useNavigate,
+  useNavigation,
+  useSubmit,
+} from 'react-router-dom';
 import useParentUrl from '../../../../hooks/useParentUrl';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import './NewPassword.scss';
 import { useEffect } from 'react';
 import useCheckAuth from '../../../../hooks/useCheckAuth';
-import useCustomError from '../../../../hooks/useCustomError';
+import useManageActionData from '../../../../hooks/useManageActionData';
 
 const NewPassword = () => {
-  const navigation = useNavigation();
   const submit = useSubmit();
+  const navigate = useNavigate();
+  const navigation = useNavigation();
   const actionData = useActionData();
   const { checkAuthHandler } = useCheckAuth();
-  const { parentPath } = useParentUrl(3);
-  const { customError } = useCustomError(actionData);
+  const { originPath, parentPath } = useParentUrl(3);
+  const { customError } = useManageActionData(actionData);
 
   useEffect(() => {
     checkAuthHandler(`${parentPath}/reset`);
   });
+
+  useEffect(() => {
+    if (customError === null) {
+      navigate(`/${originPath}/authentication/${parentPath}/success`);
+    } else {
+      return;
+    }
+  }, [customError, navigate, originPath, parentPath]);
 
   const formik = useFormik({
     initialValues: {

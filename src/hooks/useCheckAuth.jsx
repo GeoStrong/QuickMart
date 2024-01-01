@@ -9,7 +9,7 @@ const useCheckAuth = () => {
 
   const checkAuthHandler = (navigateTo) => {
     if (email !== '') return;
-    return navigate(`${originPath}/authentication/${navigateTo}`);
+    return navigate(`/${originPath}/authentication/${navigateTo}`);
   };
   return { checkAuthHandler };
 };

@@ -30,8 +30,8 @@ const Login = () => {
 
   const loginSubmit = (values) => {
     submit(values, { method: 'POST' });
-    if (Array.isArray(actionData)) return;
-    dispatch(accountActions.setAccount(actionData));
+    // if (Array.isArray(actionData)) return;
+    // dispatch(accountActions.setAccount(actionData));
     // return navigate(`/${originPath}/${parentPath}/signup`);
   };
 

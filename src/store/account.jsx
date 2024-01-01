@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialValues = {
+const initialState = {
   fullName: '',
   email: '',
   password: '',
@@ -9,14 +9,17 @@ const initialValues = {
 
 const accountSlice = createSlice({
   name: 'account',
-  initialState: initialValues,
+  initialState,
   reducers: {
     setAccount(state, action) {
       const { id, fullName, email, password } = action.payload;
-      state.id = id;
-      state.fullName = fullName;
-      state.email = email;
-      state.password = password;
+      state.id = id !== undefined ? id : state.id;
+      state.fullName = fullName !== undefined ? fullName : state.fullName;
+      state.email = email !== undefined ? email : state.email;
+      state.password = password !== undefined ? password : state.password;
+    },
+    removeAccount(state) {
+      Object.assign(state, initialState);
     },
   },
 });

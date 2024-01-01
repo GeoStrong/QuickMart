@@ -13,16 +13,10 @@ import Success from './components/Authentication/Authorization/Success';
 import Authentication from './pages/Authentication';
 import Error from './pages/Error';
 import { action, changePasswordAction } from './helper/action';
-import { useDispatch, useSelector } from 'react-redux';
-import { accountActions } from './store/account';
+import { useSelector } from 'react-redux';
 
 const App = () => {
-  const dispatch = useDispatch();
   const { id, password } = useSelector((state) => state.account);
-
-  const setAccountHandler = (account) => {
-    dispatch(accountActions.setAccount(account));
-  };
 
   const router = createBrowserRouter([
     {
@@ -57,7 +51,7 @@ const App = () => {
                 {
                   path: 'reset',
                   element: <EmailConfirmation />,
-                  action: action(setAccountHandler),
+                  action: action,
                 },
                 {
                   path: 'email verification',
@@ -66,7 +60,7 @@ const App = () => {
                 {
                   path: 'new password',
                   element: <NewPassword />,
-                  action: changePasswordAction(setAccountHandler, id, password),
+                  action: changePasswordAction(id, password),
                 },
                 {
                   path: 'success',

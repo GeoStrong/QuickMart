@@ -2,17 +2,42 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Button, Container, Form } from 'react-bootstrap';
 import AuthorizationAdditional from '../../../UI/AuthorizationAdditional';
-import { useActionData, useNavigation, useSubmit } from 'react-router-dom';
+import {
+  useActionData,
+  useNavigate,
+  useNavigation,
+  useSubmit,
+} from 'react-router-dom';
 import './EmailConfirmation.scss';
 import useParentUrl from '../../../../hooks/useParentUrl';
-import useCustomError from '../../../../hooks/useCustomError';
+import useManageActionData from '../../../../hooks/useManageActionData';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { accountActions } from '../../../../store/account';
 
 const EmailConfirmation = () => {
+  const dispatch = useDispatch();
   const submit = useSubmit();
   const actionData = useActionData();
+  const navigate = useNavigate();
   const navigation = useNavigation();
   const { originPath, parentPath } = useParentUrl(3);
-  const { customError } = useCustomError(actionData);
+  const { customError } = useManageActionData(actionData);
+  const { email } = useSelector((state) => state.account);
+
+  useEffect(() => {
+    dispatch(accountActions.removeAccount());
+  }, []);
+
+  useEffect(() => {
+    if (email !== '') {
+      navigate(
+        `/${originPath}/authentication/${parentPath}/email verification`
+      );
+    } else {
+      return;
+    }
+  }, [email, navigate, originPath, parentPath]);
 
   const formik = useFormik({
     initialValues: {

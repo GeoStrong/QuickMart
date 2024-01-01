@@ -6,6 +6,7 @@
   transform: translateX(-50%);
   background-color: #fff !important;
   border-color: $gray-700 !important;
+  box-shadow: -2px 5px 33px 14px $gray-500;
 
   @media (max-width: 768px) {
     width: 85%;

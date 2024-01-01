@@ -35,12 +35,12 @@ const Splashscreen = () => {
       <Container className="w-100 splashscreen d-flex justify-content-center align-items-center flex-column gap-3 gap-md-5">
         <img src={logo} alt="logo" />
         {isLoaded ? (
-          <Link to="onboarding" className="btn btn-dark fs-6">
+          <Link to="onboarding" className="btn btn-dark fs-5">
             Let&apos;s go
           </Link>
         ) : (
           <ProgressBar
-            className="splashscreen__progress"
+            className="splashscreen__progress mt-3"
             animated
             now={progress}
           />

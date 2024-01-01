@@ -137,7 +137,7 @@ const EmailVerification = () => {
             id="input0"
             data-index="0"
             maxLength="1"
-            className={`form__control border-primary ${
+            className={`form__control text-center border-primary ${
               customError && 'border-danger'
             }`}
             onKeyUp={inputHandler}
@@ -149,7 +149,7 @@ const EmailVerification = () => {
             id="input1"
             data-index="1"
             maxLength="1"
-            className={`form__control border-primary ${
+            className={`form__control text-center border-primary ${
               customError && 'border-danger'
             }`}
             onKeyUp={inputHandler}
@@ -162,7 +162,7 @@ const EmailVerification = () => {
             id="input2"
             data-index="2"
             maxLength="1"
-            className={`form__control border-primary ${
+            className={`form__control text-center border-primary ${
               customError && 'border-danger'
             }`}
             onKeyUp={inputHandler}
@@ -175,7 +175,7 @@ const EmailVerification = () => {
             id="input3"
             data-index="3"
             maxLength="1"
-            className={`form__control border-primary ${
+            className={`form__control text-center border-primary ${
               customError && 'border-danger'
             }`}
             onKeyUp={inputHandler}
@@ -188,7 +188,7 @@ const EmailVerification = () => {
             id="input4"
             data-index="4"
             maxLength="1"
-            className={`form__control border-primary ${
+            className={`form__control text-center border-primary ${
               customError && 'border-danger'
             }`}
             onKeyUp={inputHandler}
@@ -202,7 +202,7 @@ const EmailVerification = () => {
             id="input5"
             data-index="5"
             maxLength="1"
-            className={`form__control border-primary ${
+            className={`form__control text-center border-primary ${
               customError && 'border-danger'
             }`}
             onKeyUp={inputHandler}

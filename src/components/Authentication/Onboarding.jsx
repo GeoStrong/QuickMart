@@ -38,7 +38,7 @@ const Onboarding = () => {
                 Skip for now
               </Button>
             </div>
-            <Card.Body className="onboarding__card-body d-flex flex-column justify-content-center gap-1 gap-md-3">
+            <Card.Body className="onboarding__card-body pt-0 d-flex flex-column justify-content-center gap-1 gap-md-3">
               <Card.Title className="fw-bold fs-3 text-dark text-center text-md-end">
                 Explore a wide range of products
               </Card.Title>
@@ -66,7 +66,7 @@ const Onboarding = () => {
                 <img src={back} alt="logo" className="pt-1" />
               </Button>
             </div>
-            <Card.Body className="onboarding__card-body d-flex flex-column justify-content-center gap-1 gap-md-3">
+            <Card.Body className="onboarding__card-body pt-0 d-flex flex-column justify-content-center gap-1 gap-md-3">
               <Card.Title className="fw-bold fs-3 text-dark text-center text-md-end">
                 Unlock exclusive offers and discounts
               </Card.Title>
@@ -76,7 +76,7 @@ const Onboarding = () => {
               </Card.Text>
               <Button
                 variant="dark"
-                className="px-5 py-2 align-self-md-end"
+                className="px-5 py-2  align-self-md-end"
                 onClick={() => setIndex((prevIndex) => prevIndex + 1)}
               >
                 Next
@@ -94,7 +94,7 @@ const Onboarding = () => {
                 <img src={back} alt="logo" className="pt-1" />
               </Button>
             </div>
-            <Card.Body className="onboarding__card-body d-flex flex-column justify-content-center gap-1 gap-md-3">
+            <Card.Body className="onboarding__card-body pt-0 d-flex flex-column justify-content-center gap-1 gap-md-3">
               <Card.Title className="fw-bold fs-3 text-dark text-center text-md-end">
                 Safe and secure payments
               </Card.Title>
@@ -102,7 +102,7 @@ const Onboarding = () => {
                 QuickMart employs industry-leading encryption and trusted
                 payment gateways to safeguard your financial information.
               </Card.Text>
-              <div className="onboarding__card--btn d-flex flex-md-column justify-content-between gap-1">
+              <div className="d-flex flex-md-column justify-content-between gap-1">
                 <Link
                   to={`/${originPath}/authentication/login`}
                   className="btn bg-white px-4 py-3 w-100 align-self-md-end"

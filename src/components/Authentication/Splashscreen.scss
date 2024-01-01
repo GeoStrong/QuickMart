@@ -1,6 +1,11 @@
 .splashscreen {
   height: 100vh;
 
+  img {
+    @media (max-width: 768px) {
+      width: 70%;
+    }
+  }
   &__progress {
     width: 25%;
 

@@ -9,23 +9,22 @@
     }
 
     &-description {
-      font-size: 0.8rem;
+      font-size: 0.9rem;
       color: $gray-700;
     }
   }
 
   &__link {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
   }
 
   .form {
     &-label {
-      font-size: 0.8rem;
+      font-size: 0.9rem;
     }
 
     &-control {
-      font-size: 0.7rem;
-
+      font-size: 0.85rem;
       box-shadow: none !important;
 
       @media (max-width: 768px) {

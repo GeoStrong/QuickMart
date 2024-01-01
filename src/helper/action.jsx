@@ -1,4 +1,4 @@
-import { json, redirect } from 'react-router-dom';
+import { json } from 'react-router-dom';
 
 const url = 'https://quickmart-21bf3-default-rtdb.firebaseio.com/users';
 const authToken = '?auth=LqYQArvL3uTpuLrsicJHxuDbzsXH2DfsXZosxsi2';
@@ -68,5 +68,4 @@ export const changePasswordAction =
     }
 
     return data;
-    // return redirect('/QuickMart/authentication/login/success');
   };

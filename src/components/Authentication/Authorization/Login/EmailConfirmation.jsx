@@ -3,7 +3,6 @@ import * as Yup from 'yup';
 import { Button, Container, Form } from 'react-bootstrap';
 import AuthorizationAdditional from '../../../UI/AuthorizationAdditional';
 import { useActionData, useNavigation, useSubmit } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import './EmailConfirmation.scss';
 import useParentUrl from '../../../../hooks/useParentUrl';
 import useCustomError from '../../../../hooks/useCustomError';
@@ -66,7 +65,7 @@ const EmailConfirmation = () => {
           type="submit"
           className="form-btn text-white mt-1 py-3 align-self-end"
         >
-          {navigation === 'submitting' ? 'Sending...' : 'Send'}
+          {navigation.state === 'submitting' ? 'Sending...' : 'Send'}
         </Button>
       </Form>
     </Container>

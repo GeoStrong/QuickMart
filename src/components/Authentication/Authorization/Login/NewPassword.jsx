@@ -66,7 +66,7 @@ const NewPassword = () => {
             <Form.Control
               type="password"
               id="password"
-              className={`fw-normal py-3 ${
+              className={`form__input fw-normal py-3 ${
                 validationCheck('password') || customError
                   ? 'border-danger'
                   : 'border-primary'
@@ -88,7 +88,7 @@ const NewPassword = () => {
             <Form.Control
               type="password"
               id="confirmPassword"
-              className={`fw-normal py-3 ${
+              className={`form__input fw-normal py-3 ${
                 validationCheck('confirmPassword') || customError
                   ? 'border-danger'
                   : 'border-primary'
@@ -104,7 +104,7 @@ const NewPassword = () => {
           <Button
             variant="dark"
             type="submit"
-            className="text-white align-self-stretch align-self-md-end py-3"
+            className="form__btn text-white align-self-stretch align-self-md-end py-3"
           >
             {navigation.state === 'submitting' ? 'Saving...' : 'Save'}
           </Button>

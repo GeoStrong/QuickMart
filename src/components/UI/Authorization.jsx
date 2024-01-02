@@ -5,6 +5,9 @@ import useParentUrl from '../../hooks/useParentUrl';
 import { Button, Container, Form as BootstrapForm, Row } from 'react-bootstrap';
 import logo from '../../assets/images/logo.png';
 import './Authorization.scss';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { accountActions } from '../../store/account';
 
 const Authorization = ({
   page,
@@ -13,7 +16,12 @@ const Authorization = ({
   customError,
   submitHandler,
 }) => {
+  const dispatch = useDispatch();
   const { parentPath, originPath } = useParentUrl();
+
+  useEffect(() => {
+    dispatch(accountActions.removeAccount());
+  }, []);
 
   const formik = useFormik({
     initialValues,
@@ -140,8 +148,14 @@ const Authorization = ({
           </BootstrapForm.Group>
 
           <Button
-            variant="dark"
+            onClick={() =>
+              formik.setFieldValue(
+                'intent',
+                `${checkPage ? 'signup' : 'login'}`
+              )
+            }
             type="submit"
+            variant="dark"
             className="form-btn text-white mt-1 py-3 align-self-center align-self-lg-end w-25"
           >
             {checkPage ? 'Create Account' : 'Login'}

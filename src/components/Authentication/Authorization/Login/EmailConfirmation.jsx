@@ -88,6 +88,7 @@ const EmailConfirmation = () => {
         <Button
           variant="dark"
           type="submit"
+          onClick={() => formik.setFieldValue('intent', 'reset')}
           className="form-btn text-white mt-1 py-3 align-self-end"
         >
           {navigation.state === 'submitting' ? 'Sending...' : 'Send'}

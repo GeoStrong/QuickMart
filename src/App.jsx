@@ -2,7 +2,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Root from './pages/Root';
 import Splashscreen from './components/Authentication/Splashscreen';
 import Onboarding from './components/Authentication/Onboarding';
-import Login from './components/Authentication/Authorization/Login/Login'; // action as loginAction,
+import Login from './components/Authentication/Authorization/Login/Login'; // action as action,
 import Signup from './components/Authentication/Authorization/Signup/Signup';
 import EmailConfirmation from './components/Authentication/Authorization/Login/EmailConfirmation';
 import NewPassword from './components/Authentication/Authorization/Login/NewPassword';
@@ -12,7 +12,7 @@ import SignupPage from './pages/SignupPage';
 import Success from './components/Authentication/Authorization/Success';
 import Authentication from './pages/Authentication';
 import Error from './pages/Error';
-import { action, changePasswordAction } from './helper/action';
+import { action } from './helper/action';
 import { useSelector } from 'react-redux';
 
 const App = () => {
@@ -46,12 +46,12 @@ const App = () => {
                 {
                   index: true,
                   element: <Login />,
-                  action: action,
+                  action: action(),
                 },
                 {
                   path: 'reset',
                   element: <EmailConfirmation />,
-                  action: action,
+                  action: action(),
                 },
                 {
                   path: 'email verification',
@@ -60,7 +60,7 @@ const App = () => {
                 {
                   path: 'new password',
                   element: <NewPassword />,
-                  action: changePasswordAction(id, password),
+                  action: action(id, password),
                 },
                 {
                   path: 'success',

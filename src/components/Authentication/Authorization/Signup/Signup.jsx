@@ -1,7 +1,9 @@
 import * as Yup from 'yup';
 import Authorization from '../../../UI/Authorization';
+import { useSubmit } from 'react-router-dom';
 
 const Signup = () => {
+  const submit = useSubmit();
   const values = {
     fullName: '',
     email: '',
@@ -16,12 +18,12 @@ const Signup = () => {
     email: Yup.string().email('Invalid email').required('Required'),
     password: Yup.string()
       .min(8, 'Too Short!')
-      .matches(/[A-Z-9._%+-]/, 'Password can only contain Latin letters.')
+      .matches(/[A-Za-z -]/, 'Password can only contain Latin letters.')
       .required('Required'),
   };
 
   const signupSubmit = (values) => {
-    console.log(values);
+    submit(values, { method: 'PUT' });
   };
 
   return (

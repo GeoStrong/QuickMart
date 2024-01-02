@@ -118,6 +118,7 @@ const NewPassword = () => {
           <Button
             variant="dark"
             type="submit"
+            onClick={() => formik.setFieldValue('intent', 'new password')}
             className="form__btn text-white align-self-stretch align-self-md-end py-3"
           >
             {navigation.state === 'submitting' ? 'Saving...' : 'Save'}

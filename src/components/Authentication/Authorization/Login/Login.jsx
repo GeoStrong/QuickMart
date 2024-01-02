@@ -15,10 +15,6 @@ const Login = () => {
   const { originPath } = useParentUrl();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(accountActions.removeAccount());
-  }, []);
-
   const values = {
     email: '',
     password: '',

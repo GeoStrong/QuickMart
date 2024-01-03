@@ -75,6 +75,7 @@ const App = () => {
                 {
                   index: true,
                   element: <Signup />,
+                  action: action(),
                 },
                 {
                   path: 'email verification',

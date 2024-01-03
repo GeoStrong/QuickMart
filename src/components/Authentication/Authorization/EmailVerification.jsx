@@ -20,6 +20,8 @@ const EmailVerification = () => {
 
   const { checkAuthHandler } = useCheckAuth();
 
+  const parentPathCheck = parentPath === 'login';
+
   const codeGenerator = () =>
     setVerificationCode((Math.random() * 10).toFixed(5).split('.').join(''));
 
@@ -65,7 +67,7 @@ const EmailVerification = () => {
 
   useEffect(() => {
     codeGenerator();
-    checkAuthHandler(`${parentPath}/reset`);
+    checkAuthHandler(`${parentPath}/${parentPathCheck ? 'reset' : ''}`);
     firstInputRef.current.focus();
   }, []);
 
@@ -85,7 +87,9 @@ const EmailVerification = () => {
         return;
       }
       return navigate(
-        `/${originPath}/authentication/${parentPath}/new password`
+        `/${originPath}/authentication/${parentPath}/${
+          parentPathCheck ? 'new password' : 'success'
+        }`
       );
     },
   });

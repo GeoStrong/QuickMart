@@ -123,7 +123,8 @@ const Authorization = ({
           <BootstrapForm.Group>
             <BootstrapForm.Label className="fw-medium">
               Password{' '}
-              {(validationCheck('password') || customError) && (
+              {(validationCheck('password') ||
+                (customError && page === 'login')) && (
                 <span className="text-danger"> * </span>
               )}
             </BootstrapForm.Label>
@@ -135,15 +136,16 @@ const Authorization = ({
               
               
               ${
-                validationCheck('password') || customError
+                (validationCheck('password') || customError) && page === 'login'
                   ? 'border-danger'
                   : 'border-primary'
               }`}
               {...formik.getFieldProps('password')}
             />
             <BootstrapForm.Text className="text-danger d-block">
-              {(validationCheck('password') && formik.errors.password) ||
-                (customError && customError[0].message)}
+              {((validationCheck('password') && formik.errors.password) ||
+                (customError && customError[0].message)) &&
+                page === 'login'}
             </BootstrapForm.Text>
           </BootstrapForm.Group>
 

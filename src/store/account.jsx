@@ -12,6 +12,7 @@ const accountSlice = createSlice({
   initialState,
   reducers: {
     setAccount(state, action) {
+      console.log(action.payload);
       const { id, fullName, email, password } = action.payload;
       state.id = id !== undefined ? id : state.id;
       state.fullName = fullName !== undefined ? fullName : state.fullName;

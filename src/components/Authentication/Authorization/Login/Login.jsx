@@ -1,7 +1,5 @@
 import { useActionData, useNavigate, useSubmit } from 'react-router-dom';
 import Authorization from '../../../UI/Authorization';
-import { useDispatch } from 'react-redux';
-import { accountActions } from '../../../../store/account';
 import * as Yup from 'yup';
 import { useEffect } from 'react';
 import useManageActionData from '../../../../hooks/useManageActionData';
@@ -13,7 +11,6 @@ const Login = () => {
   const navigate = useNavigate();
   const { customError } = useManageActionData(actionData);
   const { originPath } = useParentUrl();
-  const dispatch = useDispatch();
 
   const values = {
     email: '',

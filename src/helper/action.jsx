@@ -30,6 +30,10 @@ const getActionReturnValue = (condition, data, message) => {
   }
 };
 
+const checkAccountEmail = (data, eventData) => {
+  return Object.values(data).filter((key) => key.email === eventData.email);
+};
+
 export const action =
   (id, password) =>
   async ({ request }) => {
@@ -42,11 +46,13 @@ export const action =
     const signupPage = intent === 'signup';
 
     let eventData;
-    let fetchParams;
+    let fetchParams = [`${url}.json${authToken}`];
+    let message;
+
+    const allAccountsData = await getAccountData(fetchParams);
 
     if (loginPage || resetPage) {
       eventData = await getFormData(formData, ['email', 'password']);
-      fetchParams = [`${url}.json${authToken}`];
     }
 
     if (newPasswordPage) {
@@ -54,7 +60,7 @@ export const action =
       fetchParams = [
         `${url}/user_${id}.json${authToken}`,
         {
-          method: 'PATCH',
+          method: request.method,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -63,13 +69,34 @@ export const action =
       ];
     }
 
+    if (signupPage) {
+      const id = Math.floor(Math.random() * 100);
+
+      eventData = await getFormData(formData, [
+        'fullName',
+        'email',
+        'password',
+      ]);
+
+      if (!checkAccountEmail(allAccountsData.data, eventData).length > 0) {
+        fetchParams = [
+          `${url}/user_${id}.json${authToken}`,
+          {
+            method: request.method,
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id, ...eventData }),
+          },
+        ];
+      } else {
+        message = 'Account already exist';
+      }
+    }
+
     const { data } = await getAccountData(...fetchParams);
 
-    const checkAccountEmail = Object.values(data).filter(
-      (key) => key.email === eventData.email
-    );
-
-    const checkAccountCredentials = Object.values(data).filter(
+    const checkAccountCredentials = Object.values(allAccountsData).filter(
       (key) =>
         key.email === eventData.email && key.password === eventData.password
     );
@@ -83,8 +110,8 @@ export const action =
 
     if (resetPage)
       return getActionReturnValue(
-        checkAccountEmail.length !== 0,
-        checkAccountEmail[0],
+        checkAccountEmail(data, eventData).length !== 0,
+        checkAccountEmail(data, eventData)[0],
         'Invalid email'
       );
 
@@ -94,4 +121,17 @@ export const action =
         data,
         'New password cannot be the same as your old password'
       );
+
+    if (signupPage) {
+      if (!message) {
+        return data;
+      } else {
+        return [
+          {
+            message,
+          },
+          { status: 401 },
+        ];
+      }
+    }
   };

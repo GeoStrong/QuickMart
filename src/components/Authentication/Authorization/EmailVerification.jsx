@@ -67,7 +67,7 @@ const EmailVerification = () => {
 
   useEffect(() => {
     codeGenerator();
-    checkAuthHandler(`${parentPath}/${parentPathCheck ? 'reset' : ''}`);
+    parentPathCheck && checkAuthHandler(`${parentPath}/reset`);
     firstInputRef.current.focus();
   }, []);
 

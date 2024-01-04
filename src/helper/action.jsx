@@ -96,7 +96,7 @@ export const action =
 
     const { data } = await getAccountData(...fetchParams);
 
-    const checkAccountCredentials = Object.values(allAccountsData).filter(
+    const checkAccountCredentials = Object.values(allAccountsData.data).filter(
       (key) =>
         key.email === eventData.email && key.password === eventData.password
     );

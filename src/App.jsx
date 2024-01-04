@@ -13,10 +13,19 @@ import Success from './components/Authentication/Authorization/Success';
 import Authentication from './pages/Authentication';
 import Error from './pages/Error';
 import { action } from './helper/action';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import Home from './components/Home/Home';
+import { accountActions } from './store/account';
+import { useEffect } from 'react';
 
 const App = () => {
+  const dispatch = useDispatch();
   const { id, password } = useSelector((state) => state.account);
+  const localAccount = JSON.parse(localStorage.getItem('localAccount'));
+
+  useEffect(() => {
+    if (localAccount) dispatch(accountActions.setAccount(localAccount));
+  }, [dispatch, localAccount]);
 
   const router = createBrowserRouter([
     {
@@ -24,7 +33,8 @@ const App = () => {
       element: <Root />,
       children: [
         {
-          index: true,
+          path: 'Home',
+          element: <Home />,
         },
         {
           path: 'authentication',

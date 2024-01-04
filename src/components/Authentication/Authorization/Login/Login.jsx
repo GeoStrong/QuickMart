@@ -19,7 +19,7 @@ const Login = () => {
 
   useEffect(() => {
     if (customError === null) {
-      navigate(`/${originPath}`);
+      navigate(`/${originPath}/Home`);
     } else {
       return;
     }

@@ -27,7 +27,10 @@ const EmailConfirmation = () => {
 
   useEffect(() => {
     dispatch(accountActions.removeAccount());
+    localStorage.removeItem('localAccount');
   }, []);
+
+  console.log(email);
 
   useEffect(() => {
     if (email !== '') {

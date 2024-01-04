@@ -21,6 +21,7 @@ const Authorization = ({
 
   useEffect(() => {
     dispatch(accountActions.removeAccount());
+    localStorage.removeItem('localAccount');
   }, []);
 
   const formik = useFormik({

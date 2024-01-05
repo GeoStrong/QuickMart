@@ -29,11 +29,11 @@ const App = () => {
 
   const router = createBrowserRouter([
     {
-      path: '/QuickMart/',
+      path: '/QuickMart',
       element: <Root />,
       children: [
         {
-          path: 'Home',
+          index: true,
           element: <Home />,
         },
         {

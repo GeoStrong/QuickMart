@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom';
-import { Button, Form, ListGroup, Stack } from 'react-bootstrap';
+import { Badge, Button, Form, ListGroup, Stack } from 'react-bootstrap';
 import { useEffect, useRef, useState } from 'react';
 import { useFormik } from 'formik';
 import useParentUrl from '../../hooks/useParentUrl';
 import logo from '../../assets/images/logo.png';
 import search from '../../assets/images/search.svg';
 import cart from '../../assets/images/cart.svg';
+import wishlist from '../../assets/images/wishlist.svg';
 import userDefaultProfile from '../../assets/images/user-profile.svg';
 import cancel from '../../assets/images/cancel.svg';
 import filter from '../../assets/images/filter.svg';
@@ -123,8 +124,20 @@ const Header = (submitHandler) => {
               <img src={search} alt="search" />
             </Button>
           )}
-          <Link className="d-none d-md-block">
+          <Link className="d-none d-md-flex position-relative">
             <img src={cart} alt="cart" />
+            <Badge
+              bg="danger"
+              className="position-absolute end-0 d-inline rounded-5"
+            ></Badge>
+          </Link>
+
+          <Link className="d-none d-md-flex position-relative">
+            <img src={wishlist} alt="wishlist" />
+            <Badge
+              bg="danger"
+              className="position-absolute end-0 d-inline rounded-5"
+            ></Badge>
           </Link>
 
           <div className={`stack__profile ${profileVisibility()}`}>

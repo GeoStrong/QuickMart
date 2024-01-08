@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button, Card, Carousel, Container } from 'react-bootstrap';
 import logo from '../../assets/images/logo.png';
-import back from '../../assets/images/back.svg';
+import back from '../../assets/svg/back.svg';
 import './Onboarding.scss';
 import { Link } from 'react-router-dom';
 import useParentUrl from '../../hooks/useParentUrl';

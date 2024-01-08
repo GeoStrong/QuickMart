@@ -16,6 +16,11 @@
     }
   }
 
+  &__badge {
+    width: 2px;
+    height: 9px;
+  }
+
   &__form {
     @media (min-width: 768px) {
       position: relative;
@@ -28,7 +33,7 @@
     }
 
     &-input {
-      background: url(../../assets/images/search.svg) no-repeat 1rem center;
+      background: url(../../assets/svg/search.svg) no-repeat 1rem center;
       @media (min-width: 768px) {
         width: 25rem !important;
       }
@@ -49,9 +54,4 @@
     cursor: pointer;
     background: url(../../assets/images/insert.svg) no-repeat right center;
   }
-}
-
-.badge {
-  width: 2px;
-  height: 9px;
 }

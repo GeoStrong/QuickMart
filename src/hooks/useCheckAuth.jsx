@@ -7,11 +7,14 @@ const useCheckAuth = () => {
   const { originPath } = useParentUrl();
   const { email } = useSelector((state) => state.account);
 
+  const isLoggedIn = email !== '';
+
   const checkAuthHandler = (navigateTo) => {
-    if (email !== '') return;
+    if (isLoggedIn) return;
     return navigate(`/${originPath}/authentication/${navigateTo}`);
   };
-  return { checkAuthHandler };
+
+  return { checkAuthHandler, isLoggedIn };
 };
 
 export default useCheckAuth;

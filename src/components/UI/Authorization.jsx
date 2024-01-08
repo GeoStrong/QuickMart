@@ -173,7 +173,7 @@ const Authorization = ({
           </Link>
         )}
       </Row>
-      {!checkPage && (
+      {checkPage && (
         <Row>
           <p className="small mt-5 text-center text-md-start fw-medium">
             By signing up, you agree to our{' '}

@@ -1,0 +1,13 @@
+.products {
+  --bs-gutter-y: 1rem !important;
+
+  &__card {
+    border-radius: 1rem !important;
+    height: 16rem !important;
+
+    &--placeholder {
+      height: 15rem !important;
+      background: $gray-100 !important;
+    }
+  }
+}

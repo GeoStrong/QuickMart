@@ -4,22 +4,23 @@ import { useEffect, useRef, useState } from 'react';
 import { useFormik } from 'formik';
 import useParentUrl from '../../hooks/useParentUrl';
 import logo from '../../assets/images/logo.png';
-import search from '../../assets/images/search.svg';
-import cart from '../../assets/images/cart.svg';
-import wishlist from '../../assets/images/wishlist.svg';
-import userDefaultProfile from '../../assets/images/user-profile.svg';
-import cancel from '../../assets/images/cancel.svg';
-import filter from '../../assets/images/filter.svg';
+import search from '../../assets/svg/search.svg';
+import userDefaultProfile from '../../assets/svg/user-profile.svg';
+import cancel from '../../assets/svg/cancel.svg';
+import filter from '../../assets/svg/filter.svg';
 import './Header.scss';
+import useCheckScreenSize from '../../hooks/useCheckScreenSize';
+import useCheckAuth from '../../hooks/useCheckAuth';
+import useCustomSvg from '../../hooks/useCustomSvg';
 
 const Header = (submitHandler) => {
-  const { originPath, parentPath } = useParentUrl();
-  const { innerWidth } = window;
   const searchRef = useRef();
   const [isSearchActive, setIsSearchActive] = useState(false);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
-
-  const isScreenMobile = innerWidth <= 768;
+  const { originPath, parentPath } = useParentUrl();
+  const { isLoggedIn } = useCheckAuth();
+  const { isScreenMobile } = useCheckScreenSize();
+  const { getCartSvg, getWishlistSvg } = useCustomSvg();
 
   useEffect(() => {
     !isScreenMobile && setIsSearchActive(true);
@@ -56,9 +57,9 @@ const Header = (submitHandler) => {
           </Link>
         </div>
         <Form
-          className={`stack__form ${
+          className={`stack__form z-3 ${
             isScreenMobile && 'stack__form-mobile w-100'
-          }`}
+          } ${isSearchActive && 'bg-white'}`}
           onSubmit={formik.handleSubmit}
         >
           <Form.Group
@@ -125,23 +126,27 @@ const Header = (submitHandler) => {
             </Button>
           )}
           <Link className="d-none d-md-flex position-relative">
-            <img src={cart} alt="cart" />
+            {getCartSvg('#1c1b1b')}
             <Badge
               bg="danger"
-              className="position-absolute end-0 d-inline rounded-5"
+              className="stack__badge position-absolute end-0 d-inline rounded-5"
             ></Badge>
           </Link>
 
-          <Link className="d-none d-md-flex position-relative">
-            <img src={wishlist} alt="wishlist" />
-            <Badge
-              bg="danger"
-              className="position-absolute end-0 d-inline rounded-5"
-            ></Badge>
-          </Link>
+          {isLoggedIn && (
+            <Link className="d-none d-md-flex position-relative">
+              {getWishlistSvg('#1c1b1b')}
+              <Badge
+                bg="danger"
+                className="stack__badge position-absolute end-0 d-inline rounded-5"
+              ></Badge>
+            </Link>
+          )}
 
           <div className={`stack__profile ${profileVisibility()}`}>
-            <Link>
+            <Link
+              to={`/${originPath}/${!isLoggedIn ? 'authentication/login' : ''}`}
+            >
               <img src={userDefaultProfile} alt="profile" className="w-100" />
             </Link>
           </div>

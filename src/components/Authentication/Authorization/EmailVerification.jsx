@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import useParentUrl from '../../../hooks/useParentUrl';
 import { useEffect, useRef, useState } from 'react';
 import { useFormik } from 'formik';
-import alertImg from '../../../assets/images/alert.svg';
+import alertImg from '../../../assets/svg/alert.svg';
 import './EmailVerification.scss';
 import useCheckAuth from '../../../hooks/useCheckAuth';
 

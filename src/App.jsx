@@ -14,9 +14,10 @@ import Authentication from './pages/Authentication';
 import Error from './pages/Error';
 import { action } from './helper/action';
 import { useDispatch, useSelector } from 'react-redux';
-import Home from './components/Home/Home';
 import { accountActions } from './store/account';
 import { useEffect } from 'react';
+import Home from './pages/Home';
+import { loader } from './helper/loader';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -35,6 +36,7 @@ const App = () => {
         {
           index: true,
           element: <Home />,
+          loader: loader,
         },
         {
           path: 'authentication',

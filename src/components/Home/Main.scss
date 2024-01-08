@@ -1,0 +1,44 @@
+.main {
+  &__start {
+    --bs-gutter-y: 1rem !important;
+  }
+  &__carousel {
+    .carousel-indicators {
+      left: initial;
+      border-radius: 10px;
+      background-color: $gray-100;
+    }
+
+    .carousel-inner {
+      height: 100%;
+    }
+
+    &-item {
+      background-color: $gray-100;
+      min-height: 9rem;
+
+      &--placeholder {
+        @media (min-width: 768px) {
+          min-height: 15rem;
+        }
+      }
+    }
+  }
+
+  .categories {
+    &__item {
+      width: 8rem;
+      height: 10rem;
+      font-size: 0.8rem;
+      border: 1px solid $gray-100 !important;
+
+      &--placeholder {
+        background-color: $gray-100;
+        width: 8rem !important;
+      }
+    }
+    &__card {
+      border-color: transparent !important;
+    }
+  }
+}

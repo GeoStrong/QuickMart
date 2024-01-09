@@ -9,7 +9,6 @@ import {
   Row,
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import temporaryBg from '../../assets/images/example-bg.png';
 import './Main.scss';
 import usePlaceholder from '../../hooks/usePlaceholder';
 
@@ -31,7 +30,6 @@ const Main = ({ categoryList, children }) => {
       <Row className="main__start d-flex">
         <Col xs={12} lg={6}>
           <Carousel
-            controls={false}
             activeIndex={index}
             onSelect={handleSelect}
             className="main__carousel h-100"
@@ -71,7 +69,7 @@ const Main = ({ categoryList, children }) => {
             <h2 className="fw-bold">Categories</h2>
             <Link className="text-primary text-decoration-none">See All</Link>
           </div>
-          <ListGroup className="categories__list my-2 text-center flex-row flex-wrap gap-2">
+          <ListGroup className="categories__list my-2 text-center flex-row flex-wrap justify-content-around gap-2">
             {isCategoryLoaded ? (
               categoryList.map((category) => (
                 <ListGroup.Item
@@ -82,7 +80,7 @@ const Main = ({ categoryList, children }) => {
                   <Link className="w-100 h-100 text-decoration-none">
                     <Card className="categories__card gap-2">
                       <Card.Img variant="top" src={category.image} />
-                      <Card.Title className="m-0 small">
+                      <Card.Title className="m-0 h6">
                         {category.name}
                       </Card.Title>
                     </Card>

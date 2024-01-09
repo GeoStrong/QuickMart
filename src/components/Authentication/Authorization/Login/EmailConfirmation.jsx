@@ -30,8 +30,6 @@ const EmailConfirmation = () => {
     localStorage.removeItem('localAccount');
   }, []);
 
-  console.log(email);
-
   useEffect(() => {
     if (email !== '') {
       navigate(

@@ -37,3 +37,12 @@ $spacers: (
 body {
   overflow-x: hidden;
 }
+
+.carousel-indicators {
+  & [data-bs-target] {
+    width: 8px !important;
+    height: 8px !important;
+    background-color: $primary !important;
+    border-radius: 50%;
+  }
+}

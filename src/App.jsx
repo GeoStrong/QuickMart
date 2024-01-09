@@ -1,23 +1,16 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Root from './pages/Root';
-import Splashscreen from './components/Authentication/Splashscreen';
-import Onboarding from './components/Authentication/Onboarding';
-import Login from './components/Authentication/Authorization/Login/Login'; // action as action,
-import Signup from './components/Authentication/Authorization/Signup/Signup';
-import EmailConfirmation from './components/Authentication/Authorization/Login/EmailConfirmation';
-import NewPassword from './components/Authentication/Authorization/Login/NewPassword';
+import Home from './pages/Home';
 import LoginPage from './pages/LoginPage';
-import EmailVerification from './components/Authentication/Authorization/EmailVerification';
 import SignupPage from './pages/SignupPage';
-import Success from './components/Authentication/Authorization/Success';
 import Authentication from './pages/Authentication';
 import Error from './pages/Error';
-import { action } from './helper/action';
 import { useDispatch, useSelector } from 'react-redux';
 import { accountActions } from './store/account';
 import { useEffect } from 'react';
-import Home from './pages/Home';
-import { loader } from './helper/loader';
+import LazyComponent from './store/LazyComponent';
+import Login from './components/Authentication/Authorization/Login/Login'; // action as action,
+import EmailConfirmation from './components/Authentication/Authorization/Login/EmailConfirmation';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -28,6 +21,36 @@ const App = () => {
     if (localAccount) dispatch(accountActions.setAccount(localAccount));
   }, [dispatch, localAccount]);
 
+  const Splashscreen = LazyComponent(() =>
+    import('./components/Authentication/Splashscreen')
+  );
+
+  const Onboarding = LazyComponent(() =>
+    import('./components/Authentication/Onboarding')
+  );
+
+  const Signup = LazyComponent(() =>
+    import('./components/Authentication/Authorization/Signup/Signup')
+  );
+
+  const NewPassword = LazyComponent(() =>
+    import('./components/Authentication/Authorization/Login/NewPassword')
+  );
+
+  const EmailVerification = LazyComponent(() =>
+    import('./components/Authentication/Authorization/EmailVerification')
+  );
+
+  const Success = LazyComponent(() =>
+    import('./components/Authentication/Authorization/Success')
+  );
+
+  const lazyLoadHelpers = async (helper, meta, options = []) => {
+    const module = await import(/* @vite-ignore */ `./helper/${helper}`);
+    if (helper === 'loader') return module[helper]();
+    if (helper === 'action') return module[helper](...options)(meta);
+  };
+
   const router = createBrowserRouter([
     {
       path: '/QuickMart',
@@ -36,7 +59,9 @@ const App = () => {
         {
           index: true,
           element: <Home />,
-          loader: loader,
+          async loader() {
+            return await lazyLoadHelpers('loader');
+          },
         },
         {
           path: 'authentication',
@@ -58,12 +83,16 @@ const App = () => {
                 {
                   index: true,
                   element: <Login />,
-                  action: action(),
+                  async action(meta) {
+                    return await lazyLoadHelpers('action', meta);
+                  },
                 },
                 {
                   path: 'reset',
                   element: <EmailConfirmation />,
-                  action: action(),
+                  async action(meta) {
+                    return await lazyLoadHelpers('action', meta);
+                  },
                 },
                 {
                   path: 'email verification',
@@ -72,7 +101,12 @@ const App = () => {
                 {
                   path: 'new password',
                   element: <NewPassword />,
-                  action: action(id, password),
+                  async action(meta) {
+                    return await lazyLoadHelpers('action', meta, [
+                      id,
+                      password,
+                    ]);
+                  },
                 },
                 {
                   path: 'success',
@@ -87,7 +121,9 @@ const App = () => {
                 {
                   index: true,
                   element: <Signup />,
-                  action: action(),
+                  async action(meta) {
+                    return await lazyLoadHelpers('action', meta);
+                  },
                 },
                 {
                   path: 'email verification',

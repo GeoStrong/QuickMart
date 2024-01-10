@@ -21,7 +21,7 @@ const EmailConfirmation = () => {
   const actionData = useActionData();
   const navigate = useNavigate();
   const navigation = useNavigation();
-  const { originPath, parentPath } = useParentUrl(3);
+  const { getSiblingLocation } = useParentUrl();
   const { customError } = useManageActionData(actionData);
   const { email } = useSelector((state) => state.account);
 
@@ -32,13 +32,11 @@ const EmailConfirmation = () => {
 
   useEffect(() => {
     if (email !== '') {
-      navigate(
-        `/${originPath}/authentication/${parentPath}/email verification`
-      );
+      navigate(getSiblingLocation('email verification'));
     } else {
       return;
     }
-  }, [email, navigate, originPath, parentPath]);
+  }, [email, getSiblingLocation, navigate]);
 
   const formik = useFormik({
     initialValues: {
@@ -57,7 +55,7 @@ const EmailConfirmation = () => {
   return (
     <Container>
       <AuthorizationAdditional
-        whereTo={`/${originPath}/authentication/${parentPath}`}
+        whereTo=".."
         page="Forgot Password"
         title="Confirmation Email"
         text="Enter your email address for verification."

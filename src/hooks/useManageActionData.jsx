@@ -6,7 +6,7 @@ import useParentUrl from './useParentUrl';
 const useManageActionData = (actionData, setAccount = true) => {
   const dispatch = useDispatch();
   const [customError, setCustomError] = useState();
-  const { currentPath } = useParentUrl();
+  const { checkLocation } = useParentUrl();
 
   const setLocalAccount = useCallback(
     (data) => {
@@ -23,10 +23,10 @@ const useManageActionData = (actionData, setAccount = true) => {
       setCustomError(actionData);
     } else {
       setCustomError(null);
-      (currentPath === 'login' || currentPath === 'reset') &&
+      (checkLocation('login') || checkLocation('reset')) &&
         setLocalAccount(actionData);
     }
-  }, [actionData, currentPath, setAccount, setLocalAccount]);
+  }, [actionData, checkLocation, setAccount, setLocalAccount]);
 
   return { customError };
 };

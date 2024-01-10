@@ -17,7 +17,7 @@ const Authorization = ({
   submitHandler,
 }) => {
   const dispatch = useDispatch();
-  const { parentPath, originPath } = useParentUrl();
+  const { originPath, getSiblingLocation } = useParentUrl();
 
   useEffect(() => {
     dispatch(accountActions.removeAccount());
@@ -41,7 +41,7 @@ const Authorization = ({
   return (
     <Container className="authorization my-3">
       <Row className="authorization__header">
-        <Link to={`/${originPath}/${parentPath}`}>
+        <Link to={`/${originPath}`}>
           <img
             src={logo}
             alt="logo"
@@ -54,9 +54,7 @@ const Authorization = ({
         <p className="authorization__header-description fw-medium">
           {checkPage ? 'Already have an account? ' : 'Don’t have an account? '}
           <Link
-            to={`/${originPath}/${parentPath}/${
-              checkPage ? 'login' : 'signup'
-            }`}
+            to={getSiblingLocation(checkPage ? 'login' : 'signup')}
             className="text-decoration-none text-primary"
           >
             {checkPage ? 'Login' : 'Signup'}

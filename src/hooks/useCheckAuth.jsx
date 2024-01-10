@@ -4,14 +4,14 @@ import useParentUrl from './useParentUrl';
 
 const useCheckAuth = () => {
   const navigate = useNavigate();
-  const { originPath } = useParentUrl();
+  const { getSiblingLocation } = useParentUrl();
   const { email } = useSelector((state) => state.account);
 
   const isLoggedIn = email !== '';
 
-  const checkAuthHandler = (navigateTo) => {
+  const checkAuthHandler = () => {
     if (isLoggedIn) return;
-    return navigate(`/${originPath}/authentication/${navigateTo}`);
+    return navigate(getSiblingLocation('reset'));
   };
 
   return { checkAuthHandler, isLoggedIn };

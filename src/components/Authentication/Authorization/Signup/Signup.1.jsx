@@ -3,12 +3,14 @@ import Authorization from '../../../UI/Authorization';
 import { useActionData, useNavigate, useSubmit } from 'react-router-dom';
 import useManageActionData from '../../../../hooks/useManageActionData';
 import { useEffect } from 'react';
+import useParentUrl from '../../../../hooks/useParentUrl';
 
-const Signup = () => {
+export const Signup = () => {
   const submit = useSubmit();
   const actionData = useActionData();
   const navigate = useNavigate();
   const { customError } = useManageActionData(actionData);
+  const { originPath, parentPath } = useParentUrl(3);
 
   const values = {
     fullName: '',
@@ -22,7 +24,7 @@ const Signup = () => {
     } else {
       return;
     }
-  }, [customError, navigate]);
+  }, [customError, navigate, originPath, parentPath]);
 
   const inputValidation = {
     fullName: Yup.string()
@@ -50,4 +52,3 @@ const Signup = () => {
     />
   );
 };
-export default Signup;

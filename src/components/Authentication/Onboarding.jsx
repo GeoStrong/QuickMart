@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import useParentUrl from '../../hooks/useParentUrl';
 
 const Onboarding = () => {
-  const { originPath } = useParentUrl();
+  const { getSiblingLocation } = useParentUrl();
   const [index, setIndex] = useState(0);
 
   const handleSelect = (selectedIndex) => {
@@ -104,13 +104,13 @@ const Onboarding = () => {
               </Card.Text>
               <div className="d-flex flex-md-column justify-content-between gap-1">
                 <Link
-                  to={`/${originPath}/authentication/login`}
+                  to={getSiblingLocation('login')}
                   className="btn bg-white px-4 py-3 w-100 align-self-md-end"
                 >
                   Login
                 </Link>
                 <Link
-                  to={`/${originPath}/authentication/signup`}
+                  to={getSiblingLocation('signup')}
                   className="btn bg-dark text-white px-4 py-3 w-100 align-self-md-end"
                 >
                   Get Started

@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import useParentUrl from '../../../hooks/useParentUrl';
 
 const Success = () => {
-  const { originPath, parentPath } = useParentUrl(3);
-  const parentPathCheck = parentPath === 'login';
+  const { originPath, parentPath, checkLocation } = useParentUrl();
+  const parentPathCheck = checkLocation('login');
 
   return (
     <Container className="my-3">
@@ -23,7 +23,7 @@ const Success = () => {
               : 'Congratulations! Your account has been verified successfully. Please proceed to the login screen to sign in to your account.'}
           </Card.Text>
           <Link
-            to={`/${originPath}/authentication/login`}
+            to={`/${originPath}/${parentPath}/login`}
             className="btn btn-dark text-white mt-2 py-3"
           >
             Login

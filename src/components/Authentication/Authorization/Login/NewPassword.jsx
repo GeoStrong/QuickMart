@@ -20,20 +20,20 @@ const NewPassword = () => {
   const navigation = useNavigation();
   const actionData = useActionData();
   const { checkAuthHandler } = useCheckAuth();
-  const { originPath, parentPath } = useParentUrl(3);
+  const {  getSiblingLocation } = useParentUrl(3);
   const { customError } = useManageActionData(actionData);
 
   useEffect(() => {
-    checkAuthHandler(`${parentPath}/reset`);
+    checkAuthHandler();
   });
 
   useEffect(() => {
     if (customError === null) {
-      navigate(`/${originPath}/authentication/${parentPath}/success`);
+      navigate(getSiblingLocation('success'));
     } else {
       return;
     }
-  }, [customError, navigate, originPath, parentPath]);
+  }, [customError, getSiblingLocation, navigate]);
 
   const formik = useFormik({
     initialValues: {

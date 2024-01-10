@@ -12,9 +12,9 @@ const Footer = () => {
     getWishlistSvg,
     getProfileSvg,
   } = useCustomSvg();
-  const { originPath, currentPath } = useParentUrl();
+  const { originPath, checkLocation } = useParentUrl();
 
-  const homePage = currentPath === 'QuickMart';
+  const homePage = checkLocation('QuickMart');
 
   return (
     <footer className="footer p-3">

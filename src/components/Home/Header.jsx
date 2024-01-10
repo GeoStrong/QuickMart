@@ -17,7 +17,7 @@ const Header = (submitHandler) => {
   const searchRef = useRef();
   const [isSearchActive, setIsSearchActive] = useState(false);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
-  const { originPath, parentPath } = useParentUrl();
+  const { originPath } = useParentUrl();
   const { isLoggedIn } = useCheckAuth();
   const { isScreenMobile } = useCheckScreenSize();
   const { getCartSvg, getWishlistSvg } = useCustomSvg();
@@ -52,7 +52,7 @@ const Header = (submitHandler) => {
         className="justify-content-between position-relative"
       >
         <div className="stack__start">
-          <Link to={`/${originPath}/${parentPath}`}>
+          <Link to={`/${originPath}`}>
             <img src={logo} alt="logo" className="stack__logo" />
           </Link>
         </div>

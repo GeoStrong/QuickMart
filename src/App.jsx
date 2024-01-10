@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { accountActions } from './store/account';
 import { useEffect } from 'react';
 import LazyComponent from './store/LazyComponent';
-import Login from './components/Authentication/Authorization/Login/Login'; // action as action,
+import Login from './components/Authentication/Authorization/Login/Login';
 import EmailConfirmation from './components/Authentication/Authorization/Login/EmailConfirmation';
 
 const App = () => {
@@ -46,7 +46,7 @@ const App = () => {
   );
 
   const lazyLoadHelpers = async (helper, meta, options = []) => {
-    const module = await import(/* @vite-ignore */ `./helper/${helper}`);
+    const module = await import(/* @vite-ignore */ `./helper/${helper}.jsx`);
     if (helper === 'loader') return module[helper]();
     if (helper === 'action') return module[helper](...options)(meta);
   };

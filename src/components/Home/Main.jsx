@@ -32,7 +32,7 @@ const Main = ({ categoryList, children }) => {
           <Carousel
             activeIndex={index}
             onSelect={handleSelect}
-            className="main__carousel h-100"
+            className="main__carousel h-100 z-3"
           >
             {categoryList.map((category) => (
               <Carousel.Item

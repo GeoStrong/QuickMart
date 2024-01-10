@@ -57,7 +57,7 @@ const Header = (submitHandler) => {
           </Link>
         </div>
         <Form
-          className={`stack__form z-3 ${
+          className={`stack__form z-2 ${
             isScreenMobile && 'stack__form-mobile w-100'
           } ${isSearchActive && 'bg-white'}`}
           onSubmit={formik.handleSubmit}

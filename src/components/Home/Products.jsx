@@ -18,13 +18,7 @@ const Products = ({ productList }) => {
         <h1 className="h1 fw-bold">Latest Products</h1>
         {isProductLoaded &&
           productList.map((product) => (
-            <Col
-              key={product.id}
-              id={product.id}
-              xs={6}
-              lg={4}
-              className="mb-md-7 pb-xxl-5"
-            >
+            <Col key={product.id} id={product.id} xs={6} lg={4} className="">
               <Link className="text-decoration-none">
                 <Card className="products__card">
                   <Card.Img variant="top" src={product.images[0]} />

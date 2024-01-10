@@ -3,7 +3,7 @@
 
   &__card {
     border-radius: 1rem !important;
-    height: 16rem !important;
+    min-height: clamp(min(20rem, 35vh), 40vh, max(26rem, 45vh)) !important;
 
     &--placeholder {
       height: 15rem !important;

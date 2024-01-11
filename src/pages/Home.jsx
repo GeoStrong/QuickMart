@@ -8,13 +8,13 @@ import { Suspense } from 'react';
 
 const Home = () => {
   const { renderFooter } = useCheckScreenSize();
-  const { products, categories } = useLoaderData();
+  const { products, categories, discountProducts } = useLoaderData();
 
   return (
     <>
       <Container className="mt-3">
         <Header />
-        <Main categoryList={categories}>
+        <Main categoryList={categories} discountProducts={discountProducts}>
           <Suspense
             fallback={
               <div className="mt-3 w-100 d-flex justify-content-center">

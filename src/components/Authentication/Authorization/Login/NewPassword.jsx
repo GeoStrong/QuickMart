@@ -20,7 +20,7 @@ const NewPassword = () => {
   const navigation = useNavigation();
   const actionData = useActionData();
   const { checkAuthHandler } = useCheckAuth();
-  const {  getSiblingLocation } = useParentUrl(3);
+  const { getSiblingLocation } = useParentUrl(3);
   const { customError } = useManageActionData(actionData);
 
   useEffect(() => {
@@ -62,7 +62,7 @@ const NewPassword = () => {
     <>
       <Container>
         <AuthorizationAdditional
-          page="Create Password"
+          pageName="Create Password"
           title="New Password"
           text="Enter your new password and remember it."
         />

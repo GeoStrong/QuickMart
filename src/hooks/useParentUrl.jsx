@@ -12,6 +12,7 @@ const useParentUrl = (order = 2) => {
   const { pathname } = useLocation();
   const originPath = pathname.split('/')[1];
   const parentPath = pathname.split('/')[order];
+  const currentPath = pathname.split('/').at(-1);
 
   const href = useHref();
   const match = useMatch;
@@ -45,6 +46,7 @@ const useParentUrl = (order = 2) => {
   return {
     originPath,
     parentPath,
+    currentPath,
     checkLocation,
     getSiblingLocation,
   };

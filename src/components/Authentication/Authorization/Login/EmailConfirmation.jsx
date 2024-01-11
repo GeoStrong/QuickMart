@@ -55,8 +55,8 @@ const EmailConfirmation = () => {
   return (
     <Container>
       <AuthorizationAdditional
-        whereTo=".."
-        page="Forgot Password"
+        navigateTo=".."
+        pageName="Forgot Password"
         title="Confirmation Email"
         text="Enter your email address for verification."
       />

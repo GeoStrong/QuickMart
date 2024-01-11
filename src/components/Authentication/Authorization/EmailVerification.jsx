@@ -124,7 +124,7 @@ const EmailVerification = () => {
         </Alert>
       )}
       <AuthorizationAdditional
-        page="Forgot Password"
+        pageName="Forgot Password"
         title="Email Verification"
         text="Enter the 6-digit verification code send to your email address."
       />

@@ -25,7 +25,7 @@ const usePlaceholder = () => {
       <Placeholder
         as={ListGroup.Item}
         animation="glow"
-        className="categories__item categories__item--placeholder p-2 d-flex flex-column align-items-center justify-content-end gap-2"
+        className="categories__placeholder p-2 d-flex flex-column align-items-center justify-content-end gap-2"
       >
         <Placeholder xs={6} />
         <Placeholder xs={12} />

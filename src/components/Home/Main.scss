@@ -4,6 +4,7 @@
   }
   &__carousel {
     .carousel-indicators {
+      padding: 0 0.5rem;
       left: initial;
       border-radius: 10px;
       background-color: $gray-100;
@@ -23,22 +24,21 @@
         }
       }
     }
+
+    &-img {
+      height: 25rem;
+      object-fit: contain;
+    }
   }
 
   .categories {
-    &__item {
+    &__placeholder {
       width: 8rem;
       height: 10rem;
       font-size: 0.8rem;
       border: 1px solid $gray-100 !important;
-
-      &--placeholder {
-        background-color: $gray-100;
-        width: 8rem !important;
-      }
-    }
-    &__card {
-      border-color: transparent !important;
+      background-color: $gray-100;
+      width: 8rem !important;
     }
   }
 }

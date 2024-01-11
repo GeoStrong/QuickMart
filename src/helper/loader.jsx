@@ -1,8 +1,9 @@
 import { defer, json } from 'react-router-dom';
-const url = 'https://api.escuelajs.co/api/v1/';
+const firstUrl = 'https://api.escuelajs.co/api/v1/';
+const secondUrl = 'https://fakestoreapi.com/products';
 
-export const getAllProductsLoader = async () => {
-  const response = await fetch(`${url}products`);
+const getAllProductData = async (url) => {
+  const response = await fetch(url);
 
   if (!response.ok)
     return json({ message: 'Error loading products' }, { status: 500 });
@@ -10,18 +11,11 @@ export const getAllProductsLoader = async () => {
   return data;
 };
 
-export const getAllCategoriesLoader = async () => {
-  const response = await fetch(`${url}categories`);
-
-  if (!response.ok)
-    return json({ message: 'Error loading categories' }, { status: 500 });
-  const data = await response.json();
-  return data;
-};
-
 export const loader = async () => {
   return defer({
-    products: getAllProductsLoader(),
-    categories: await getAllCategoriesLoader(),
+    products: getAllProductData(`${firstUrl}products`),
+    categories: await getAllProductData(`${firstUrl}categories`),
+    moreCategories: await getAllProductData(`${secondUrl}/categories`),
+    discountProducts: await getAllProductData(`${secondUrl}?limit=5`),
   });
 };

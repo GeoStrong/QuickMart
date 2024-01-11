@@ -4,13 +4,14 @@ import Home from './pages/Home';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import Authentication from './pages/Authentication';
-import Error from './pages/Error';
+import AuthError from './pages/AuthError';
 import { useDispatch, useSelector } from 'react-redux';
 import { accountActions } from './store/account';
 import { useEffect } from 'react';
 import LazyComponent from './store/LazyComponent';
 import Login from './components/Authentication/Authorization/Login/Login';
 import EmailConfirmation from './components/Authentication/Authorization/Login/EmailConfirmation';
+import Error from './pages/Error';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -20,6 +21,8 @@ const App = () => {
   useEffect(() => {
     if (localAccount) dispatch(accountActions.setAccount(localAccount));
   }, [dispatch, localAccount]);
+
+  const Categories = LazyComponent(() => import('./pages/Categories'));
 
   const Splashscreen = LazyComponent(() =>
     import('./components/Authentication/Splashscreen')
@@ -55,6 +58,7 @@ const App = () => {
     {
       path: '/QuickMart',
       element: <Root />,
+      errorElement: <Error />,
       children: [
         {
           index: true,
@@ -64,8 +68,16 @@ const App = () => {
           },
         },
         {
+          path: 'categories',
+          element: <Categories />,
+          async loader() {
+            return await lazyLoadHelpers('loader');
+          },
+        },
+        {
           path: 'authentication',
           element: <Authentication />,
+          errorElement: <AuthError />,
           children: [
             {
               index: true,
@@ -78,7 +90,6 @@ const App = () => {
             {
               path: 'login',
               element: <LoginPage />,
-              errorElement: <Error />,
               children: [
                 {
                   index: true,

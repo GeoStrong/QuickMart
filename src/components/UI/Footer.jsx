@@ -12,9 +12,10 @@ const Footer = () => {
     getWishlistSvg,
     getProfileSvg,
   } = useCustomSvg();
-  const { originPath, checkLocation } = useParentUrl();
+  const { originPath, currentPath, checkLocation } = useParentUrl();
 
-  const homePage = checkLocation('QuickMart');
+  const homePage = currentPath === 'QuickMart';
+  const categoriesPage = checkLocation('categories');
 
   return (
     <footer className="footer p-3">
@@ -31,13 +32,14 @@ const Footer = () => {
           <p className="m-0">Home</p>
         </NavLink>
         <NavLink
+          to={`/${originPath}/categories`}
           className={({ isActive }) =>
             `footer__link text-decoration-none d-flex flex-column align-items-center ${
               isActive ? 'footer__link--active' : ''
             }`
           }
         >
-          {getCategoriesSvg()}
+          {getCategoriesSvg(categoriesPage)}
           <p className="m-0">Categories</p>
         </NavLink>
         <NavLink

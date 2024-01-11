@@ -57,9 +57,9 @@ const Header = (submitHandler) => {
           </Link>
         </div>
         <Form
-          className={`stack__form z-2 ${
+          className={`stack__form ${
             isScreenMobile && 'stack__form-mobile w-100'
-          } ${isSearchActive && 'bg-white'}`}
+          } ${isSearchActive && 'bg-white z-3'}`}
           onSubmit={formik.handleSubmit}
         >
           <Form.Group
@@ -144,9 +144,7 @@ const Header = (submitHandler) => {
           )}
 
           <div className={`stack__profile ${profileVisibility()}`}>
-            <Link
-              to={`/${originPath}/${!isLoggedIn ? 'authentication/login' : ''}`}
-            >
+            <Link to={`/${originPath}${!isLoggedIn ? '/authentication' : ''}`}>
               <img src={userDefaultProfile} alt="profile" className="w-100" />
             </Link>
           </div>

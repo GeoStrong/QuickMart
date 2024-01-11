@@ -1,0 +1,18 @@
+.categories__list {
+  &-item {
+    width: 8rem;
+    height: 11rem;
+    font-size: 0.8rem;
+    border: 1px solid $gray-100 !important;
+  }
+
+  &-img {
+    object-fit: contain;
+    height: 8rem;
+  }
+
+  &-card {
+    height: 100% !important;
+    border-color: transparent !important;
+  }
+}

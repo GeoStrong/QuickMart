@@ -38,6 +38,14 @@ body {
   overflow-x: hidden;
 }
 
+a {
+  text-decoration: none !important;
+}
+
+.row {
+  --bs-gutter-y: 1rem !important;
+}
+
 .carousel-indicators {
   & [data-bs-target] {
     width: 8px !important;

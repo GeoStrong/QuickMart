@@ -1,13 +1,14 @@
-import { Form, Link } from 'react-router-dom';
+import { Form, Link, useNavigation } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import useParentUrl from '../../hooks/useParentUrl';
+import useParentUrl from '../../../hooks/useParentUrl';
 import { Button, Container, Form as BootstrapForm, Row } from 'react-bootstrap';
-import logo from '../../assets/images/logo.png';
+import logo from '../../../assets/images/logo.png';
 import './Authorization.scss';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { accountActions } from '../../store/account';
+import { accountActions } from '../../../store/account';
+import SpinnerLoader from '../GlobalUI/SpinnerLoader';
 
 const Authorization = ({
   page,
@@ -17,7 +18,10 @@ const Authorization = ({
   submitHandler,
 }) => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const { originPath, getSiblingLocation } = useParentUrl();
+
+  const submittingState = navigation.state === 'submitting';
 
   useEffect(() => {
     dispatch(accountActions.removeAccount());
@@ -40,6 +44,7 @@ const Authorization = ({
 
   return (
     <Container className="authorization my-3">
+      {submittingState && <SpinnerLoader />}
       <Row className="authorization__header">
         <Link to={`/${originPath}`}>
           <img
@@ -55,9 +60,9 @@ const Authorization = ({
           {checkPage ? 'Already have an account? ' : 'Don’t have an account? '}
           <Link
             to={getSiblingLocation(checkPage ? 'login' : 'signup')}
-            className="text-decoration-none text-primary"
+            className="text-primary"
           >
-            {checkPage ? 'Login' : 'Signup'}
+            {checkPage ? 'Log in' : 'Sign up'}
           </Link>
         </p>
       </Row>
@@ -159,13 +164,19 @@ const Authorization = ({
             variant="dark"
             className="form-btn text-white mt-1 py-3 align-self-center align-self-lg-end w-25"
           >
-            {checkPage ? 'Create Account' : 'Login'}
+            {checkPage
+              ? `Sign${submittingState ? 'ing' : ''} up ${
+                  submittingState ? '...' : ''
+                }`
+              : `Log${submittingState ? 'ing' : ''} in ${
+                  submittingState ? '...' : ''
+                }`}
           </Button>
         </Form>
         {!checkPage && (
           <Link
             to="reset"
-            className="authorization__link text-decoration-none text-primary text-end mt-2"
+            className="authorization__link text-primary text-end mt-2"
           >
             Forgot password?
           </Link>
@@ -175,13 +186,8 @@ const Authorization = ({
         <Row>
           <p className="small mt-5 text-center text-md-start fw-medium">
             By signing up, you agree to our{' '}
-            <Link className="text-decoration-none text-primary">
-              Terms of Use
-            </Link>{' '}
-            and{' '}
-            <Link className="text-decoration-none text-primary">
-              Privacy Policy
-            </Link>
+            <Link className="text-primary">Terms of Use</Link> and{' '}
+            <Link className="text-primary">Privacy Policy</Link>
           </p>
         </Row>
       )}

@@ -1,9 +1,9 @@
-import CategoryList from '@/components/UI/CategoryList';
-import HeaderNavigation from '@/components/UI/HeaderNavigation';
+import CategoryList from '@/components/UI/CategoryLayout/CategoryList';
+import HeaderNavigation from '@/components/UI/GlobalUI/HeaderNavigation';
 import useCheckScreenSize from '@/hooks/useCheckScreenSize';
 import { Container } from 'react-bootstrap';
 import { useLoaderData } from 'react-router-dom';
-import logo from '../assets/images/logo.png';
+import logo from '../../assets/images/logo.png';
 
 const Categories = () => {
   const { renderFooter } = useCheckScreenSize();

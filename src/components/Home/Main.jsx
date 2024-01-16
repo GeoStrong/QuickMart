@@ -9,7 +9,7 @@ import {
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import usePlaceholder from '../../hooks/usePlaceholder';
-import CategoryList from '../UI/CategoryList';
+import CategoryList from '../UI/CategoryLayout/CategoryList';
 import './Main.scss';
 
 const Main = ({ categoryList, children, discountProducts }) => {
@@ -80,7 +80,7 @@ const Main = ({ categoryList, children, discountProducts }) => {
             <h2 className="fw-bold">Categories</h2>
             <Link
               to="categories"
-              className="text-primary z-2 text-decoration-none"
+              className="text-primary z-2"
             >
               See All
             </Link>

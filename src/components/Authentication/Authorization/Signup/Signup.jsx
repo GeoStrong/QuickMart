@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import Authorization from '../../../UI/Authorization';
+import Authorization from '../../../UI/AuthorizationLayout/Authorization';
 import { useActionData, useNavigate, useSubmit } from 'react-router-dom';
 import useManageActionData from '../../../../hooks/useManageActionData';
 import { useEffect } from 'react';

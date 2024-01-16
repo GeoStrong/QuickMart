@@ -1,5 +1,5 @@
 import { Alert, Button, Container, Form } from 'react-bootstrap';
-import AuthorizationAdditional from '../../UI/AuthorizationAdditional';
+import AuthorizationAdditional from '../../UI/AuthorizationLayout/AuthorizationAdditional';
 import { useNavigate } from 'react-router-dom';
 import useParentUrl from '../../../hooks/useParentUrl';
 import { useEffect, useRef, useState } from 'react';

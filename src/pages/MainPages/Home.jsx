@@ -1,9 +1,9 @@
 import { Container, Spinner } from 'react-bootstrap';
-import Header from '../components/Home/Header';
-import Main from '../components/Home/Main';
-import useCheckScreenSize from '../hooks/useCheckScreenSize';
+import Header from '../../components/Home/Header';
+import Main from '../../components/Home/Main';
+import useCheckScreenSize from '../../hooks/useCheckScreenSize';
 import { Await, useLoaderData } from 'react-router-dom';
-import Products from '../components/Home/Products';
+import Products from '../../components/Home/Products';
 import { Suspense } from 'react';
 
 const Home = () => {

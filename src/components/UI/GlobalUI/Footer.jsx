@@ -1,8 +1,8 @@
 import { Stack } from 'react-bootstrap';
 import './Footer.scss';
 import { NavLink } from 'react-router-dom';
-import useCustomSvg from '../../hooks/useCustomSvg';
-import useParentUrl from '../../hooks/useParentUrl';
+import useCustomSvg from '../../../hooks/useCustomSvg';
+import useParentUrl from '../../../hooks/useParentUrl';
 
 const Footer = () => {
   const {
@@ -16,6 +16,7 @@ const Footer = () => {
 
   const homePage = currentPath === 'QuickMart';
   const categoriesPage = checkLocation('categories');
+  const cartPage = checkLocation('cart');
 
   return (
     <footer className="footer p-3">
@@ -23,7 +24,7 @@ const Footer = () => {
         <NavLink
           to={`/${originPath}`}
           className={({ isActive }) =>
-            `footer__link text-decoration-none d-flex flex-column align-items-center ${
+            `footer__link d-flex flex-column align-items-center ${
               isActive ? 'footer__link--active' : ''
             }`
           }
@@ -34,7 +35,7 @@ const Footer = () => {
         <NavLink
           to={`/${originPath}/categories`}
           className={({ isActive }) =>
-            `footer__link text-decoration-none d-flex flex-column align-items-center ${
+            `footer__link d-flex flex-column align-items-center ${
               isActive ? 'footer__link--active' : ''
             }`
           }
@@ -43,18 +44,19 @@ const Footer = () => {
           <p className="m-0">Categories</p>
         </NavLink>
         <NavLink
+          to={`/${originPath}/cart`}
           className={({ isActive }) =>
-            `footer__link text-decoration-none d-flex flex-column align-items-center ${
+            `footer__link d-flex flex-column align-items-center ${
               isActive ? 'footer__link--active' : ''
             }`
           }
         >
-          {getCartSvg()}
+          {getCartSvg('#6F7384', cartPage)}
           <p className="m-0">My Cart</p>
         </NavLink>
         <NavLink
           className={({ isActive }) =>
-            `footer__link text-decoration-none d-flex flex-column align-items-center ${
+            `footer__link d-flex flex-column align-items-center ${
               isActive ? 'footer__link--active' : ''
             }`
           }
@@ -64,7 +66,7 @@ const Footer = () => {
         </NavLink>
         <NavLink
           className={({ isActive }) =>
-            `footer__link text-decoration-none d-flex flex-column align-items-center ${
+            `footer__link d-flex flex-column align-items-center ${
               isActive ? 'footer__link--active' : ''
             }`
           }

@@ -11,7 +11,7 @@ const CategoryList = ({ categories }) => {
           id={category.id}
           className="categories__list-item p-0 rounded-3 d-flex flex-column"
         >
-          <Link className="w-100 h-100 text-decoration-none">
+          <Link className="w-100 h-100">
             <Card className="categories__list-card gap-2">
               <Card.Img
                 variant="top"

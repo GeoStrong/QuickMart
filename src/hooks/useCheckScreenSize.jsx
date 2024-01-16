@@ -1,4 +1,4 @@
-import Footer from '../components/UI/Footer';
+import Footer from '../components/UI/GlobalUI/Footer';
 
 const useCheckScreenSize = () => {
   const { innerWidth } = window;

@@ -1,17 +1,17 @@
+import { useEffect } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import Root from './pages/Root';
-import Home from './pages/Home';
-import LoginPage from './pages/LoginPage';
-import SignupPage from './pages/SignupPage';
-import Authentication from './pages/Authentication';
-import AuthError from './pages/AuthError';
 import { useDispatch, useSelector } from 'react-redux';
 import { accountActions } from './store/account';
-import { useEffect } from 'react';
-import LazyComponent from './store/LazyComponent';
+import LazyComponent from './helper/LazyComponent';
+import Root from './pages/Root';
+import Error from './pages/Error';
+import Home from './pages/MainPages/Home';
+import LoginPage from './pages/AuthorizationPages/LoginPage';
+import SignupPage from './pages/AuthorizationPages/SignupPage';
+import Authentication from './pages/AuthorizationPages/Authentication';
+import AuthError from './pages/AuthorizationPages/AuthError';
 import Login from './components/Authentication/Authorization/Login/Login';
 import EmailConfirmation from './components/Authentication/Authorization/Login/EmailConfirmation';
-import Error from './pages/Error';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -22,28 +22,26 @@ const App = () => {
     if (localAccount) dispatch(accountActions.setAccount(localAccount));
   }, [dispatch, localAccount]);
 
-  const Categories = LazyComponent(() => import('./pages/Categories'));
+  const Categories = LazyComponent(() =>
+    import('./pages/MainPages/Categories')
+  );
+  const CartPage = LazyComponent(() => import('./pages/MainPages/CartPage'));
 
   const Splashscreen = LazyComponent(() =>
     import('./components/Authentication/Splashscreen')
   );
-
   const Onboarding = LazyComponent(() =>
     import('./components/Authentication/Onboarding')
   );
-
   const Signup = LazyComponent(() =>
     import('./components/Authentication/Authorization/Signup/Signup')
   );
-
   const NewPassword = LazyComponent(() =>
     import('./components/Authentication/Authorization/Login/NewPassword')
   );
-
   const EmailVerification = LazyComponent(() =>
     import('./components/Authentication/Authorization/EmailVerification')
   );
-
   const Success = LazyComponent(() =>
     import('./components/Authentication/Authorization/Success')
   );
@@ -73,6 +71,10 @@ const App = () => {
           async loader() {
             return await lazyLoadHelpers('loader');
           },
+        },
+        {
+          path: 'cart',
+          element: <CartPage />,
         },
         {
           path: 'authentication',

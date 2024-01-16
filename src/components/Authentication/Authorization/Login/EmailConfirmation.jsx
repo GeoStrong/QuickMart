@@ -1,7 +1,7 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Button, Container, Form } from 'react-bootstrap';
-import AuthorizationAdditional from '../../../UI/AuthorizationAdditional';
+import AuthorizationAdditional from '../../../UI/AuthorizationLayout/AuthorizationAdditional';
 import {
   useActionData,
   useNavigate,
@@ -14,6 +14,7 @@ import useManageActionData from '../../../../hooks/useManageActionData';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { accountActions } from '../../../../store/account';
+import SpinnerLoader from '@/components/UI/GlobalUI/SpinnerLoader';
 
 const EmailConfirmation = () => {
   const dispatch = useDispatch();
@@ -24,6 +25,8 @@ const EmailConfirmation = () => {
   const { getSiblingLocation } = useParentUrl();
   const { customError } = useManageActionData(actionData);
   const { email } = useSelector((state) => state.account);
+
+  const submittingState = navigation.state === 'submitting';
 
   useEffect(() => {
     dispatch(accountActions.removeAccount());
@@ -54,6 +57,7 @@ const EmailConfirmation = () => {
 
   return (
     <Container>
+      {submittingState && <SpinnerLoader />}
       <AuthorizationAdditional
         navigateTo=".."
         pageName="Forgot Password"
@@ -90,7 +94,7 @@ const EmailConfirmation = () => {
           onClick={() => formik.setFieldValue('intent', 'reset')}
           className="form-btn text-white mt-1 py-3 align-self-end"
         >
-          {navigation.state === 'submitting' ? 'Sending...' : 'Send'}
+          {submittingState ? 'Sending...' : 'Send'}
         </Button>
       </Form>
     </Container>

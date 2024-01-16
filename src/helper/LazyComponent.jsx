@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import SpinnerLoader from '../components/UI/SpinnerLoader';
+import SpinnerLoader from '../components/UI/GlobalUI/SpinnerLoader';
 
 const LazyComponent = (importFunction) => {
   const LazyLoadedComponent = lazy(importFunction);

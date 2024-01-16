@@ -1,0 +1,10 @@
+.cartCheckout {
+  @media (min-width: 992px) {
+    width: 25%;
+  }
+
+  &__title,
+  &__value {
+    color: $gray-700;
+  }
+}

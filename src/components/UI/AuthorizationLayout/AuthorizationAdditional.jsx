@@ -1,6 +1,6 @@
 import { Row } from 'react-bootstrap';
 import './AuthorizationAdditional.scss';
-import HeaderNavigation from './HeaderNavigation';
+import HeaderNavigation from '../GlobalUI/HeaderNavigation';
 
 const AuthorizationAdditional = ({ navigateTo, pageName, title, text }) => {
   return (

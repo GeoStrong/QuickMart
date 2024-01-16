@@ -1,6 +1,4 @@
 .products {
-  --bs-gutter-y: 1rem !important;
-
   &__card {
     border-radius: 1rem !important;
     min-height: clamp(min(20rem, 35vh), 40vh, max(26rem, 45vh)) !important;

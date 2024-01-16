@@ -125,7 +125,7 @@ const Header = (submitHandler) => {
               <img src={search} alt="search" />
             </Button>
           )}
-          <Link className="d-none d-md-flex position-relative">
+          <Link to="cart" className="d-none d-md-flex position-relative">
             {getCartSvg('#1c1b1b')}
             <Badge
               bg="danger"

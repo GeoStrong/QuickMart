@@ -95,7 +95,7 @@ const useCustomSvg = () => {
     }
   };
 
-  const getCartSvg = (color = '#6F7384', active) => {
+  const getCartSvg = (color, active) => {
     if (active) {
       return (
         <svg

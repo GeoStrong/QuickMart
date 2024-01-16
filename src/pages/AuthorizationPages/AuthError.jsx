@@ -1,4 +1,4 @@
-import AuthorizationAdditional from '@/components/UI/AuthorizationAdditional';
+import AuthorizationAdditional from '@/components/UI/AuthorizationLayout/AuthorizationAdditional';
 import { Container } from 'react-bootstrap';
 import { useRouteError } from 'react-router-dom';
 

@@ -1,0 +1,55 @@
+.cartItem {
+  height: 45vh;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+  }
+
+  @media (min-width: 992px) {
+    width: 70%;
+    height: 80vh;
+  }
+
+  &__card {
+    height: 10rem;
+  }
+  &__img {
+    max-width: 40%;
+    object-fit: contain;
+  }
+
+  &__body {
+    &-title {
+      font-size: 0.75rem !important;
+    }
+
+    &-text {
+      font-size: 0.75rem;
+    }
+
+    &-group {
+      border: 1px solid $gray-100;
+
+      &--noborder {
+        border: none;
+      }
+
+      button {
+        border: none;
+      }
+    }
+  }
+}

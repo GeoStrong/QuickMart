@@ -1,5 +1,5 @@
 import { Button, Container, Form } from 'react-bootstrap';
-import AuthorizationAdditional from '../../../UI/AuthorizationAdditional';
+import AuthorizationAdditional from '../../../UI/AuthorizationLayout/AuthorizationAdditional';
 import {
   useActionData,
   useNavigate,
@@ -13,6 +13,7 @@ import './NewPassword.scss';
 import { useEffect } from 'react';
 import useCheckAuth from '../../../../hooks/useCheckAuth';
 import useManageActionData from '../../../../hooks/useManageActionData';
+import SpinnerLoader from '@/components/UI/GlobalUI/SpinnerLoader';
 
 const NewPassword = () => {
   const submit = useSubmit();
@@ -22,6 +23,8 @@ const NewPassword = () => {
   const { checkAuthHandler } = useCheckAuth();
   const { getSiblingLocation } = useParentUrl(3);
   const { customError } = useManageActionData(actionData);
+
+  const submittingState = navigation.state === 'submitting';
 
   useEffect(() => {
     checkAuthHandler();
@@ -61,6 +64,7 @@ const NewPassword = () => {
   return (
     <>
       <Container>
+        {submittingState && <SpinnerLoader />}
         <AuthorizationAdditional
           pageName="Create Password"
           title="New Password"
@@ -121,7 +125,7 @@ const NewPassword = () => {
             onClick={() => formik.setFieldValue('intent', 'new password')}
             className="form__btn text-white align-self-stretch align-self-md-end py-3"
           >
-            {navigation.state === 'submitting' ? 'Saving...' : 'Save'}
+            {submittingState ? 'Saving...' : 'Save'}
           </Button>
         </Form>
       </Container>

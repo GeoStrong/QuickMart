@@ -4,7 +4,6 @@ import useParentUrl from '@/hooks/useParentUrl';
 import emptyCart from '../../../assets/images/empty-cart.png';
 import CartCheckout from '@/components/Cart/CartCheckout';
 import { useState } from 'react';
-import './ShoppingContainer.scss';
 
 const ShoppingContainer = ({ itemsContainer, setItemsContainer, element }) => {
   const [readyToCheckoutItems, setReadyToCheckoutItems] = useState();

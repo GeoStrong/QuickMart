@@ -4,7 +4,7 @@ import './RedirectionPage.scss';
 
 const RedirectionPage = ({ title, text, navigateTo, buttonName, img }) => {
   return (
-    <Card className="flex-column mt-3 mb-6 flex-md-row gap-2">
+    <Card className="flex-column mt-3 mb-6 flex-md-row gap-2 w-100 justify-content-around">
       <div className="card__img-container rounded-5">
         <img src={img} alt="logo" className="w-100" />
       </div>

@@ -9,9 +9,9 @@ import {
 } from 'react-bootstrap';
 import RemoveItemSvg from '@/assets/svg/RemoveItemSvg';
 import { useEffect, useState } from 'react';
-import './CartItem.scss';
+import './ShoppingItem.scss';
 
-const CartItem = ({
+const ShoppingItem = ({
   items,
   onRemoveItem,
   onChangeItem,
@@ -31,7 +31,7 @@ const CartItem = ({
   }, [items, readyItemsHandler]);
 
   const onCheck = (event) => {
-    const id = event.target.closest('.cartItem__col').id;
+    const id = event.target.closest('.shoppingItem__col').id;
     const item = items.find((item) => item.id === +id);
 
     const isItemInCheckout = readyItems.some(
@@ -43,7 +43,7 @@ const CartItem = ({
   };
 
   const onUncheck = (event) => {
-    const id = event.target.closest('.cartItem__col').id;
+    const id = event.target.closest('.shoppingItem__col').id;
     const item = items.find((item) => item.id === +id);
     readyItemsHandler((prevItems) =>
       prevItems.filter((checkoutItem) => checkoutItem.id !== item.id)
@@ -51,14 +51,14 @@ const CartItem = ({
   };
 
   const onRemove = (event) => {
-    const id = event.target.closest('.cartItem__col').id;
+    const id = event.target.closest('.shoppingItem__col').id;
     onRemoveItem(id);
   };
 
   const onQuantityChange = (event) => {
-    const id = event.target.closest('.cartItem__col').id;
+    const id = event.target.closest('.shoppingItem__col').id;
     const checked = event.target
-      .closest('.cartItem__col')
+      .closest('.shoppingItem__col')
       .querySelector('input').checked;
 
     const item = items.find((item) => item.id === +id);
@@ -76,20 +76,20 @@ const CartItem = ({
   };
 
   return (
-    <Row className="cartItem mt-1 overflow-y-scroll">
+    <Row className="shoppingItem mt-1 overflow-y-scroll">
       {items.map((item) => (
         <Col
           key={item.id}
           id={item.id}
           xs={12}
           md={6}
-          className="cartItem__col"
+          className="shoppingItem__col"
         >
-          <Card className="cartItem__card w-100 flex-row">
-            <Card.Img className="cartItem__img" src={item.img} />
-            <Card.Body className="cartItem__body">
-              <div className="cartItem__body-header d-flex gap-3">
-                <Card.Title className="cartItem__body-title fw-medium">
+          <Card className="shoppingItem__card w-100 flex-row">
+            <Card.Img className="shoppingItem__img" src={item.img} />
+            <Card.Body className="shoppingItem__body">
+              <div className="shoppingItem__body-header d-flex gap-3">
+                <Card.Title className="shoppingItem__body-title fw-medium">
                   {item.name}
                 </Card.Title>
                 <Form.Check
@@ -105,11 +105,11 @@ const CartItem = ({
                   id={item.id}
                 />
               </div>
-              <Card.Text className="cartItem__body-text text-dark fw-medium">
+              <Card.Text className="shoppingItem__body-text text-dark fw-medium">
                 ${item.price}
               </Card.Text>
-              <ButtonToolbar className="cartItem__body-toolbar justify-content-between">
-                <ButtonGroup className="cartItem__body-group align-items-center small">
+              <ButtonToolbar className="shoppingItem__body-toolbar justify-content-between">
+                <ButtonGroup className="shoppingItem__body-group align-items-center small">
                   <Button
                     onClick={onQuantityChange}
                     data-action="-"
@@ -126,7 +126,7 @@ const CartItem = ({
                     +
                   </Button>
                 </ButtonGroup>
-                <ButtonGroup className="cartItem__body-group cartItem__body-group--noborder">
+                <ButtonGroup className="shoppingItem__body-group shoppingItem__body-group--noborder">
                   <Button onClick={onRemove} className="bg-white p-0">
                     <RemoveItemSvg />
                   </Button>
@@ -139,4 +139,4 @@ const CartItem = ({
     </Row>
   );
 };
-export default CartItem;
+export default ShoppingItem;

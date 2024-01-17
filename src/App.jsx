@@ -26,6 +26,9 @@ const App = () => {
     import('./pages/MainPages/Categories')
   );
   const CartPage = LazyComponent(() => import('./pages/MainPages/CartPage'));
+  const WishlistPage = LazyComponent(() =>
+    import('./pages/MainPages/WishlistPage')
+  );
 
   const Splashscreen = LazyComponent(() =>
     import('./components/Authentication/Splashscreen')
@@ -75,6 +78,10 @@ const App = () => {
         {
           path: 'cart',
           element: <CartPage />,
+        },
+        {
+          path: 'wishlist',
+          element: <WishlistPage />,
         },
         {
           path: 'authentication',

@@ -1,42 +1,42 @@
 import useCheckScreenSize from '@/hooks/useCheckScreenSize';
 import { useState } from 'react';
-import emptyCart from '../../assets/images/empty-cart.png';
+import emptyWishlist from '../../assets/images/empty-wishlist.png';
 import { Container } from 'react-bootstrap';
 import HeaderNavigation from '@/components/UI/GlobalUI/HeaderNavigation';
 import ShoppingContainer from '@/components/UI/UserShopping/ShoppingContainer';
 
-const CartPage = () => {
+const WishlistPage = () => {
   const { renderFooter } = useCheckScreenSize();
 
-  const [cartContainer, setCartContainer] = useState([
+  const [wishlistContainer, setWishlistContainer] = useState([
     {
       id: 15,
       name: 'Loop Silicone Strong Magnetic Watch',
       price: 20.25,
-      img: emptyCart,
+      img: emptyWishlist,
       quantity: 2,
     },
     {
       id: 20,
       name: 'Loop Silicone Strong Magnetic Watch',
       price: 15.25,
-      img: emptyCart,
+      img: emptyWishlist,
       quantity: 1,
     },
   ]);
-
   return (
     <>
       <Container>
-        <HeaderNavigation page="My Cart" />
+        <HeaderNavigation page="Wishlist" />
         <ShoppingContainer
-          itemsContainer={cartContainer}
-          setItemsContainer={setCartContainer}
-          element="cart"
+          itemsContainer={wishlistContainer}
+          setItemsContainer={setWishlistContainer}
+          element="wishlist"
         />
       </Container>
       {renderFooter}
     </>
   );
 };
-export default CartPage;
+
+export default WishlistPage;

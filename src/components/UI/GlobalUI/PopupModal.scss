@@ -1,0 +1,22 @@
+.modal {
+  &-dialog {
+    @media (max-width: 576px) {
+      margin: 0;
+      display: flex;
+      align-items: end;
+      min-height: 100%;
+    }
+  }
+
+  &-content {
+    @media (max-width: 576px) {
+      border-top-left-radius: 2rem;
+      border-top-right-radius: 2rem;
+    }
+  }
+  .btn-close {
+    @media (max-width: 576px) {
+      display: none;
+    }
+  }
+}

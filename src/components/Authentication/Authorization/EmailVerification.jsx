@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import useParentUrl from '../../../hooks/useParentUrl';
 import { useEffect, useRef, useState } from 'react';
 import { useFormik } from 'formik';
+import useCheckAuth from '../../../hooks/useCheckAuth';
 import alertImg from '../../../assets/svg/alert.svg';
 import './EmailVerification.scss';
-import useCheckAuth from '../../../hooks/useCheckAuth';
 
 const EmailVerification = () => {
   const firstInputRef = useRef();
@@ -102,7 +102,7 @@ const EmailVerification = () => {
             setDisplayAlert(true);
           }, 1000);
         }}
-        className="alert position-absolute fw-light rounded-4 d-flex gap-2 align-items-center text-center text-dark"
+        className="alert mt-3 position-absolute fw-light rounded-4 d-flex gap-2 align-items-center text-center text-dark"
       >
         <div className="alert-img bg-primary">
           <img src={alertImg} alt="alert" />
@@ -115,7 +115,7 @@ const EmailVerification = () => {
           onClose={() => {
             setDisplayAlert(false);
           }}
-          className="alert alert__code position-absolute rounded-4 text-dark"
+          className="alert mt-3 alert__code position-absolute rounded-4 text-dark"
         >
           <Alert.Heading className="text-center h6 ">
             Your verification code is{' '}

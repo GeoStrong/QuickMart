@@ -134,7 +134,7 @@ const Header = (submitHandler) => {
           </Link>
 
           {isLoggedIn && (
-            <Link className="d-none d-md-flex position-relative">
+            <Link to="wishlist" className="d-none d-md-flex position-relative">
               {getWishlistSvg('#1c1b1b')}
               <Badge
                 bg="danger"

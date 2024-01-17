@@ -78,10 +78,7 @@ const Main = ({ categoryList, children, discountProducts }) => {
         <Col xs={12} lg={6} className="categories">
           <div className="categories__headline d-flex justify-content-between align-items-center">
             <h2 className="fw-bold">Categories</h2>
-            <Link
-              to="categories"
-              className="text-primary z-2"
-            >
+            <Link to="categories" className="text-primary z-2">
               See All
             </Link>
           </div>
@@ -90,6 +87,8 @@ const Main = ({ categoryList, children, discountProducts }) => {
           ) : (
             <>
               <div className="d-flex gap-3">
+                {listItemPlaceholder}
+                {listItemPlaceholder}
                 {listItemPlaceholder}
                 {listItemPlaceholder}
               </div>

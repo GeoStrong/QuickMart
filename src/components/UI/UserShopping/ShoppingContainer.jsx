@@ -2,6 +2,7 @@ import ShoppingItem from '@/components/UI/UserShopping/ShoppingItem';
 import RedirectionPage from '../GlobalUI/RedirectionPage';
 import useParentUrl from '@/hooks/useParentUrl';
 import emptyCart from '../../../assets/images/empty-cart.png';
+import emptyWishlist from '../../../assets/images/empty-wishlist.png';
 import CartCheckout from '@/components/Cart/CartCheckout';
 import { useState } from 'react';
 
@@ -44,6 +45,7 @@ const ShoppingContainer = ({ itemsContainer, setItemsContainer, element }) => {
             onChangeItem={changeItemQuantityHandler}
             readyItems={readyToCheckoutItems}
             readyItemsHandler={setReadyToCheckoutItems}
+            isWishlist={wishlistPage}
           />
         ) : (
           <RedirectionPage
@@ -51,7 +53,7 @@ const ShoppingContainer = ({ itemsContainer, setItemsContainer, element }) => {
             text={emptyCartText}
             navigateTo={`/${originPath}/categories`}
             buttonName="Explore Categories"
-            img={emptyCart}
+            img={cartPage ? emptyCart : emptyWishlist}
           />
         )}
         {itemsContainer.length > 0 && cartPage && (

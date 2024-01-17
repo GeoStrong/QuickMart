@@ -153,7 +153,7 @@ const useCustomSvg = () => {
     }
   };
 
-  const getWishlistSvg = (color = '#6F7384', active) => {
+  const getWishlistSvg = (color, active) => {
     if (active) {
       return (
         <svg

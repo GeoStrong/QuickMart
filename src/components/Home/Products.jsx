@@ -12,6 +12,13 @@ const Products = ({ productList }) => {
     setIsProductLoaded(true);
   }, [productList]);
 
+  const getFullImage = (image) => {
+    ['[', ']', '"'].forEach((char) => {
+      image = image.replaceAll(char, '');
+    });
+    return image;
+  };
+
   return (
     <Fragment>
       <Row className="mt-3 products mt-md-5 mb-5 pb-4">
@@ -21,7 +28,10 @@ const Products = ({ productList }) => {
             <Col key={product.id} id={product.id} xs={6} lg={4} className="">
               <Link>
                 <Card className="products__card">
-                  <Card.Img variant="top" src={product.images[0]} />
+                  <Card.Img
+                    variant="top"
+                    src={getFullImage(product.images[0])}
+                  />
                   <Card.Body className="w-100">
                     <Card.Title className="h6">{product.title}</Card.Title>
                     <Card.Text className="small fw-semibold">

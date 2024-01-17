@@ -17,6 +17,7 @@ const Footer = () => {
   const homePage = currentPath === 'QuickMart';
   const categoriesPage = checkLocation('categories');
   const cartPage = checkLocation('cart');
+  const wishlistPage = checkLocation('wishlist');
 
   return (
     <footer className="footer p-3">
@@ -55,13 +56,14 @@ const Footer = () => {
           <p className="m-0">My Cart</p>
         </NavLink>
         <NavLink
+          to={`/${originPath}/wishlist`}
           className={({ isActive }) =>
             `footer__link d-flex flex-column align-items-center ${
               isActive ? 'footer__link--active' : ''
             }`
           }
         >
-          {getWishlistSvg()}
+          {getWishlistSvg('#6F7384', wishlistPage)}
           <p className="m-0">Wishlist</p>
         </NavLink>
         <NavLink

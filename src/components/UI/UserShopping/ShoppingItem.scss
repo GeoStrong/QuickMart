@@ -1,5 +1,6 @@
 .shoppingItem {
   height: 45vh;
+  overflow-y: scroll;
 
   &::-webkit-scrollbar {
     width: 6px;
@@ -32,10 +33,6 @@
   }
 
   &__body {
-    &-title {
-      font-size: 0.75rem !important;
-    }
-
     &-text {
       font-size: 0.75rem;
     }
@@ -52,4 +49,10 @@
       }
     }
   }
+}
+
+.wishlistPage {
+  width: 100%;
+  overflow-y: hidden;
+  height: 100%;
 }

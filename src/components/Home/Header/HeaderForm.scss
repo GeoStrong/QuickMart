@@ -1,0 +1,29 @@
+.stack__form {
+  @media (min-width: 768px) {
+    position: relative;
+  }
+  &-mobile {
+    position: absolute;
+    top: 3rem;
+    left: 0;
+    height: 100svh;
+  }
+
+  &-input {
+    background: url(../../../assets/svg/search.svg) no-repeat 1rem center;
+    @media (min-width: 992px) {
+      width: 25rem !important;
+    }
+  }
+
+  &-btn {
+    top: 0.8rem;
+    right: 1rem;
+  }
+}
+
+.filter {
+  &__checkbox {
+    border-bottom: 1px solid $gray-100;
+  }
+}

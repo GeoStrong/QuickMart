@@ -20,7 +20,7 @@ const ShoppingItem = ({
   readyItemsHandler,
   isWishlist,
 }) => {
-  const [showNotification, setShowNotification] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
   const [itemId, setItemId] = useState(null);
 
   const [checkedItems, setCheckedItems] = useState(
@@ -57,7 +57,7 @@ const ShoppingItem = ({
 
   const onRemove = (event) => {
     const id = event.target.closest('.shoppingItem__col').id;
-    setShowNotification(true);
+    setShowPopup(true);
     setItemId(id);
   };
 
@@ -147,14 +147,32 @@ const ShoppingItem = ({
         ))}
       </Row>
       <PopupModal
-        content={{
-          title: 'Delete product from wishlist',
-          button: 'Delete product',
+        title="Delete product from wishlist"
+        show={showPopup}
+        onClose={() => {
+          setShowPopup(false);
         }}
-        onCloseHandler={() => onRemoveItem(itemId)}
-        show={showNotification}
-        setShow={setShowNotification}
-      />
+      >
+        <Button
+          variant="white"
+          className="py-3 py-sm-2 rounded-3"
+          onClick={() => {
+            setShowPopup(false);
+          }}
+        >
+          Cancel
+        </Button>
+        <Button
+          variant="dark"
+          className="py-3 py-sm-2 rounded-3"
+          onClick={() => {
+            onRemoveItem(itemId);
+            setShowPopup(false);
+          }}
+        >
+          Delete product
+        </Button>
+      </PopupModal>
     </>
   );
 };

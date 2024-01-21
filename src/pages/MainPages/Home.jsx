@@ -1,5 +1,5 @@
 import { Container, Spinner } from 'react-bootstrap';
-import Header from '../../components/Home/Header';
+import Header from '../../components/Home/Header/Header';
 import Main from '../../components/Home/Main';
 import useCheckScreenSize from '../../hooks/useCheckScreenSize';
 import { Await, useLoaderData } from 'react-router-dom';

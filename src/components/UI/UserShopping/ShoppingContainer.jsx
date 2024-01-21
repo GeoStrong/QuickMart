@@ -5,10 +5,18 @@ import emptyCart from '../../../assets/images/empty-cart.png';
 import emptyWishlist from '../../../assets/images/empty-wishlist.png';
 import CartCheckout from '@/components/Cart/CartCheckout';
 import { useState } from 'react';
+import useCheckAuth from '@/hooks/useCheckAuth';
+import { useEffectOnce } from 'react-use';
 
 const ShoppingContainer = ({ itemsContainer, setItemsContainer, element }) => {
   const [readyToCheckoutItems, setReadyToCheckoutItems] = useState();
   const { originPath } = useParentUrl();
+
+  const { checkAuthHandler } = useCheckAuth();
+
+  useEffectOnce(() => {
+    checkAuthHandler(`/${originPath}/authentication/login`);
+  });
 
   const cartPage = element === 'cart';
   const wishlistPage = element === 'wishlist';

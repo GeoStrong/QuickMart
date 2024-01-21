@@ -1,10 +1,11 @@
-import Footer from '@/components/UI/GlobalUI/Footer';
 import HeaderNavigation from '@/components/UI/GlobalUI/HeaderNavigation';
+import useCheckScreenSize from '@/hooks/useCheckScreenSize';
 import { Container } from 'react-bootstrap';
 import { useRouteError } from 'react-router-dom';
 
 const Error = () => {
   const error = useRouteError();
+  const { renderFooter } = useCheckScreenSize();
   console.log(error);
 
   return (
@@ -16,7 +17,7 @@ const Error = () => {
           <p>{error.status ? error.status : 500}</p>
         </div>
       </Container>
-      <Footer />
+      {renderFooter}
     </>
   );
 };

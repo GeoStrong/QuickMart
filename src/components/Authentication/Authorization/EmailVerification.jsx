@@ -1,9 +1,10 @@
 import { Alert, Button, Container, Form } from 'react-bootstrap';
 import AuthorizationAdditional from '../../UI/AuthorizationLayout/AuthorizationAdditional';
+import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useParentUrl from '../../../hooks/useParentUrl';
-import { useEffect, useRef, useState } from 'react';
 import { useFormik } from 'formik';
+import { useEffectOnce } from 'react-use';
+import useParentUrl from '../../../hooks/useParentUrl';
 import useCheckAuth from '../../../hooks/useCheckAuth';
 import alertImg from '../../../assets/svg/alert.svg';
 import './EmailVerification.scss';
@@ -65,11 +66,11 @@ const EmailVerification = () => {
     }
   };
 
-  useEffect(() => {
+  useEffectOnce(() => {
     codeGenerator();
     parentPathCheck && checkAuthHandler();
     firstInputRef.current.focus();
-  }, []);
+  });
 
   const formik = useFormik({
     initialValues: {

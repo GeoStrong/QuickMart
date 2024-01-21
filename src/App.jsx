@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { accountActions } from './store/account';
-import LazyComponent from './helper/LazyComponent';
+import LazyComponent from './utilities/LazyComponent';
 import Root from './pages/Root';
 import Error from './pages/Error';
 import Home from './pages/MainPages/Home';
@@ -12,15 +12,16 @@ import Authentication from './pages/AuthorizationPages/Authentication';
 import AuthError from './pages/AuthorizationPages/AuthError';
 import Login from './components/Authentication/Authorization/Login/Login';
 import EmailConfirmation from './components/Authentication/Authorization/Login/EmailConfirmation';
+import { useLocalStorage } from 'react-use';
 
 const App = () => {
   const dispatch = useDispatch();
   const { id, password } = useSelector((state) => state.account);
-  const localAccount = JSON.parse(localStorage.getItem('localAccount'));
+  const [value] = useLocalStorage('localAccount');
 
   useEffect(() => {
-    if (localAccount) dispatch(accountActions.setAccount(localAccount));
-  }, [dispatch, localAccount]);
+    if (value) dispatch(accountActions.setAccount(value));
+  }, [dispatch, value]);
 
   const Categories = LazyComponent(() =>
     import('./pages/MainPages/Categories')
@@ -49,10 +50,10 @@ const App = () => {
     import('./components/Authentication/Authorization/Success')
   );
 
-  const lazyLoadHelpers = async (helper, meta, options = []) => {
-    const module = await import(`./helper/${helper}.jsx`);
-    if (helper === 'loader') return module[helper]();
-    if (helper === 'action') return module[helper](...options)(meta);
+  const lazyLoadUtilities = async (utility, meta, options = []) => {
+    const module = await import(`./utilities/${utility}.jsx`);
+    if (utility === 'loader') return module[utility]();
+    if (utility === 'action') return module[utility](...options)(meta);
   };
 
   const router = createBrowserRouter([
@@ -65,14 +66,14 @@ const App = () => {
           index: true,
           element: <Home />,
           async loader() {
-            return await lazyLoadHelpers('loader');
+            return await lazyLoadUtilities('loader');
           },
         },
         {
           path: 'categories',
           element: <Categories />,
           async loader() {
-            return await lazyLoadHelpers('loader');
+            return await lazyLoadUtilities('loader');
           },
         },
         {
@@ -104,14 +105,14 @@ const App = () => {
                   index: true,
                   element: <Login />,
                   async action(meta) {
-                    return await lazyLoadHelpers('action', meta);
+                    return await lazyLoadUtilities('action', meta);
                   },
                 },
                 {
                   path: 'reset',
                   element: <EmailConfirmation />,
                   async action(meta) {
-                    return await lazyLoadHelpers('action', meta);
+                    return await lazyLoadUtilities('action', meta);
                   },
                 },
                 {
@@ -122,7 +123,7 @@ const App = () => {
                   path: 'new password',
                   element: <NewPassword />,
                   async action(meta) {
-                    return await lazyLoadHelpers('action', meta, [
+                    return await lazyLoadUtilities('action', meta, [
                       id,
                       password,
                     ]);
@@ -142,7 +143,7 @@ const App = () => {
                   index: true,
                   element: <Signup />,
                   async action(meta) {
-                    return await lazyLoadHelpers('action', meta);
+                    return await lazyLoadUtilities('action', meta);
                   },
                 },
                 {

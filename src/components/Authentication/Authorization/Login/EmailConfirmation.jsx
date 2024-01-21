@@ -1,6 +1,6 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Button, Container, Form } from 'react-bootstrap';
+import { Button, Container, Form, Spinner } from 'react-bootstrap';
 import AuthorizationAdditional from '../../../UI/AuthorizationLayout/AuthorizationAdditional';
 import {
   useActionData,
@@ -11,27 +11,26 @@ import {
 import './EmailConfirmation.scss';
 import useParentUrl from '../../../../hooks/useParentUrl';
 import useManageActionData from '../../../../hooks/useManageActionData';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { accountActions } from '../../../../store/account';
-import SpinnerLoader from '@/components/UI/GlobalUI/SpinnerLoader';
+import { useEffectOnce } from 'react-use';
+import useCheckAuth from '@/hooks/useCheckAuth';
 
 const EmailConfirmation = () => {
-  const dispatch = useDispatch();
   const submit = useSubmit();
   const actionData = useActionData();
   const navigate = useNavigate();
   const navigation = useNavigation();
   const { getSiblingLocation } = useParentUrl();
   const { customError } = useManageActionData(actionData);
+  const { removeAccountHandler } = useCheckAuth();
   const { email } = useSelector((state) => state.account);
 
   const submittingState = navigation.state === 'submitting';
 
-  useEffect(() => {
-    dispatch(accountActions.removeAccount());
-    localStorage.removeItem('localAccount');
-  }, []);
+  useEffectOnce(() => {
+    removeAccountHandler();
+  });
 
   useEffect(() => {
     if (email !== '') {
@@ -39,7 +38,7 @@ const EmailConfirmation = () => {
     } else {
       return;
     }
-  }, [email, getSiblingLocation, navigate]);
+  }, [actionData, email, getSiblingLocation, navigate]);
 
   const formik = useFormik({
     initialValues: {
@@ -57,7 +56,6 @@ const EmailConfirmation = () => {
 
   return (
     <Container>
-      {submittingState && <SpinnerLoader />}
       <AuthorizationAdditional
         navigateTo=".."
         pageName="Forgot Password"
@@ -92,9 +90,10 @@ const EmailConfirmation = () => {
           variant="dark"
           type="submit"
           onClick={() => formik.setFieldValue('intent', 'reset')}
-          className="form-btn text-white mt-1 py-3 align-self-end"
+          className="form-btn text-white mt-1 py-3 align-self-end d-flex justify-content-center align-items-center gap-2"
         >
-          {submittingState ? 'Sending...' : 'Send'}
+          {submittingState ? 'Sending' : 'Send'}
+          {submittingState && <Spinner />}
         </Button>
       </Form>
     </Container>

@@ -2,13 +2,17 @@ import { Form, Link, useNavigation } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import useParentUrl from '../../../hooks/useParentUrl';
-import { Button, Container, Form as BootstrapForm, Row } from 'react-bootstrap';
+import {
+  Button,
+  Container,
+  Form as BootstrapForm,
+  Row,
+  Spinner,
+} from 'react-bootstrap';
 import logo from '../../../assets/images/logo.png';
 import './Authorization.scss';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { accountActions } from '../../../store/account';
-import SpinnerLoader from '../GlobalUI/SpinnerLoader';
+import { useEffectOnce } from 'react-use';
+import useCheckAuth from '@/hooks/useCheckAuth';
 
 const Authorization = ({
   page,
@@ -17,16 +21,15 @@ const Authorization = ({
   customError,
   submitHandler,
 }) => {
-  const dispatch = useDispatch();
   const navigation = useNavigation();
   const { originPath, getSiblingLocation } = useParentUrl();
+  const { removeAccountHandler } = useCheckAuth();
 
   const submittingState = navigation.state === 'submitting';
 
-  useEffect(() => {
-    dispatch(accountActions.removeAccount());
-    localStorage.removeItem('localAccount');
-  }, []);
+  useEffectOnce(() => {
+    removeAccountHandler();
+  });
 
   const formik = useFormik({
     initialValues,
@@ -44,7 +47,6 @@ const Authorization = ({
 
   return (
     <Container className="authorization my-3">
-      {submittingState && <SpinnerLoader />}
       <Row className="authorization__header">
         <Link to={`/${originPath}`}>
           <img
@@ -162,15 +164,12 @@ const Authorization = ({
             }
             type="submit"
             variant="dark"
-            className="form-btn text-white mt-1 py-3 align-self-center align-self-lg-end w-25"
+            className="form-btn text-white mt-1 py-3 align-self-center align-self-lg-end w-25 d-flex justify-content-center align-items-center gap-2"
           >
             {checkPage
-              ? `Sign${submittingState ? 'ing' : ''} up ${
-                  submittingState ? '...' : ''
-                }`
-              : `Log${submittingState ? 'ing' : ''} in ${
-                  submittingState ? '...' : ''
-                }`}
+              ? `Sign${submittingState ? 'ing' : ''} up`
+              : `Log${submittingState ? 'ing' : ''} in`}
+            {submittingState && <Spinner />}
           </Button>
         </Form>
         {!checkPage && (

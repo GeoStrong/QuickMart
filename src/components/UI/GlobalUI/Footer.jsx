@@ -18,6 +18,7 @@ const Footer = () => {
   const categoriesPage = checkLocation('categories');
   const cartPage = checkLocation('cart');
   const wishlistPage = checkLocation('wishlist');
+  const profilePage = checkLocation('profile');
 
   return (
     <footer className="footer p-3">
@@ -26,7 +27,7 @@ const Footer = () => {
           to={`/${originPath}`}
           className={({ isActive }) =>
             `footer__link d-flex flex-column align-items-center ${
-              isActive ? 'footer__link--active' : ''
+              isActive && homePage ? 'footer__link--active' : ''
             }`
           }
         >
@@ -67,13 +68,14 @@ const Footer = () => {
           <p className="m-0">Wishlist</p>
         </NavLink>
         <NavLink
+          to={`/${originPath}/profile`}
           className={({ isActive }) =>
             `footer__link d-flex flex-column align-items-center ${
               isActive ? 'footer__link--active' : ''
             }`
           }
         >
-          {getProfileSvg()}
+          {getProfileSvg(profilePage)}
           <p className="m-0">Profile</p>
         </NavLink>
       </Stack>

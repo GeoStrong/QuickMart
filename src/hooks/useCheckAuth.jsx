@@ -16,7 +16,10 @@ const useCheckAuth = () => {
 
   const checkAuthHandler = (redirectTo) => {
     if (isLoggedIn) return;
-    return navigate(redirectTo ? redirectTo : getSiblingLocation('reset'));
+    return setTimeout(
+      () => navigate(redirectTo ? redirectTo : getSiblingLocation('reset')),
+      1000
+    );
   };
 
   const removeAccountHandler = () => {

@@ -1,10 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
+import userDefaultAvatarImg from '../assets/svg/user-profile.svg';
 
 const initialState = {
   fullName: '',
   email: '',
   password: '',
   id: '',
+  avatarImage: userDefaultAvatarImg,
 };
 
 const accountSlice = createSlice({
@@ -19,6 +21,7 @@ const accountSlice = createSlice({
       state.email = email !== undefined ? email : state.email;
       state.password = password !== undefined ? password : state.password;
     },
+
     removeAccount(state) {
       Object.assign(state, initialState);
     },

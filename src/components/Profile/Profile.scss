@@ -1,0 +1,9 @@
+.profile {
+  &__credentials {
+    &-avatar {
+      width: 2rem;
+      height: 2rem;
+      object-fit: cover;
+    }
+  }
+}

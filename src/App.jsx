@@ -13,6 +13,7 @@ import AuthError from './pages/AuthorizationPages/AuthError';
 import Login from './components/Authentication/Authorization/Login/Login';
 import EmailConfirmation from './components/Authentication/Authorization/Login/EmailConfirmation';
 import { useLocalStorage } from 'react-use';
+import ProfilePage from './pages/MainPages/ProfilePage';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -29,6 +30,12 @@ const App = () => {
   const CartPage = LazyComponent(() => import('./pages/MainPages/CartPage'));
   const WishlistPage = LazyComponent(() =>
     import('./pages/MainPages/WishlistPage')
+  );
+
+  const Profile = LazyComponent(() => import('./components/Profile/Profile'));
+
+  const ShippingAddress = LazyComponent(() =>
+    import('./components/Profile/ProfileSettings/ShippingAddress')
   );
 
   const Splashscreen = LazyComponent(() =>
@@ -83,6 +90,20 @@ const App = () => {
         {
           path: 'wishlist',
           element: <WishlistPage />,
+        },
+        {
+          path: 'profile',
+          element: <ProfilePage />,
+          children: [
+            {
+              index: true,
+              element: <Profile />,
+            },
+            {
+              path: 'shipping address',
+              element: <ShippingAddress />,
+            },
+          ],
         },
         {
           path: 'authentication',

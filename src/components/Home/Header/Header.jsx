@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Badge, Button, Stack } from 'react-bootstrap';
 import { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import useParentUrl from '../../../hooks/useParentUrl';
 import useCheckScreenSize from '../../../hooks/useCheckScreenSize';
 import useCheckAuth from '../../../hooks/useCheckAuth';
@@ -9,7 +10,6 @@ import HeaderForm from './HeaderForm';
 import logo from '../../../assets/images/logo.png';
 import search from '../../../assets/svg/search.svg';
 import cancel from '../../../assets/svg/cancel.svg';
-import userDefaultProfile from '../../../assets/svg/user-profile.svg';
 import './Header.scss';
 
 const Header = (submitHandler) => {
@@ -19,6 +19,7 @@ const Header = (submitHandler) => {
   const { isLoggedIn } = useCheckAuth();
   const { isScreenMobile } = useCheckScreenSize();
   const { getCartSvg, getWishlistSvg } = useCustomSvg();
+  const { avatarImage } = useSelector((state) => state.account);
 
   useEffect(() => {
     !isScreenMobile && setIsSearchActive(true);
@@ -67,7 +68,10 @@ const Header = (submitHandler) => {
           {(isSearchActive || !isSearchActive) &&
             (isLoggedIn ? (
               <>
-                <Link to="cart" className="d-none d-lg-flex position-relative">
+                <Link
+                  to={`/${originPath}/cart`}
+                  className="d-none d-lg-flex position-relative"
+                >
                   {getCartSvg('#1c1b1b')}
                   <Badge
                     bg="danger"
@@ -76,7 +80,7 @@ const Header = (submitHandler) => {
                 </Link>
 
                 <Link
-                  to="wishlist"
+                  to={`/${originPath}/wishlist`}
                   className="d-none d-lg-flex position-relative"
                 >
                   {getWishlistSvg('#1c1b1b')}
@@ -95,8 +99,12 @@ const Header = (submitHandler) => {
               </Link>
             ))}
           <div className={`stack__profile ${profileVisibility()}`}>
-            <Link to={`/${originPath}${!isLoggedIn ? '/authentication' : ''}`}>
-              <img src={userDefaultProfile} alt="profile" className="w-100" />
+            <Link
+              to={`/${originPath}${
+                !isLoggedIn ? '/authentication' : '/profile'
+              }`}
+            >
+              <img src={avatarImage} alt="profile" className="w-100" />
             </Link>
           </div>
         </div>

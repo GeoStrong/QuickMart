@@ -1,0 +1,15 @@
+.profile__panel {
+  min-width: 30%;
+  height: 100svh;
+  border-top-left-radius: 1.3rem;
+  border-top-right-radius: 1.3rem;
+
+  &-item {
+    border: 0 !important;
+    border-bottom: 1px solid $gray-100 !important;
+  }
+
+  &-link {
+    color: $gray-700;
+  }
+}

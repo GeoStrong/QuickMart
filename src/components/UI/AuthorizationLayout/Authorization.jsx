@@ -1,14 +1,8 @@
-import { Form, Link, useNavigation } from 'react-router-dom';
+import { Link, useNavigation } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import useParentUrl from '../../../hooks/useParentUrl';
-import {
-  Button,
-  Container,
-  Form as BootstrapForm,
-  Row,
-  Spinner,
-} from 'react-bootstrap';
+import { Button, Container, Form, Row, Spinner } from 'react-bootstrap';
 import logo from '../../../assets/images/logo.png';
 import './Authorization.scss';
 import { useEffectOnce } from 'react-use';
@@ -74,14 +68,14 @@ const Authorization = ({
           onSubmit={formik.handleSubmit}
         >
           {checkPage && (
-            <BootstrapForm.Group>
-              <BootstrapForm.Label className="fw-medium">
+            <Form.Group>
+              <Form.Label className="fw-medium">
                 Full Name{' '}
                 {validationCheck('fullName') && (
                   <span className="text-danger"> * </span>
                 )}
-              </BootstrapForm.Label>
-              <BootstrapForm.Control
+              </Form.Label>
+              <Form.Control
                 type="text"
                 id="fullName"
                 placeholder="Enter full name"
@@ -93,20 +87,20 @@ const Authorization = ({
                 }`}
                 {...formik.getFieldProps('fullName')}
               />
-              <BootstrapForm.Text className="text-danger d-block">
+              <Form.Text className="text-danger d-block">
                 {validationCheck('fullName') && formik.errors.fullName}
-              </BootstrapForm.Text>
-            </BootstrapForm.Group>
+              </Form.Text>
+            </Form.Group>
           )}
 
-          <BootstrapForm.Group>
-            <BootstrapForm.Label className="fw-medium">
+          <Form.Group>
+            <Form.Label className="fw-medium">
               Email address{' '}
               {(validationCheck('email') || customError) && (
                 <span className="text-danger"> * </span>
               )}
-            </BootstrapForm.Label>
-            <BootstrapForm.Control
+            </Form.Label>
+            <Form.Control
               type="email"
               id="email"
               placeholder="Enter email"
@@ -120,21 +114,21 @@ const Authorization = ({
               }`}
               {...formik.getFieldProps('email')}
             />
-            <BootstrapForm.Text className="text-danger d-block">
+            <Form.Text className="text-danger d-block">
               {(validationCheck('email') && formik.errors.email) ||
                 (customError && customError[0].message)}
-            </BootstrapForm.Text>
-          </BootstrapForm.Group>
+            </Form.Text>
+          </Form.Group>
 
-          <BootstrapForm.Group>
-            <BootstrapForm.Label className="fw-medium">
+          <Form.Group>
+            <Form.Label className="fw-medium">
               Password{' '}
               {(validationCheck('password') ||
                 (customError && page === 'login')) && (
                 <span className="text-danger"> * </span>
               )}
-            </BootstrapForm.Label>
-            <BootstrapForm.Control
+            </Form.Label>
+            <Form.Control
               type="password"
               id="password"
               placeholder="Password"
@@ -148,12 +142,12 @@ const Authorization = ({
               }`}
               {...formik.getFieldProps('password')}
             />
-            <BootstrapForm.Text className="text-danger d-block">
+            <Form.Text className="text-danger d-block">
               {((validationCheck('password') && formik.errors.password) ||
                 (customError && customError[0].message)) &&
                 page === 'login'}
-            </BootstrapForm.Text>
-          </BootstrapForm.Group>
+            </Form.Text>
+          </Form.Group>
 
           <Button
             onClick={() =>

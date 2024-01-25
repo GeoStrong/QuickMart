@@ -2,10 +2,10 @@ import LogoutSvg from '@/assets/svg/LogoutSvg';
 import useParentUrl from '@/hooks/useParentUrl';
 import { Container } from 'react-bootstrap';
 import { Link, useOutletContext } from 'react-router-dom';
-import './Profile.scss';
 import { useSelector } from 'react-redux';
 import ProfilePanel from './ProfilePanel';
 import { useEffectOnce } from 'react-use';
+import './Profile.scss';
 
 const Profile = () => {
   const { email, fullName, avatarImage } = useSelector(
@@ -21,6 +21,7 @@ const Profile = () => {
 
   return (
     <>
+      <ProfilePanel />
       <Container className="profile__credentials d-flex justify-content-between">
         <div className="profile__credentials d-flex flex-md-column gap-3">
           <div>
@@ -42,7 +43,6 @@ const Profile = () => {
           <LogoutSvg />
         </Link>
       </Container>
-      <ProfilePanel />
     </>
   );
 };

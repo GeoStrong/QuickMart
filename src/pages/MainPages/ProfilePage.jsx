@@ -20,9 +20,9 @@ const ProfilePage = () => {
   return (
     <>
       <div className="px-2">{renderHeader}</div>
-      <div className="profile pt-3 d-flex flex-column flex-md-row-reverse gap-3">
-        <Outlet context={setDisplayProfilePanel} />
+      <div className="profile pt-3 d-flex flex-column-reverse flex-md-row gap-3">
         {displayProfilePanel && renderProfilePanel}
+        <Outlet context={setDisplayProfilePanel} />
       </div>
       {renderFooter}
     </>

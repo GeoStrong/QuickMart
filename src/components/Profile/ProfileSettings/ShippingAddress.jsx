@@ -119,7 +119,7 @@ const ShippingAddress = () => {
       dislaySelect && (
         <Form.Select
           className={`select p-3 fw-light  ${
-            validationCheck(name) ? 'border-danger' : 'border-primary'
+            validationCheck(name) ? 'border-danger' : ''
           }`}
           id={name}
           {...formik.getFieldProps(name)}
@@ -165,7 +165,7 @@ const ShippingAddress = () => {
           </Form.Label>
           <Form.Control
             className={`p-3 ${
-              validationCheck('fullName') ? 'border-danger' : 'border-primary'
+              validationCheck('fullName') ? 'border-danger' : ''
             }`}
             type="text"
             id="fullName"
@@ -209,7 +209,7 @@ const ShippingAddress = () => {
           </Form.Label>
           <Form.Control
             className={`p-3 ${
-              validationCheck('street') ? 'border-danger' : 'border-primary'
+              validationCheck('street') ? 'border-danger' : ''
             }`}
             type="text"
             id="street"
@@ -226,7 +226,7 @@ const ShippingAddress = () => {
           </Form.Label>
           <Form.Control
             className={`p-3 ${
-              validationCheck('postalCode') ? 'border-danger' : 'border-primary'
+              validationCheck('postalCode') ? 'border-danger' : ''
             }`}
             type="text"
             id="postalCode"

@@ -5,13 +5,15 @@ import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
 import { Suspense, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Await, useLoaderData, useOutletContext } from 'react-router-dom';
+import { Await, Link, useLoaderData, useOutletContext } from 'react-router-dom';
 import { useEffectOnce, useLocalStorage } from 'react-use';
 import postalCodes from 'postal-codes-js';
 import HeaderNavigation from '@/components/UI/GlobalUI/HeaderNavigation';
 import useCheckScreenSize from '@/hooks/useCheckScreenSize';
 import { addressActions } from '@/store/address';
 import './ShippingAddress.scss';
+import PopupModal from '@/components/UI/GlobalUI/PopupModal';
+import useParentUrl from '@/hooks/useParentUrl';
 
 const ShippingAddress = () => {
   const dispatch = useDispatch();
@@ -21,9 +23,11 @@ const ShippingAddress = () => {
   const [phoneNumberFocused, setPhoneNumberFocused] = useState(false);
   const [provinceCode, setProvinceCode] = useState(null);
   const [provinceName, setProvinceName] = useState(null);
+  const [popup, setPopup] = useState(false);
   const countryRef = useRef();
   const localAccount = useLocalStorage('localAccount');
   const { isScreenMobile } = useCheckScreenSize();
+  const { originPath } = useParentUrl();
 
   const localAccountValue = localAccount[0];
   const setLocalAccountValue = localAccount[1];
@@ -51,11 +55,11 @@ const ShippingAddress = () => {
 
   const formik = useFormik({
     initialValues: {
-      fullName: addressInfo.fullName ? addressInfo.fullName : '',
-      province: addressInfo.province ? addressInfo.province : '',
-      city: addressInfo.city ? addressInfo.city : '',
-      street: addressInfo.street ? addressInfo.street : '',
-      postalCode: addressInfo.postalCode ? addressInfo.postalCode : '',
+      fullName: addressInfo?.fullName ? addressInfo?.fullName : '',
+      province: addressInfo?.province ? addressInfo?.province : '',
+      city: addressInfo?.city ? addressInfo?.city : '',
+      street: addressInfo?.street ? addressInfo?.street : '',
+      postalCode: addressInfo?.postalCode ? addressInfo?.postalCode : '',
     },
     validationSchema: Yup.object({
       fullName: Yup.string()
@@ -92,6 +96,7 @@ const ShippingAddress = () => {
       };
       dispatch(addressActions.setAddress(addressInfo));
       setLocalAccountValue({ ...localAccountValue, addressInfo });
+      setPopup(true);
     },
   });
 
@@ -104,7 +109,7 @@ const ShippingAddress = () => {
     onGeoDataChangeHandler
   ) => {
     const dislaySelect =
-      addressInfo[name] !== undefined
+      addressInfo && addressInfo[name] !== undefined
         ? addressInfo[name] !== undefined
         : geoDataName !== undefined &&
           geoDataName !== 'ZZ' &&
@@ -123,7 +128,7 @@ const ShippingAddress = () => {
             formik.handleChange(event);
           }}
         >
-          {addressInfo[name] ? (
+          {addressInfo && addressInfo[name] ? (
             <option>{addressInfo[name]}</option>
           ) : (
             <option>{`Select ${
@@ -175,7 +180,7 @@ const ShippingAddress = () => {
             international
             placeholder="Enter phone number"
             value={
-              addressInfo.phoneNumber ? addressInfo.phoneNumber : phoneNumber
+              addressInfo?.phoneNumber ? addressInfo?.phoneNumber : phoneNumber
             }
             onChange={setPhoneNumber}
             onFocus={() => setPhoneNumberFocused(true)}
@@ -237,6 +242,18 @@ const ShippingAddress = () => {
           Save
         </Button>
       </Form>
+      <PopupModal
+        title="Your shipping address has been saved"
+        show={popup}
+        onClose={() => setPopup(false)}
+      >
+        <Button variant="white" onClick={() => setPopup(false)}>
+          Close
+        </Button>
+        <Link to={`/${originPath}/profile`} className="btn btn-dark">
+          Go to profile
+        </Link>
+      </PopupModal>
     </Container>
   );
 };

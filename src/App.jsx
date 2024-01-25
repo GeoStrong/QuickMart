@@ -60,6 +60,7 @@ const App = () => {
   const lazyLoadUtilities = async (utility, meta, options = []) => {
     const module = await import(`./utilities/${utility}.jsx`);
     if (utility === 'loader') return module[utility]();
+    if (utility === 'geoDataLoader') return module[utility]();
     if (utility === 'action') return module[utility](...options)(meta);
   };
 
@@ -101,6 +102,9 @@ const App = () => {
             },
             {
               path: 'shipping address',
+              async loader() {
+                return await lazyLoadUtilities('geoDataLoader');
+              },
               element: <ShippingAddress />,
             },
           ],

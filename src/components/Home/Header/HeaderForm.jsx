@@ -15,7 +15,9 @@ const HeaderForm = ({ onSubmit, searchState, searchRef }) => {
     searchRef.current.focus();
   };
 
-  useLockBodyScroll(isSearchFocused);
+  const blockScroll = isScreenMobile ? isSearchFocused || searchState : false;
+
+  useLockBodyScroll(blockScroll);
 
   const formik = useFormik({
     initialValues: { search: '' },

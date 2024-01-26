@@ -5,10 +5,17 @@ import { Button, ButtonGroup, Container } from 'react-bootstrap';
 import orderImg from '@/assets/images/order.png';
 import emptyCart from '../../../assets/images/empty-cart.png';
 import ShoppingContainer from '@/components/UI/UserShopping/ShoppingContainer';
+import { useOutletContext } from 'react-router-dom';
+import { useEffectOnce } from 'react-use';
 
 const Order = () => {
   const [activeTab, setActiveTab] = useState('ongoing');
+  const setDisplayProfilePanel = useOutletContext();
   const { isScreenMobile } = useCheckScreenSize();
+
+  useEffectOnce(() => {
+    setDisplayProfilePanel(true);
+  });
 
   const ongoingTab = activeTab === 'ongoing';
   const completedTab = activeTab === 'completed';

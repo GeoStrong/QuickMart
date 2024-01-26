@@ -2,6 +2,7 @@ import useCheckAuth from '@/hooks/useCheckAuth';
 import useCheckScreenSize from '@/hooks/useCheckScreenSize';
 import useParentUrl from '@/hooks/useParentUrl';
 import { useState } from 'react';
+import { Container } from 'react-bootstrap';
 import { Outlet } from 'react-router-dom';
 import { useEffectOnce } from 'react-use';
 
@@ -19,11 +20,13 @@ const ProfilePage = () => {
 
   return (
     <>
-      <div className="px-2">{renderHeader}</div>
-      <div className="profile pt-3 d-flex flex-column-reverse flex-md-row gap-3">
-        {displayProfilePanel && renderProfilePanel}
-        <Outlet context={setDisplayProfilePanel} />
-      </div>
+      <Container>
+        {renderHeader}
+        <div className="profile pt-3 d-flex flex-column-reverse flex-md-row gap-3">
+          {displayProfilePanel && renderProfilePanel}
+          <Outlet context={setDisplayProfilePanel} />
+        </div>
+      </Container>
       {renderFooter}
     </>
   );

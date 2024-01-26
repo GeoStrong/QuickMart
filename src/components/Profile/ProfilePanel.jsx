@@ -52,7 +52,7 @@ const ProfilePanel = () => {
             icon: address,
             navigateTo: 'shipping address',
           },
-          { name: 'Payment Method', icon: payment },
+          { name: 'Payment Method', icon: payment, navigateTo: 'payment' },
           { name: 'Order History', icon: order },
         ])}
         {renderListGroup('Support & Information', [

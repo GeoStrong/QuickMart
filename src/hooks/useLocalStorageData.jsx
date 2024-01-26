@@ -2,9 +2,8 @@ import { useLocalStorage } from 'react-use';
 
 const useLocalStorageData = (localValue = 'localStorage') => {
   const localStorage = useLocalStorage(localValue);
-  const localStorageValue = localStorage[0];
-  const setLocalStorageValue = localStorage[1];
-  const removeLocalStorageValue = localStorage[2];
+  const [localStorageValue, setLocalStorageValue, removeLocalStorageValue] =
+    localStorage;
 
   const getDataFromLocalStorage = (data) => {
     if (localStorageValue === undefined) return;

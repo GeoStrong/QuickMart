@@ -1,17 +1,15 @@
 import ShoppingItem from '@/components/UI/UserShopping/ShoppingItem';
 import RedirectionPage from '../GlobalUI/RedirectionPage';
 import useParentUrl from '@/hooks/useParentUrl';
-import emptyCart from '../../../assets/images/empty-cart.png';
-import emptyWishlist from '../../../assets/images/empty-wishlist.png';
 import CartCheckout from '@/components/Cart/CartCheckout';
 import { useState } from 'react';
 import useCheckAuth from '@/hooks/useCheckAuth';
 import { useEffectOnce } from 'react-use';
 
-const ShoppingContainer = ({ itemsContainer, setItemsContainer, element }) => {
+const ShoppingContainer = ({ itemsContainerState, element, emptyItemInfo }) => {
+  const [itemsContainer, setItemsContainer] = itemsContainerState;
   const [readyToCheckoutItems, setReadyToCheckoutItems] = useState();
   const { originPath } = useParentUrl();
-
   const { checkAuthHandler } = useCheckAuth();
 
   useEffectOnce(() => {
@@ -19,17 +17,6 @@ const ShoppingContainer = ({ itemsContainer, setItemsContainer, element }) => {
   });
 
   const cartPage = element === 'cart';
-  const wishlistPage = element === 'wishlist';
-
-  const emptyCartTitle = `${
-    cartPage ? 'Your cart is empty' : 'Your wishlist is empty'
-  }`;
-
-  const emptyCartText = `${
-    cartPage
-      ? 'Looks like you have not added anything in your cart. Go ahead and explore top categories.'
-      : 'Tap heart button to start saving your favorite items.'
-  }`;
 
   const removeItemHandler = (index) =>
     setItemsContainer((prevItems) =>
@@ -48,20 +35,21 @@ const ShoppingContainer = ({ itemsContainer, setItemsContainer, element }) => {
       <div className="container__content mb-6 d-flex flex-column flex-lg-row gap-5 justify-content-lg-between">
         {itemsContainer.length > 0 ? (
           <ShoppingItem
-            items={itemsContainer}
-            onRemoveItem={removeItemHandler}
-            onChangeItem={changeItemQuantityHandler}
-            readyItems={readyToCheckoutItems}
-            readyItemsHandler={setReadyToCheckoutItems}
-            isWishlist={wishlistPage}
+            onItemsModify={[
+              itemsContainer,
+              removeItemHandler,
+              changeItemQuantityHandler,
+            ]}
+            readyItemsState={[readyToCheckoutItems, setReadyToCheckoutItems]}
+            page={element}
           />
         ) : (
           <RedirectionPage
-            title={emptyCartTitle}
-            text={emptyCartText}
+            title={emptyItemInfo[0]}
+            text={emptyItemInfo[1]}
             navigateTo={`/${originPath}/categories`}
             buttonName="Explore Categories"
-            img={cartPage ? emptyCart : emptyWishlist}
+            img={emptyItemInfo[2]}
           />
         )}
         {itemsContainer.length > 0 && cartPage && (

@@ -12,28 +12,24 @@ import PopupModal from '../GlobalUI/PopupModal';
 import RemoveItemSvg from '@/assets/svg/RemoveItemSvg';
 import './ShoppingItem.scss';
 
-const ShoppingItem = ({
-  items,
-  onRemoveItem,
-  onChangeItem,
-  readyItems,
-  readyItemsHandler,
-  isWishlist,
-}) => {
+const ShoppingItem = ({ onItemsModify, readyItemsState, page }) => {
+  const [items, onRemoveItem, onChangeItem] = onItemsModify;
+  const [readyItems, readyItemsHandler] = readyItemsState;
   const [showPopup, setShowPopup] = useState(false);
   const [itemId, setItemId] = useState(null);
-
   const [checkedItems, setCheckedItems] = useState(
     items.reduce((acc, item) => ({ ...acc, [item.id]: true }), {})
   );
-
-  const handleCheckChange = (event, id) => {
-    setCheckedItems({ ...checkedItems, [id]: event.target.checked });
-  };
+  const cartPage = page === 'cart';
+  const orderPage = page === 'order';
 
   useEffect(() => {
     readyItemsHandler(items);
   }, [items, readyItemsHandler]);
+
+  const handleCheckChange = (event, id) => {
+    setCheckedItems({ ...checkedItems, [id]: event.target.checked });
+  };
 
   const onCheck = (event) => {
     const id = event.target.closest('.shoppingItem__col').id;
@@ -64,13 +60,13 @@ const ShoppingItem = ({
   const onQuantityChange = (event) => {
     const id = event.target.closest('.shoppingItem__col').id;
     const checked =
-      !isWishlist &&
+      cartPage &&
       event.target.closest('.shoppingItem__col').querySelector('input').checked;
 
     const item = items.find((item) => item.id === +id);
     const action = event.target.dataset.action;
 
-    if (!checked && !isWishlist) return;
+    if (cartPage && !checked) return;
 
     if (item.quantity === 1 && action === '-') return;
 
@@ -83,7 +79,7 @@ const ShoppingItem = ({
 
   return (
     <>
-      <Row className={`shoppingItem mt-1" ${isWishlist && 'wishlistPage'}`}>
+      <Row className={`shoppingItem mt-1" ${!cartPage && 'wishlistPage'}`}>
         {items.map((item) => (
           <Col
             key={item.id}
@@ -99,7 +95,7 @@ const ShoppingItem = ({
                   <Card.Title className="shoppingItem__body-title fw-medium small">
                     {item.name}
                   </Card.Title>
-                  {!isWishlist && (
+                  {cartPage && (
                     <Form.Check
                       checked={checkedItems[item.id]}
                       onChange={(event) => {
@@ -123,6 +119,7 @@ const ShoppingItem = ({
                       onClick={onQuantityChange}
                       data-action="-"
                       className="bg-white"
+                      disabled={orderPage}
                     >
                       -
                     </Button>
@@ -131,14 +128,17 @@ const ShoppingItem = ({
                       onClick={onQuantityChange}
                       data-action="+"
                       className="bg-white"
+                      disabled={orderPage}
                     >
                       +
                     </Button>
                   </ButtonGroup>
                   <ButtonGroup className="shoppingItem__body-group shoppingItem__body-group--noborder">
-                    <Button onClick={onRemove} className="bg-white p-0">
-                      <RemoveItemSvg />
-                    </Button>
+                    {!orderPage && (
+                      <Button onClick={onRemove} className="bg-white p-0">
+                        <RemoveItemSvg />
+                      </Button>
+                    )}
                   </ButtonGroup>
                 </ButtonToolbar>
               </Card.Body>

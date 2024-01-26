@@ -4,6 +4,7 @@ import emptyWishlist from '../../assets/images/empty-wishlist.png';
 import { Container } from 'react-bootstrap';
 import HeaderNavigation from '@/components/UI/GlobalUI/HeaderNavigation';
 import ShoppingContainer from '@/components/UI/UserShopping/ShoppingContainer';
+import emptyWishlistImg from '../../assets/images/empty-wishlist.png';
 
 const WishlistPage = () => {
   const { renderFooter } = useCheckScreenSize();
@@ -24,13 +25,22 @@ const WishlistPage = () => {
       quantity: 1,
     },
   ]);
+
+  const emptyWishlistTitle = 'Your wishlist is empty';
+  const emptyWishlistText =
+    'Tap heart button to start saving your favorite items.';
+
   return (
     <>
       <Container>
         <HeaderNavigation page="Wishlist" />
         <ShoppingContainer
-          itemsContainer={wishlistContainer}
-          setItemsContainer={setWishlistContainer}
+          itemsContainerState={[wishlistContainer, setWishlistContainer]}
+          emptyItemInfo={[
+            emptyWishlistTitle,
+            emptyWishlistText,
+            emptyWishlistImg,
+          ]}
           element="wishlist"
         />
       </Container>

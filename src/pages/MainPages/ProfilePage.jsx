@@ -14,9 +14,9 @@ const ProfilePage = () => {
 
   const { checkAuthHandler } = useCheckAuth();
 
-  // useEffectOnce(() => {
-  //   checkAuthHandler(`/${originPath}/authentication/login`);
-  // });
+  useEffectOnce(() => {
+    checkAuthHandler(`/${originPath}/authentication/login`);
+  });
 
   return (
     <>

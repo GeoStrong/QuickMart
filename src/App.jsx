@@ -14,6 +14,7 @@ import Login from './components/Authentication/Authorization/Login/Login';
 import EmailConfirmation from './components/Authentication/Authorization/Login/EmailConfirmation';
 import ProfilePage from './pages/MainPages/ProfilePage';
 import useLocalStorageData from './hooks/useLocalStorageData';
+import Support from './pages/Support';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -65,6 +66,8 @@ const App = () => {
   const Success = LazyComponent(() =>
     import('./components/Authentication/Authorization/Success')
   );
+
+  const Privacy = LazyComponent(() => import('./components/Support/Privacy'));
 
   const lazyLoadUtilities = async (utility, meta, options = []) => {
     const module = await import(`./utilities/${utility}.jsx`);
@@ -123,10 +126,6 @@ const App = () => {
             {
               path: 'order history',
               element: <Order />,
-            },
-            {
-              path: 'settings',
-              element: <div>Settings</div>,
             },
           ],
         },
@@ -203,6 +202,11 @@ const App = () => {
               ],
             },
           ],
+        },
+        {
+          path: 'Support',
+          element: <Support />,
+          children: [{ path: 'Privacy', element: <Privacy /> }],
         },
       ],
     },

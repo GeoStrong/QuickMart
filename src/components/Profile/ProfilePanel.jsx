@@ -53,7 +53,7 @@ const ProfilePanel = () => {
             navigateTo: 'shipping address',
           },
           { name: 'Payment Method', icon: payment, navigateTo: 'payment' },
-          { name: 'Order History', icon: order },
+          { name: 'Order History', icon: order, navigateTo: 'order history' },
         ])}
         {renderListGroup('Support & Information', [
           { name: 'Privacy Policy', icon: privacy },
@@ -61,7 +61,11 @@ const ProfilePanel = () => {
           { name: 'FAQs', icon: faq },
         ])}
         {renderListGroup('Account Management', [
-          { name: 'Change Password', icon: password },
+          {
+            name: 'Change Password',
+            icon: password,
+            navigateTo: `/${originPath}/authentication/login/email verification`,
+          },
           { name: 'Dark Theme', icon: theme },
         ])}
         <Link

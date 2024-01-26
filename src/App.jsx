@@ -43,6 +43,10 @@ const App = () => {
     import('./components/Profile/ProfileSettings/Payment')
   );
 
+  const Order = LazyComponent(() =>
+    import('./components/Profile/ProfileSettings/Order')
+  );
+
   const Splashscreen = LazyComponent(() =>
     import('./components/Authentication/Splashscreen')
   );
@@ -118,7 +122,7 @@ const App = () => {
             },
             {
               path: 'order history',
-              element: <div>Order History</div>,
+              element: <Order />,
             },
             {
               path: 'settings',

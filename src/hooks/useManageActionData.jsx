@@ -2,21 +2,20 @@ import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { accountActions } from '../store/account';
 import useParentUrl from './useParentUrl';
-import { useLocalStorage } from 'react-use';
+import useLocalStorageData from './useLocalStorageData';
 
 const useManageActionData = (actionData, setAccount = true) => {
   const dispatch = useDispatch();
   const [customError, setCustomError] = useState();
   const { checkLocation } = useParentUrl();
-  const localAccount = useLocalStorage('localAccount');
-  const setValue = localAccount[1];
+  const { setLocalStorageValue } = useLocalStorageData();
 
   const setLocalAccount = useCallback(
     (data) => {
       dispatch(accountActions.setAccount(data));
-      setValue(data);
+      setLocalStorageValue(data);
     },
-    [dispatch, setValue]
+    [dispatch, setLocalStorageValue]
   );
 
   useEffect(() => {

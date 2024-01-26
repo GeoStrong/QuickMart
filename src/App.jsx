@@ -12,17 +12,18 @@ import Authentication from './pages/AuthorizationPages/Authentication';
 import AuthError from './pages/AuthorizationPages/AuthError';
 import Login from './components/Authentication/Authorization/Login/Login';
 import EmailConfirmation from './components/Authentication/Authorization/Login/EmailConfirmation';
-import { useLocalStorage } from 'react-use';
 import ProfilePage from './pages/MainPages/ProfilePage';
+import useLocalStorageData from './hooks/useLocalStorageData';
 
 const App = () => {
   const dispatch = useDispatch();
   const { id, password } = useSelector((state) => state.account);
-  const [value] = useLocalStorage('localAccount');
+  const { localStorageValue } = useLocalStorageData();
 
   useEffect(() => {
-    if (value) dispatch(accountActions.setAccount(value));
-  }, [dispatch, value]);
+    if (localStorageValue)
+      dispatch(accountActions.setAccount(localStorageValue));
+  }, [dispatch, localStorageValue]);
 
   const Categories = LazyComponent(() =>
     import('./pages/MainPages/Categories')
@@ -36,6 +37,10 @@ const App = () => {
 
   const ShippingAddress = LazyComponent(() =>
     import('./components/Profile/ProfileSettings/ShippingAddress')
+  );
+
+  const Payment = LazyComponent(() =>
+    import('./components/Profile/ProfileSettings/Payment')
   );
 
   const Splashscreen = LazyComponent(() =>
@@ -106,6 +111,18 @@ const App = () => {
                 return await lazyLoadUtilities('geoDataLoader');
               },
               element: <ShippingAddress />,
+            },
+            {
+              path: 'payment',
+              element: <Payment />,
+            },
+            {
+              path: 'order history',
+              element: <div>Order History</div>,
+            },
+            {
+              path: 'settings',
+              element: <div>Settings</div>,
             },
           ],
         },

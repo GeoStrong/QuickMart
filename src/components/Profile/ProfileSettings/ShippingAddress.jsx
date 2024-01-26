@@ -6,14 +6,15 @@ import PhoneInput from 'react-phone-number-input';
 import { Suspense, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Await, Link, useLoaderData, useOutletContext } from 'react-router-dom';
-import { useEffectOnce, useLocalStorage } from 'react-use';
+import { useEffectOnce } from 'react-use';
 import postalCodes from 'postal-codes-js';
 import HeaderNavigation from '@/components/UI/GlobalUI/HeaderNavigation';
 import useCheckScreenSize from '@/hooks/useCheckScreenSize';
-import { addressActions } from '@/store/address';
-import './ShippingAddress.scss';
+import { settingsActions } from '@/store/settings';
 import PopupModal from '@/components/UI/GlobalUI/PopupModal';
 import useParentUrl from '@/hooks/useParentUrl';
+import useLocalStorageData from '@/hooks/useLocalStorageData';
+import './ShippingAddress.scss';
 
 const ShippingAddress = () => {
   const dispatch = useDispatch();
@@ -25,14 +26,13 @@ const ShippingAddress = () => {
   const [provinceName, setProvinceName] = useState(null);
   const [popup, setPopup] = useState(false);
   const countryRef = useRef();
-  const localAccount = useLocalStorage('localAccount');
   const { isScreenMobile } = useCheckScreenSize();
   const { originPath } = useParentUrl();
 
-  const localAccountValue = localAccount[0];
-  const setLocalAccountValue = localAccount[1];
+  const { mergeDataWithLocalStorage, getDataFromLocalStorage } =
+    useLocalStorageData();
 
-  const { addressInfo } = localAccountValue;
+  const addressInfo = getDataFromLocalStorage('addressInfo');
 
   useEffectOnce(() => {
     setDisplayProfilePanel(true);
@@ -94,8 +94,8 @@ const ShippingAddress = () => {
         country: countryName,
         phoneNumber,
       };
-      dispatch(addressActions.setAddress(addressInfo));
-      setLocalAccountValue({ ...localAccountValue, addressInfo });
+      dispatch(settingsActions.setAddress(addressInfo));
+      mergeDataWithLocalStorage(addressInfo, 'addressInfo');
       setPopup(true);
     },
   });
@@ -135,7 +135,7 @@ const ShippingAddress = () => {
               name === 'province' ? 'Province' : 'City'
             }`}</option>
           )}
-          <Suspense fallback={<option>Loading...</option>}>
+          <Suspense fallback={<option disabled>Loading...</option>}>
             <Await resolve={getGeoDataFunction}>
               {(loadedGeoData) => {
                 if (loadedGeoData instanceof Response || !loadedGeoData) return;

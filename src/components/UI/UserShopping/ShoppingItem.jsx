@@ -1,4 +1,5 @@
 import {
+  Alert,
   Button,
   ButtonGroup,
   ButtonToolbar,
@@ -79,15 +80,20 @@ const ShoppingItem = ({ onItemsModify, readyItemsState, page }) => {
 
   return (
     <>
-      <Row className={`shoppingItem mt-1" ${!cartPage && 'wishlistPage'}`}>
+      <Row className={`shoppingItem mt-1 ${!cartPage && 'wishlistPage'}`}>
         {items.map((item) => (
           <Col
             key={item.id}
             id={item.id}
             xs={12}
             md={6}
-            className="shoppingItem__col"
+            className="shoppingItem__col mb-2"
           >
+            {orderPage && (
+              <Alert className="shoppingItem__alert mb-2 p-1 alert-danger rounded-3 text-white bg-danger">
+                Estimated time: {Math.floor(Math.random() * 7) + 1} working days
+              </Alert>
+            )}
             <Card className="shoppingItem__card w-100 flex-row">
               <Card.Img className="shoppingItem__img" src={item.img} />
               <Card.Body className="shoppingItem__body">

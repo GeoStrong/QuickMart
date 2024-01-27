@@ -2,14 +2,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import useParentUrl from './useParentUrl';
 import { accountActions } from '@/store/account';
-import useLocalStorageData from './useLocalStorageData';
 
 const useCheckAuth = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { getSiblingLocation } = useParentUrl();
   const { email } = useSelector((state) => state.account);
-  const { removeLocalStorageValue } = useLocalStorageData();
 
   const isLoggedIn = email !== '';
 
@@ -23,7 +21,7 @@ const useCheckAuth = () => {
 
   const removeAccountHandler = () => {
     dispatch(accountActions.removeAccount());
-    removeLocalStorageValue();
+    localStorage.removeItem('localAccountId');
   };
 
   return { checkAuthHandler, removeAccountHandler, isLoggedIn };

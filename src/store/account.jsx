@@ -14,12 +14,12 @@ const accountSlice = createSlice({
   initialState,
   reducers: {
     setAccount(state, action) {
-      console.log(action.payload);
+      if (action.payload === null) return;
       const { id, fullName, email, password } = action.payload;
-      state.id = id !== undefined ? id : state.id;
-      state.fullName = fullName !== undefined ? fullName : state.fullName;
-      state.email = email !== undefined ? email : state.email;
-      state.password = password !== undefined ? password : state.password;
+      state.id = id !== null ? id : state.id;
+      state.fullName = fullName !== null ? fullName : state.fullName;
+      state.email = email !== null ? email : state.email;
+      state.password = password !== null ? password : state.password;
     },
 
     removeAccount(state) {

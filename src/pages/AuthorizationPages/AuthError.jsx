@@ -4,6 +4,7 @@ import { useRouteError } from 'react-router-dom';
 
 const AuthError = () => {
   const error = useRouteError();
+  console.log(error);
 
   return (
     <Container className="text-center">

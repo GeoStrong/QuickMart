@@ -2,43 +2,24 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Button, Container, Form, Spinner } from 'react-bootstrap';
 import AuthorizationAdditional from '../../../UI/AuthorizationLayout/AuthorizationAdditional';
-import {
-  useActionData,
-  useNavigate,
-  useNavigation,
-  useSubmit,
-} from 'react-router-dom';
-import './EmailConfirmation.scss';
-import useParentUrl from '../../../../hooks/useParentUrl';
+import { useActionData, useNavigation, useSubmit } from 'react-router-dom';
 import useManageActionData from '../../../../hooks/useManageActionData';
-import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
 import { useEffectOnce } from 'react-use';
 import useCheckAuth from '@/hooks/useCheckAuth';
+import './EmailConfirmation.scss';
 
 const EmailConfirmation = () => {
   const submit = useSubmit();
   const actionData = useActionData();
-  const navigate = useNavigate();
   const navigation = useNavigation();
-  const { getSiblingLocation } = useParentUrl();
   const { customError } = useManageActionData(actionData);
   const { removeAccountHandler } = useCheckAuth();
-  const { email } = useSelector((state) => state.account);
 
   const submittingState = navigation.state === 'submitting';
 
   useEffectOnce(() => {
     removeAccountHandler();
   });
-
-  useEffect(() => {
-    if (email !== '') {
-      navigate(getSiblingLocation('email verification'));
-    } else {
-      return;
-    }
-  }, [actionData, email, getSiblingLocation, navigate]);
 
   const formik = useFormik({
     initialValues: {

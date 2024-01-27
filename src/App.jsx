@@ -1,11 +1,8 @@
-import { useEffect } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { accountActions } from './store/account';
+import { useState } from 'react';
 import LazyComponent from './utilities/LazyComponent';
 import Root from './pages/Root';
 import Error from './pages/Error';
-import Home from './pages/MainPages/Home';
 import LoginPage from './pages/AuthorizationPages/LoginPage';
 import SignupPage from './pages/AuthorizationPages/SignupPage';
 import Authentication from './pages/AuthorizationPages/Authentication';
@@ -13,18 +10,12 @@ import AuthError from './pages/AuthorizationPages/AuthError';
 import Login from './components/Authentication/Authorization/Login/Login';
 import EmailConfirmation from './components/Authentication/Authorization/Login/EmailConfirmation';
 import ProfilePage from './pages/MainPages/ProfilePage';
-import useLocalStorageData from './hooks/useLocalStorageData';
 import Support from './pages/Support';
 
 const App = () => {
-  const dispatch = useDispatch();
-  const { id, password } = useSelector((state) => state.account);
-  const { localStorageValue } = useLocalStorageData();
+  const [id, setId] = useState(null);
 
-  useEffect(() => {
-    if (localStorageValue)
-      dispatch(accountActions.setAccount(localStorageValue));
-  }, [dispatch, localStorageValue]);
+  const Home = LazyComponent(() => import('./pages/MainPages/Home'));
 
   const Categories = LazyComponent(() =>
     import('./pages/MainPages/Categories')
@@ -75,6 +66,8 @@ const App = () => {
     const module = await import(`./utilities/${utility}.jsx`);
     if (utility === 'loader') return module[utility]();
     if (utility === 'geoDataLoader') return module[utility]();
+    if (utility === 'accountDataLoader')
+      return module[utility](...options)(meta);
     if (utility === 'action') return module[utility](...options)(meta);
   };
 
@@ -83,10 +76,13 @@ const App = () => {
       path: '/QuickMart',
       element: <Root />,
       errorElement: <Error />,
+      async loader(meta) {
+        return await lazyLoadUtilities('accountDataLoader', meta, [id]);
+      },
       children: [
         {
           index: true,
-          element: <Home />,
+          element: <Home onIdChange={setId} />,
           async loader() {
             return await lazyLoadUtilities('loader');
           },
@@ -164,16 +160,13 @@ const App = () => {
                 },
                 {
                   path: 'email verification',
-                  element: <EmailVerification />,
+                  element: <EmailVerification onIdChange={setId} />,
                 },
                 {
                   path: 'new password',
-                  element: <NewPassword />,
+                  element: <NewPassword onIdChange={setId} />,
                   async action(meta) {
-                    return await lazyLoadUtilities('action', meta, [
-                      id,
-                      password,
-                    ]);
+                    return await lazyLoadUtilities('action', meta, [id]);
                   },
                 },
                 {

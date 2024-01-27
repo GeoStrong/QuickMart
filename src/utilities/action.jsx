@@ -1,4 +1,4 @@
-import { json } from 'react-router-dom';
+import { json, redirect } from 'react-router-dom';
 
 const url = 'https://quickmart-21bf3-default-rtdb.firebaseio.com/users';
 const authToken = '?auth=LqYQArvL3uTpuLrsicJHxuDbzsXH2DfsXZosxsi2';
@@ -17,9 +17,9 @@ const getAccountData = async (url, init) => {
   return { data };
 };
 
-const getActionReturnValue = (condition, data, message) => {
+const getActionReturnValue = (condition, redirect, message) => {
   if (condition) {
-    return data;
+    return redirect;
   } else {
     return [
       {
@@ -30,12 +30,35 @@ const getActionReturnValue = (condition, data, message) => {
   }
 };
 
-const checkAccountEmail = (data, eventData) => {
-  return Object.values(data).filter((key) => key.email === eventData.email);
+const checkAccountCredentials = (data, eventData) =>
+  Object.values(data.data).filter((key) => {
+    if (key.email === eventData.email && key.password === eventData.password) {
+      localStorage.setItem('localAccountId', key.id);
+      return key;
+    }
+  });
+
+const checkAccountEmail = (data, eventData) =>
+  Object.values(data).filter((key) => {
+    if (key.email === eventData.email) {
+      localStorage.setItem('localAccountId', key.id);
+      return key;
+    }
+  });
+
+const changePasswordHandler = async (id, method, eventData) => {
+  await getAccountData(`${url}/user_${id}.json${authToken}`, {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(eventData),
+  });
+  return redirect('/QuickMart/authentication/login/success');
 };
 
 export const action =
-  (id, password) =>
+  (id) =>
   async ({ request }) => {
     const formData = await request.formData();
     const intent = formData.get('intent');
@@ -57,16 +80,7 @@ export const action =
 
     if (newPasswordPage) {
       eventData = await getFormData(formData, ['password']);
-      fetchParams = [
-        `${url}/user_${id}.json${authToken}`,
-        {
-          method: request.method,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(eventData),
-        },
-      ];
+      fetchParams = [`${url}/user_${id}.json${authToken}`];
     }
 
     if (signupPage) {
@@ -96,29 +110,24 @@ export const action =
 
     const { data } = await getAccountData(...fetchParams);
 
-    const checkAccountCredentials = Object.values(allAccountsData.data).filter(
-      (key) =>
-        key.email === eventData.email && key.password === eventData.password
-    );
-
     if (loginPage)
       return getActionReturnValue(
-        checkAccountCredentials.length > 0,
-        checkAccountCredentials[0],
+        checkAccountCredentials(allAccountsData, eventData).length > 0,
+        redirect('/QuickMart'),
         'Invalid email or password'
       );
 
     if (resetPage)
       return getActionReturnValue(
         checkAccountEmail(data, eventData).length !== 0,
-        checkAccountEmail(data, eventData)[0],
+        redirect('/QuickMart/authentication/login/email verification'),
         'Invalid email'
       );
 
     if (newPasswordPage)
       return getActionReturnValue(
-        data.password !== password,
-        data,
+        data.password !== eventData.password,
+        changePasswordHandler(id, request.method, eventData),
         'New password cannot be the same as your old password'
       );
 

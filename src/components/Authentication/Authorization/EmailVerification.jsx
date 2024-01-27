@@ -5,11 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { useEffectOnce } from 'react-use';
 import useParentUrl from '../../../hooks/useParentUrl';
-import useCheckAuth from '../../../hooks/useCheckAuth';
 import alertImg from '../../../assets/svg/alert.svg';
 import './EmailVerification.scss';
 
-const EmailVerification = () => {
+const EmailVerification = ({ onIdChange }) => {
   const firstInputRef = useRef();
   const lastInputRef = useRef();
   const navigate = useNavigate();
@@ -18,8 +17,6 @@ const EmailVerification = () => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [displayAlert, setDisplayAlert] = useState(false);
   const [customError, setCustomError] = useState(false);
-
-  const { checkAuthHandler } = useCheckAuth();
 
   const parentPathCheck = checkLocation('login');
 
@@ -68,7 +65,7 @@ const EmailVerification = () => {
 
   useEffectOnce(() => {
     codeGenerator();
-    parentPathCheck && checkAuthHandler();
+    onIdChange && onIdChange(localStorage.getItem('localAccountId'));
     firstInputRef.current.focus();
   });
 

@@ -1,42 +1,23 @@
 import { Button, Container, Form, Spinner } from 'react-bootstrap';
 import AuthorizationAdditional from '../../../UI/AuthorizationLayout/AuthorizationAdditional';
-import {
-  useActionData,
-  useNavigate,
-  useNavigation,
-  useSubmit,
-} from 'react-router-dom';
-import { useEffect } from 'react';
+import { useActionData, useNavigation, useSubmit } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useEffectOnce } from 'react-use';
-import useParentUrl from '../../../../hooks/useParentUrl';
-import useCheckAuth from '../../../../hooks/useCheckAuth';
 import useManageActionData from '../../../../hooks/useManageActionData';
 import './NewPassword.scss';
 
-const NewPassword = () => {
+const NewPassword = ({ onIdChange }) => {
   const submit = useSubmit();
-  const navigate = useNavigate();
   const navigation = useNavigation();
   const actionData = useActionData();
-  const { checkAuthHandler } = useCheckAuth();
-  const { getSiblingLocation } = useParentUrl(3);
   const { customError } = useManageActionData(actionData);
 
   const submittingState = navigation.state === 'submitting';
 
   useEffectOnce(() => {
-    checkAuthHandler();
+    onIdChange(localStorage.getItem('localAccountId'));
   });
-
-  useEffect(() => {
-    if (customError === null) {
-      navigate(getSiblingLocation('success'));
-    } else {
-      return;
-    }
-  }, [customError, getSiblingLocation, navigate]);
 
   const formik = useFormik({
     initialValues: {

@@ -133,7 +133,9 @@ export const action =
 
     if (signupPage) {
       if (!message) {
-        return data;
+        // console.log(data);
+        // return data;
+        return redirect('/QuickMart/authentication/signup/email verification');
       } else {
         return [
           {

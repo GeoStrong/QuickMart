@@ -1,13 +1,11 @@
 import * as Yup from 'yup';
 import Authorization from '../../../UI/AuthorizationLayout/Authorization';
-import { useActionData, useNavigate, useSubmit } from 'react-router-dom';
+import { useActionData, useSubmit } from 'react-router-dom';
 import useManageActionData from '../../../../hooks/useManageActionData';
-import { useEffect } from 'react';
 
 const Signup = () => {
   const submit = useSubmit();
   const actionData = useActionData();
-  const navigate = useNavigate();
   const { customError } = useManageActionData(actionData);
 
   const values = {
@@ -15,14 +13,6 @@ const Signup = () => {
     email: '',
     password: '',
   };
-
-  useEffect(() => {
-    if (customError === null) {
-      navigate('email verification');
-    } else {
-      return;
-    }
-  }, [customError, navigate]);
 
   const inputValidation = {
     fullName: Yup.string()

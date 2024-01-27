@@ -1,5 +1,5 @@
 import { Container, ListGroup } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import useParentUrl from '@/hooks/useParentUrl';
 import address from '@/assets/svg/address.svg';
 import payment from '@/assets/svg/payment.svg';
@@ -26,16 +26,20 @@ const ProfilePanel = () => {
               key={index}
               className="profile__panel-item px-0"
             >
-              <Link
+              <NavLink
                 to={item.navigateTo}
-                className="profile__panel-link d-flex justify-content-between align-items-center small fw-medium"
+                className={({ isActive }) =>
+                  `profile__panel-link ${
+                    isActive ? 'text-primary' : ''
+                  } d-flex justify-content-between align-items-center small fw-medium`
+                }
               >
                 <div className="d-flex align-items-center">
                   <img src={item.icon} alt="icon" className="me-3" />
                   {item.name}
                 </div>
                 <img src={arrow} alt="arrow" />
-              </Link>
+              </NavLink>
             </ListGroup.Item>
           ))}
         </ListGroup>
@@ -56,9 +60,21 @@ const ProfilePanel = () => {
           { name: 'Order History', icon: order, navigateTo: 'order history' },
         ])}
         {renderListGroup('Support & Information', [
-          { name: 'Privacy Policy', icon: privacy },
-          { name: 'Terms & Conditions', icon: terms },
-          { name: 'FAQs', icon: faq },
+          {
+            name: 'Privacy Policy',
+            icon: privacy,
+            navigateTo: `/${originPath}/support/privacy`,
+          },
+          {
+            name: 'Terms & Conditions',
+            icon: terms,
+            navigateTo: `/${originPath}/support/terms`,
+          },
+          {
+            name: 'FAQs',
+            icon: faq,
+            navigateTo: `/${originPath}/support/faq`,
+          },
         ])}
         {renderListGroup('Account Management', [
           {
@@ -66,7 +82,7 @@ const ProfilePanel = () => {
             icon: password,
             navigateTo: `/${originPath}/authentication/login/email verification`,
           },
-          { name: 'Dark Theme', icon: theme },
+          // { name: 'Dark Theme', icon: theme },
         ])}
         <Link
           to={`/${originPath}/authentication/login`}

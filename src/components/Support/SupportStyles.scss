@@ -1,0 +1,55 @@
+.support {
+  margin-bottom: 3.5rem;
+
+  &__title {
+    margin-bottom: 1.5rem;
+    color: $dark;
+    font-size: 2rem;
+    font-weight: 700;
+  }
+
+  &__descr {
+    margin-bottom: 1.5rem;
+    color: $gray-700;
+    font-size: 0.875rem;
+  }
+
+  &__list {
+    margin-bottom: 1.5rem;
+
+    &--unordered {
+      list-style: none;
+      padding: 0;
+    }
+  }
+
+  &__item {
+    color: $dark;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+
+    &-title {
+      font-size: inherit;
+      font-weight: 600;
+
+      &::after {
+        content: ':';
+      }
+
+      &--unordered {
+        &::after {
+          content: '';
+        }
+      }
+    }
+    &-descr {
+      margin: 0;
+      color: $gray-700;
+
+      &::before {
+        content: '-';
+        margin-right: 0.5rem;
+      }
+    }
+  }
+}

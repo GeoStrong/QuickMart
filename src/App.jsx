@@ -68,6 +68,8 @@ const App = () => {
   );
 
   const Privacy = LazyComponent(() => import('./components/Support/Privacy'));
+  const Terms = LazyComponent(() => import('./components/Support/Terms'));
+  const Faq = LazyComponent(() => import('./components/Support/Faq'));
 
   const lazyLoadUtilities = async (utility, meta, options = []) => {
     const module = await import(`./utilities/${utility}.jsx`);
@@ -204,9 +206,19 @@ const App = () => {
           ],
         },
         {
-          path: 'Support',
+          path: 'support',
           element: <Support />,
-          children: [{ path: 'Privacy', element: <Privacy /> }],
+          children: [
+            { path: 'privacy', element: <Privacy /> },
+            {
+              path: 'terms',
+              element: <Terms />,
+            },
+            {
+              path: 'faq',
+              element: <Faq />,
+            },
+          ],
         },
       ],
     },

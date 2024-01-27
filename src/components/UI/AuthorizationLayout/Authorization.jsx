@@ -179,8 +179,16 @@ const Authorization = ({
         <Row>
           <p className="small mt-5 text-center text-md-start fw-medium">
             By signing up, you agree to our{' '}
-            <Link className="text-primary">Terms of Use</Link> and{' '}
-            <Link className="text-primary">Privacy Policy</Link>
+            <Link to={`/${originPath}/support/terms`} className="text-primary">
+              Terms of Use
+            </Link>{' '}
+            and{' '}
+            <Link
+              to={`/${originPath}/support/privacy`}
+              className="text-primary"
+            >
+              Privacy Policy
+            </Link>
           </p>
         </Row>
       )}

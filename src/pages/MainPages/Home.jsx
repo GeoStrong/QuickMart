@@ -6,15 +6,10 @@ import { Await, useLoaderData } from 'react-router-dom';
 import Products from '../../components/Home/Products';
 import { Suspense } from 'react';
 import SuspenseSpinnerLoader from '@/components/UI/SpinnerLoaders/SuspenseSpinnerLoader';
-import { useEffectOnce } from 'react-use';
 
-const Home = ({ onIdChange }) => {
+const Home = () => {
   const { renderFooter } = useCheckScreenSize();
   const { products, categories, discountProducts } = useLoaderData();
-
-  useEffectOnce(() => {
-    onIdChange(localStorage.getItem('localAccountId'));
-  });
 
   return (
     <>

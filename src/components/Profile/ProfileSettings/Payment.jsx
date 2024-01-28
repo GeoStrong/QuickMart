@@ -1,27 +1,41 @@
 import HeaderNavigation from '@/components/UI/GlobalUI/HeaderNavigation';
 import { Button, Container, Form } from 'react-bootstrap';
-import { Link, useOutletContext } from 'react-router-dom';
+import {
+  Link,
+  useLoaderData,
+  useOutletContext,
+  useSubmit,
+} from 'react-router-dom';
 import { useEffectOnce } from 'react-use';
 import { PatternFormat } from 'react-number-format';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import useCheckScreenSize from '@/hooks/useCheckScreenSize';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { settingsActions } from '@/store/settings';
-import useLocalStorageData from '@/hooks/useLocalStorageData';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PopupModal from '@/components/UI/GlobalUI/PopupModal';
 import useParentUrl from '@/hooks/useParentUrl';
 
 const Payment = () => {
   const dispatch = useDispatch();
+  const submit = useSubmit();
+  const { getProfileSettings } = useLoaderData('settings');
+  const { id } = useSelector((state) => state.account);
+  const { paymentMethod } = useSelector((state) => state.settings);
   const [popup, setPopup] = useState(false);
   const setDisplayProfilePanel = useOutletContext();
   const { isScreenMobile } = useCheckScreenSize();
-  const { mergeDataWithLocalStorage, getDataFromLocalStorage } =
-    useLocalStorageData();
-  const paymentMethod = getDataFromLocalStorage('paymentMethod');
   const { originPath } = useParentUrl();
+
+  useEffect(() => {
+    const getPaymentMethodData = async () => {
+      const data = await getProfileSettings(id, 'payment method');
+      dispatch(settingsActions.setPaymentMethod(data));
+    };
+
+    getPaymentMethodData();
+  }, [dispatch, getProfileSettings, id]);
 
   useEffectOnce(() => {
     setDisplayProfilePanel(true);
@@ -38,10 +52,10 @@ const Payment = () => {
 
   const formik = useFormik({
     initialValues: {
-      cardName: paymentMethod?.cardName ? paymentMethod?.cardName : '',
-      cardNumber: paymentMethod?.cardNumber ? paymentMethod?.cardNumber : '',
-      expiration: paymentMethod?.expiration ? paymentMethod?.expiration : '',
-      CVV: paymentMethod?.CVV ? paymentMethod?.CVV : '',
+      cardName: paymentMethod?.cardName || '',
+      cardNumber: paymentMethod?.cardNumber || '',
+      expiration: paymentMethod?.expiration || '',
+      CVV: paymentMethod?.CVV || '',
     },
     validationSchema: Yup.object({
       cardName: Yup.string()
@@ -73,8 +87,8 @@ const Payment = () => {
       CVV: Yup.string().required('Required'),
     }),
     onSubmit: (values) => {
+      submit(values, { method: 'PATCH' });
       dispatch(settingsActions.setPaymentMethod(values));
-      mergeDataWithLocalStorage(values, 'paymentMethod');
       setPopup(true);
     },
   });
@@ -159,8 +173,9 @@ const Payment = () => {
         </div>
         <Button
           variant="dark"
-          className="p-3 align-self-md-end px-md-5 rounded-3"
+          className="p-3 align-self-md-end px-md-5 rounded-3 py-3 d-flex align-items-center justify-content-center gap-2"
           type="submit"
+          onClick={() => formik.setFieldValue('intent', 'payment')}
         >
           Save
         </Button>

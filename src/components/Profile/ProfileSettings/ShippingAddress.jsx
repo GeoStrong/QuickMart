@@ -1,11 +1,19 @@
 import { useFormik } from 'formik';
-import { Button, Container, Form } from 'react-bootstrap';
+import { Button, Container, Form, Spinner } from 'react-bootstrap';
 import * as Yup from 'yup';
 import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
-import { Suspense, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Await, Link, useLoaderData, useOutletContext } from 'react-router-dom';
+import { Suspense, useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  Await,
+  Link,
+  useActionData,
+  useLoaderData,
+  useNavigation,
+  useOutletContext,
+  useSubmit,
+} from 'react-router-dom';
 import { useEffectOnce } from 'react-use';
 import postalCodes from 'postal-codes-js';
 import HeaderNavigation from '@/components/UI/GlobalUI/HeaderNavigation';
@@ -13,26 +21,38 @@ import useCheckScreenSize from '@/hooks/useCheckScreenSize';
 import { settingsActions } from '@/store/settings';
 import PopupModal from '@/components/UI/GlobalUI/PopupModal';
 import useParentUrl from '@/hooks/useParentUrl';
-import useLocalStorageData from '@/hooks/useLocalStorageData';
+import useManageActionData from '@/hooks/useManageActionData';
 import './ShippingAddress.scss';
 
 const ShippingAddress = () => {
+  const submit = useSubmit();
   const dispatch = useDispatch();
+  const navigation = useNavigation();
+  const actionData = useActionData();
   const setDisplayProfilePanel = useOutletContext();
-  const { getGeoData } = useLoaderData();
-  const [phoneNumber, setPhoneNumber] = useState();
+  const { getGeoData, getProfileSettings } = useLoaderData();
+  const { id } = useSelector((state) => state.account);
+  const { addressInfo } = useSelector((state) => state.settings);
+  const [phoneNumber, setPhoneNumber] = useState(addressInfo?.phoneNumber);
   const [phoneNumberFocused, setPhoneNumberFocused] = useState(false);
-  const [provinceCode, setProvinceCode] = useState(null);
-  const [provinceName, setProvinceName] = useState(null);
+  const [provinceCode, setProvinceCode] = useState(addressInfo?.provinceCode);
+  const [provinceName, setProvinceName] = useState(addressInfo?.provinceName);
   const [popup, setPopup] = useState(false);
   const countryRef = useRef();
+  const { customError } = useManageActionData(actionData);
   const { isScreenMobile } = useCheckScreenSize();
   const { originPath } = useParentUrl();
 
-  const { mergeDataWithLocalStorage, getDataFromLocalStorage } =
-    useLocalStorageData();
+  const submittingState = navigation.state === 'submitting';
 
-  const addressInfo = getDataFromLocalStorage('addressInfo');
+  useEffect(() => {
+    const getShippingAddressData = async () => {
+      const data = await getProfileSettings(id, 'shipping address');
+      dispatch(settingsActions.setAddress(data));
+    };
+
+    getShippingAddressData();
+  }, [dispatch, getProfileSettings, id]);
 
   useEffectOnce(() => {
     setDisplayProfilePanel(true);
@@ -53,13 +73,15 @@ const ShippingAddress = () => {
   const getCities =
     provinceCode !== null && getGeoData(countryName, provinceCode);
 
+  console.log(actionData);
+
   const formik = useFormik({
     initialValues: {
-      fullName: addressInfo?.fullName ? addressInfo?.fullName : '',
-      province: addressInfo?.province ? addressInfo?.province : '',
-      city: addressInfo?.city ? addressInfo?.city : '',
-      street: addressInfo?.street ? addressInfo?.street : '',
-      postalCode: addressInfo?.postalCode ? addressInfo?.postalCode : '',
+      fullName: addressInfo?.fullName || '',
+      province: addressInfo?.province || '',
+      city: addressInfo?.city || '',
+      street: addressInfo?.street || '',
+      postalCode: addressInfo?.postalCode || '',
     },
     validationSchema: Yup.object({
       fullName: Yup.string()
@@ -95,7 +117,7 @@ const ShippingAddress = () => {
         phoneNumber,
       };
       dispatch(settingsActions.setAddress(addressInfo));
-      mergeDataWithLocalStorage(addressInfo, 'addressInfo');
+      submit(addressInfo, { method: 'PATCH' });
       setPopup(true);
     },
   });
@@ -236,14 +258,20 @@ const ShippingAddress = () => {
         </Form.Group>
         <Button
           variant="dark"
-          className="p-3 align-self-md-end px-md-5 rounded-3"
+          className="p-3 align-self-md-end px-md-5 rounded-3 py-3 d-flex align-items-center justify-content-center gap-2"
           type="submit"
+          onClick={() => formik.setFieldValue('intent', 'address')}
         >
-          Save
+          {submittingState ? 'Saving' : 'Save'}
+          {submittingState && <Spinner />}
         </Button>
       </Form>
       <PopupModal
-        title="Your shipping address has been saved"
+        title={
+          customError
+            ? customError[0].message
+            : 'Your shipping address has been saved'
+        }
         show={popup}
         onClose={() => setPopup(false)}
       >

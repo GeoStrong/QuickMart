@@ -1,10 +1,9 @@
 import useCheckAuth from '@/hooks/useCheckAuth';
 import useCheckScreenSize from '@/hooks/useCheckScreenSize';
 import useParentUrl from '@/hooks/useParentUrl';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import { Outlet } from 'react-router-dom';
-import { useEffectOnce } from 'react-use';
 
 const ProfilePage = () => {
   const [displayProfilePanel, setDisplayProfilePanel] = useState(true);
@@ -14,9 +13,9 @@ const ProfilePage = () => {
 
   const { checkAuthHandler } = useCheckAuth();
 
-  useEffectOnce(() => {
+  useEffect(() => {
     checkAuthHandler(`/${originPath}/authentication/login`);
-  });
+  }, [checkAuthHandler, originPath]);
 
   return (
     <>

@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  adressInfo: {},
+  addressInfo: {},
   paymentMethod: {},
 };
 
@@ -10,12 +10,10 @@ const settingsSlice = createSlice({
   initialState,
   reducers: {
     setAddress(state, action) {
-      state.adressInfo = action.payload;
-      console.log(state.adressInfo);
+      state.addressInfo = action.payload;
     },
     setPaymentMethod(state, action) {
       state.paymentMethod = action.payload;
-      console.log(state.paymentMethod);
     },
   },
 });

@@ -2,9 +2,8 @@ import ShoppingItem from '@/components/UI/UserShopping/ShoppingItem';
 import RedirectionPage from '../GlobalUI/RedirectionPage';
 import useParentUrl from '@/hooks/useParentUrl';
 import CartCheckout from '@/components/Cart/CartCheckout';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useCheckAuth from '@/hooks/useCheckAuth';
-import { useEffectOnce } from 'react-use';
 
 const ShoppingContainer = ({ itemsContainerState, element, emptyItemInfo }) => {
   const [itemsContainer, setItemsContainer] = itemsContainerState;
@@ -12,9 +11,9 @@ const ShoppingContainer = ({ itemsContainerState, element, emptyItemInfo }) => {
   const { originPath } = useParentUrl();
   const { checkAuthHandler } = useCheckAuth();
 
-  useEffectOnce(() => {
+  useEffect(() => {
     checkAuthHandler(`/${originPath}/authentication/login`);
-  });
+  }, [checkAuthHandler, originPath]);
 
   const cartPage = element === 'cart';
 

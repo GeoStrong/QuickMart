@@ -67,6 +67,8 @@ export const action =
     const resetPage = intent === 'reset';
     const newPasswordPage = intent === 'new password';
     const signupPage = intent === 'signup';
+    const addressPage = intent === 'address';
+    const paymentPage = intent === 'payment';
 
     let eventData;
     let fetchParams = [`${url}.json${authToken}`];
@@ -108,6 +110,46 @@ export const action =
       }
     }
 
+    if (addressPage) {
+      eventData = await getFormData(formData, [
+        'fullName',
+        'province',
+        'city',
+        'street',
+        'postalCode',
+        'phoneNumber',
+      ]);
+      fetchParams = [
+        `${url}/user_${id}.json${authToken}`,
+        {
+          method: request.method,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ 'shipping address': eventData }),
+        },
+      ];
+    }
+
+    if (paymentPage) {
+      eventData = await getFormData(formData, [
+        'cardName',
+        'cardNumber',
+        'expiration',
+        'CVV',
+      ]);
+      fetchParams = [
+        `${url}/user_${id}.json${authToken}`,
+        {
+          method: request.method,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ 'payment method': eventData }),
+        },
+      ];
+    }
+
     const { data } = await getAccountData(...fetchParams);
 
     if (loginPage)
@@ -133,8 +175,6 @@ export const action =
 
     if (signupPage) {
       if (!message) {
-        // console.log(data);
-        // return data;
         return redirect('/QuickMart/authentication/signup/email verification');
       } else {
         return [
@@ -144,5 +184,16 @@ export const action =
           { status: 401 },
         ];
       }
+    }
+
+    if (addressPage || paymentPage) {
+      return true;
+    } else {
+      return [
+        {
+          message: 'Something went wrong',
+        },
+        { status: 500 },
+      ];
     }
   };

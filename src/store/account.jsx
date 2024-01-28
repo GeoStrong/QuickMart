@@ -16,14 +16,17 @@ const accountSlice = createSlice({
     setAccount(state, action) {
       if (action.payload === null) return;
       const { id, fullName, email, password } = action.payload;
-      state.id = id !== null ? id : state.id;
-      state.fullName = fullName !== null ? fullName : state.fullName;
-      state.email = email !== null ? email : state.email;
-      state.password = password !== null ? password : state.password;
+      state.id = id;
+      state.fullName = fullName;
+      state.email = email;
+      state.password = password;
+      // console.log(action.payload);
+      console.log(state.id);
     },
 
     removeAccount(state) {
       Object.assign(state, initialState);
+      // console.log(Array.from(state));
     },
   },
 });

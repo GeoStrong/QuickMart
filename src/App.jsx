@@ -14,7 +14,6 @@ import Support from './pages/Support';
 
 const App = () => {
   const [id, setId] = useState(null);
-
   const Home = LazyComponent(() => import('./pages/MainPages/Home'));
 
   const Categories = LazyComponent(() =>
@@ -45,6 +44,7 @@ const App = () => {
   const Onboarding = LazyComponent(() =>
     import('./components/Authentication/Onboarding')
   );
+
   const Signup = LazyComponent(() =>
     import('./components/Authentication/Authorization/Signup/Signup')
   );
@@ -65,7 +65,7 @@ const App = () => {
   const lazyLoadUtilities = async (utility, meta, options = []) => {
     const module = await import(`./utilities/${utility}.jsx`);
     if (utility === 'loader') return module[utility]();
-    if (utility === 'geoDataLoader') return module[utility]();
+    if (utility === 'profileSettingsLoader') return module[utility]();
     if (utility === 'accountDataLoader')
       return module[utility](...options)(meta);
     if (utility === 'action') return module[utility](...options)(meta);
@@ -74,7 +74,8 @@ const App = () => {
   const router = createBrowserRouter([
     {
       path: '/QuickMart',
-      element: <Root />,
+      id: 'root',
+      element: <Root onIdChange={setId} />,
       errorElement: <Error />,
       async loader(meta) {
         return await lazyLoadUtilities('accountDataLoader', meta, [id]);
@@ -82,7 +83,7 @@ const App = () => {
       children: [
         {
           index: true,
-          element: <Home onIdChange={setId} />,
+          element: <Home />,
           async loader() {
             return await lazyLoadUtilities('loader');
           },
@@ -112,14 +113,24 @@ const App = () => {
             },
             {
               path: 'shipping address',
+              id: 'settings',
               async loader() {
-                return await lazyLoadUtilities('geoDataLoader');
+                return await lazyLoadUtilities('profileSettingsLoader');
+              },
+              async action(meta) {
+                return await lazyLoadUtilities('action', meta, [id]);
               },
               element: <ShippingAddress />,
             },
             {
               path: 'payment',
               element: <Payment />,
+              async loader() {
+                return await lazyLoadUtilities('profileSettingsLoader');
+              },
+              async action(meta) {
+                return await lazyLoadUtilities('action', meta, [id]);
+              },
             },
             {
               path: 'order history',
@@ -160,11 +171,11 @@ const App = () => {
                 },
                 {
                   path: 'email verification',
-                  element: <EmailVerification onIdChange={setId} />,
+                  element: <EmailVerification />,
                 },
                 {
                   path: 'new password',
-                  element: <NewPassword onIdChange={setId} />,
+                  element: <NewPassword />,
                   async action(meta) {
                     return await lazyLoadUtilities('action', meta, [id]);
                   },

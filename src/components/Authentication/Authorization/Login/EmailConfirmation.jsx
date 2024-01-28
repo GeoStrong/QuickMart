@@ -2,18 +2,29 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Button, Container, Form, Spinner } from 'react-bootstrap';
 import AuthorizationAdditional from '../../../UI/AuthorizationLayout/AuthorizationAdditional';
-import { useActionData, useNavigation, useSubmit } from 'react-router-dom';
+import {
+  useActionData,
+  useNavigation,
+  useRouteLoaderData,
+  useSubmit,
+} from 'react-router-dom';
 import useManageActionData from '../../../../hooks/useManageActionData';
 import { useEffectOnce } from 'react-use';
 import useCheckAuth from '@/hooks/useCheckAuth';
 import './EmailConfirmation.scss';
+import { useEffect } from 'react';
 
 const EmailConfirmation = () => {
   const submit = useSubmit();
   const actionData = useActionData();
+  const loaderData = useRouteLoaderData('root');
   const navigation = useNavigation();
   const { customError } = useManageActionData(actionData);
   const { removeAccountHandler } = useCheckAuth();
+
+  const submitHandler = (values) => {
+    submit(values, { method: 'POST' });
+  };
 
   const submittingState = navigation.state === 'submitting';
 
@@ -29,11 +40,16 @@ const EmailConfirmation = () => {
       email: Yup.string().email('Invalid email').required('Required'),
     }),
     onSubmit: (values) => {
-      submit(values, { method: 'POST' });
+      submitHandler(values);
     },
   });
 
   const isError = formik.errors.email && formik.touched.email;
+
+  useEffect(() => {
+    if (loaderData) return submitHandler(formik.values);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loaderData]);
 
   return (
     <Container>

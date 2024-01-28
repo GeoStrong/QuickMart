@@ -8,7 +8,7 @@ import useParentUrl from '../../../hooks/useParentUrl';
 import alertImg from '../../../assets/svg/alert.svg';
 import './EmailVerification.scss';
 
-const EmailVerification = ({ onIdChange }) => {
+const EmailVerification = () => {
   const firstInputRef = useRef();
   const lastInputRef = useRef();
   const navigate = useNavigate();
@@ -65,7 +65,6 @@ const EmailVerification = ({ onIdChange }) => {
 
   useEffectOnce(() => {
     codeGenerator();
-    onIdChange && onIdChange(localStorage.getItem('localAccountId'));
     firstInputRef.current.focus();
   });
 

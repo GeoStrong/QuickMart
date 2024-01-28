@@ -3,21 +3,16 @@ import AuthorizationAdditional from '../../../UI/AuthorizationLayout/Authorizati
 import { useActionData, useNavigation, useSubmit } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useEffectOnce } from 'react-use';
 import useManageActionData from '../../../../hooks/useManageActionData';
 import './NewPassword.scss';
 
-const NewPassword = ({ onIdChange }) => {
+const NewPassword = () => {
   const submit = useSubmit();
   const navigation = useNavigation();
   const actionData = useActionData();
   const { customError } = useManageActionData(actionData);
 
   const submittingState = navigation.state === 'submitting';
-
-  useEffectOnce(() => {
-    onIdChange(localStorage.getItem('localAccountId'));
-  });
 
   const formik = useFormik({
     initialValues: {

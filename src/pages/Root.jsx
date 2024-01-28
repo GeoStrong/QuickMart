@@ -3,9 +3,13 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Outlet, useLoaderData } from 'react-router-dom';
 
-const Root = () => {
+const Root = ({ onIdChange }) => {
   const dispatch = useDispatch();
   const loaderData = useLoaderData();
+
+  useEffect(() => {
+    onIdChange(localStorage.getItem('localAccountId'));
+  });
 
   useEffect(() => {
     dispatch(accountActions.setAccount(loaderData));

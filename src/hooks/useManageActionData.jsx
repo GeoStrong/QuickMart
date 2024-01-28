@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const useManageActionData = (actionData, setAccount = true) => {
+const useManageActionData = (actionData) => {
   const [customError, setCustomError] = useState();
 
   useEffect(() => {
@@ -11,7 +11,7 @@ const useManageActionData = (actionData, setAccount = true) => {
     } else {
       setCustomError(null);
     }
-  }, [actionData, setAccount]);
+  }, [actionData]);
 
   return { customError };
 };

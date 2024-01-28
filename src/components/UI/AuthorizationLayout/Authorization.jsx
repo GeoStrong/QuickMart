@@ -1,4 +1,4 @@
-import { Link, useNavigation } from 'react-router-dom';
+import { Link, useNavigation, useRouteLoaderData } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import useParentUrl from '../../../hooks/useParentUrl';
@@ -7,6 +7,7 @@ import logo from '../../../assets/images/logo.png';
 import './Authorization.scss';
 import { useEffectOnce } from 'react-use';
 import useCheckAuth from '@/hooks/useCheckAuth';
+import { useEffect } from 'react';
 
 const Authorization = ({
   page,
@@ -16,6 +17,7 @@ const Authorization = ({
   submitHandler,
 }) => {
   const navigation = useNavigation();
+  const loaderData = useRouteLoaderData('root');
   const { originPath, getSiblingLocation } = useParentUrl();
   const { removeAccountHandler } = useCheckAuth();
 
@@ -32,6 +34,11 @@ const Authorization = ({
     }),
     onSubmit: submitHandler,
   });
+
+  useEffect(() => {
+    if (loaderData) return submitHandler(formik.values);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loaderData]);
 
   const checkPage = page === 'signup';
 

@@ -16,9 +16,19 @@ const App = () => {
   const [id, setId] = useState(null);
   const Home = LazyComponent(() => import('./pages/MainPages/Home'));
 
-  const Categories = LazyComponent(() =>
-    import('./pages/MainPages/Categories')
+  const CategoriesPage = LazyComponent(() =>
+    import('./pages/MainPages/CategoriesPage')
   );
+  const CategoryPage = LazyComponent(() =>
+    import('./pages/MainPages/CategoryPage')
+  );
+  const Category = LazyComponent(() =>
+    import('./components/Categories/Category')
+  );
+  const ProductDetail = LazyComponent(() =>
+    import('./components/UI/CategoryProductsLayout/ProductDetail')
+  );
+
   const CartPage = LazyComponent(() => import('./pages/MainPages/CartPage'));
   const WishlistPage = LazyComponent(() =>
     import('./pages/MainPages/WishlistPage')
@@ -66,9 +76,9 @@ const App = () => {
     const module = await import(`./utilities/${utility}.jsx`);
     if (utility === 'loader') return module[utility]();
     if (utility === 'profileSettingsLoader') return module[utility]();
-    if (utility === 'accountDataLoader')
-      return module[utility](...options)(meta);
+    if (utility === 'accountDataLoader') return module[utility](...options);
     if (utility === 'action') return module[utility](...options)(meta);
+    if (utility === 'categoryProductsLoader') return module[utility](meta);
   };
 
   const router = createBrowserRouter([
@@ -89,11 +99,43 @@ const App = () => {
           },
         },
         {
+          id: 'categories',
           path: 'categories',
-          element: <Categories />,
           async loader() {
             return await lazyLoadUtilities('loader');
           },
+          children: [
+            {
+              index: true,
+              element: <CategoriesPage />,
+            },
+            {
+              path: ':category',
+              element: <CategoryPage />,
+              children: [
+                {
+                  index: true,
+                  element: <Category />,
+                  async loader(meta) {
+                    return await lazyLoadUtilities(
+                      'categoryProductsLoader',
+                      meta
+                    );
+                  },
+                },
+                {
+                  path: 'product/:product',
+                  element: <ProductDetail />,
+                  async loader(meta) {
+                    return await lazyLoadUtilities(
+                      'categoryProductsLoader',
+                      meta
+                    );
+                  },
+                },
+              ],
+            },
+          ],
         },
         {
           path: 'cart',

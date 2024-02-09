@@ -1,20 +1,17 @@
-import CategoryList from '@/components/UI/CategoryLayout/CategoryList';
-import HeaderNavigation from '@/components/UI/GlobalUI/HeaderNavigation';
 import useCheckScreenSize from '@/hooks/useCheckScreenSize';
 import { Container } from 'react-bootstrap';
-import { useLoaderData } from 'react-router-dom';
 import logo from '../../assets/images/logo.png';
+import HeaderNavigation from '../UI/GlobalUI/HeaderNavigation';
+import CategoryList from '../UI/CategoryProductsLayout/CategoryList';
 
-const Categories = () => {
+const Categories = ({ categories, moreCategories }) => {
   const { renderFooter } = useCheckScreenSize();
-  const { categories, moreCategories } = useLoaderData();
   const categoryList = [];
-
   categoryList.push(...categories);
 
   moreCategories.forEach((category) => {
     const categoryObj = {
-      id: Math.floor(Math.random() * (50 - 1 - 20 + 1) + 20),
+      id: crypto.getRandomValues(new Uint32Array(1))[0],
       name: category,
       image: logo,
     };
@@ -25,7 +22,7 @@ const Categories = () => {
   return (
     <>
       <Container className="mb-7">
-        <HeaderNavigation page="Categories" />
+        <HeaderNavigation page="Categories" whereTo=".." />
         <CategoryList categories={categoryList} />
       </Container>
       {renderFooter}

@@ -47,7 +47,7 @@ const Order = () => {
   return (
     <Container>
       {isScreenMobile && <HeaderNavigation page="Order History" />}
-      <ButtonGroup className="my-3 w-100 gap-2 bg-secondary">
+      <ButtonGroup className="mb-3 mt-6 mt-md-3 w-100 gap-2 bg-secondary">
         <Button
           variant={`${ongoingTab ? 'dark' : 'secondary'}`}
           onClick={() => {

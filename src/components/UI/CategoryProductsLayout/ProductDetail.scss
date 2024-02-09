@@ -1,0 +1,14 @@
+.product {
+  &__image {
+    width: 100%;
+
+    img {
+      height: 10rem;
+      object-fit: cover;
+      border-radius: 1rem;
+    }
+  }
+
+  &__detail {
+  }
+}

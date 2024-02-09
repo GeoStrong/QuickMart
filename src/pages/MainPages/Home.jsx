@@ -3,25 +3,32 @@ import Header from '../../components/Home/Header/Header';
 import Main from '../../components/Home/Main';
 import useCheckScreenSize from '../../hooks/useCheckScreenSize';
 import { Await, useLoaderData } from 'react-router-dom';
-import Products from '../../components/Home/Products';
+import Products from '../../components/UI/CategoryProductsLayout/ProductsList';
 import { Suspense } from 'react';
 import SuspenseSpinnerLoader from '@/components/UI/SpinnerLoaders/SuspenseSpinnerLoader';
 
 const Home = () => {
   const { renderFooter } = useCheckScreenSize();
-  const { products, categories, discountProducts } = useLoaderData();
+  const { categories, discountProducts, products } = useLoaderData();
+
+  const promises = Promise.all([categories, discountProducts, products]);
 
   return (
     <>
       <Container className="mt-3">
         <Header />
-        <Main categoryList={categories} discountProducts={discountProducts}>
-          <Suspense fallback={<SuspenseSpinnerLoader />}>
-            <Await resolve={products}>
-              {(loadedProducts) => <Products productList={loadedProducts} />}
-            </Await>
-          </Suspense>
-        </Main>
+        <Suspense fallback={<SuspenseSpinnerLoader />}>
+          <Await resolve={promises}>
+            {(loadedProducts) => (
+              <Main
+                categoryList={loadedProducts[0]}
+                discountProducts={loadedProducts[1]}
+              >
+                <Products productList={loadedProducts[2]} />
+              </Main>
+            )}
+          </Await>
+        </Suspense>
       </Container>
       {renderFooter}
     </>

@@ -10,11 +10,11 @@ const productsSlice = createSlice({
   initialState,
   reducers: {
     setActiveCategory(state, action) {
-      const { id, name } = action.payload;
+      const { id, name } = action?.payload ?? {};
       state.activeCategory = { id, name };
     },
     setActiveProduct(state, action) {
-      const { id, title } = action.payload;
+      const { id, title } = action?.payload ?? {};
       state.activeProduct = { id, title };
     },
   },

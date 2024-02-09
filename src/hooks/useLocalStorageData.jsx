@@ -1,26 +1,26 @@
+import { useDispatch } from 'react-redux';
 import { useLocalStorage } from 'react-use';
 
 const useLocalStorageData = (localValue = 'localStorage') => {
+  const dispatch = useDispatch();
   const localStorage = useLocalStorage(localValue);
   const [localStorageValue, setLocalStorageValue, removeLocalStorageValue] =
     localStorage;
 
-  const getDataFromLocalStorage = (data) => {
-    if (localStorageValue === undefined) return;
-    return localStorageValue[data];
-  };
+  const setDispatchValue = (dispatchFunction, data = localStorageValue) =>
+    dispatch(dispatchFunction(data));
 
-  const mergeDataWithLocalStorage = (data, name) => {
-    if (localStorageValue === undefined) return;
-    return setLocalStorageValue({ ...localStorageValue, [name]: data });
+  const setCustomStorageValue = (data, customDispatchFunction) => {
+    customDispatchFunction && setDispatchValue(customDispatchFunction, data);
+    return setLocalStorageValue(data);
   };
 
   return {
     localStorageValue,
     setLocalStorageValue,
     removeLocalStorageValue,
-    getDataFromLocalStorage,
-    mergeDataWithLocalStorage,
+    setCustomStorageValue,
+    setDispatchValue,
   };
 };
 

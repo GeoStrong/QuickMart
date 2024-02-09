@@ -1,1 +1,0 @@
-import{a3 as a}from"./index-W6B9srZp.js";const o="https://quickmart-21bf3-default-rtdb.firebaseio.com/users",r="?auth=LqYQArvL3uTpuLrsicJHxuDbzsXH2DfsXZosxsi2",u=t=>async()=>{const s=await fetch(`${o}/user_${t}.json${r}`);return s.ok?await s.json():a({message:"Error loading data"},{status:500})};export{u as accountDataLoader};

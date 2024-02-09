@@ -9,13 +9,15 @@ import {
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import usePlaceholder from '../../hooks/usePlaceholder';
-import CategoryList from '../UI/CategoryLayout/CategoryList';
+import CategoryList from '../UI/CategoryProductsLayout/CategoryList';
 import './Main.scss';
 
 const Main = ({ categoryList, children, discountProducts }) => {
   const { carouselItemPlaceholder, listItemPlaceholder } = usePlaceholder();
   const [index, setIndex] = useState(0);
   const [isCategoryLoaded, setIsCategoryLoaded] = useState(false);
+
+  const someCategories = categoryList.slice(0, 8);
 
   useEffect(() => {
     setIsCategoryLoaded(true);
@@ -83,7 +85,7 @@ const Main = ({ categoryList, children, discountProducts }) => {
             </Link>
           </div>
           {isCategoryLoaded ? (
-            <CategoryList categories={categoryList} />
+            <CategoryList categories={someCategories} />
           ) : (
             <>
               <div className="d-flex gap-3">

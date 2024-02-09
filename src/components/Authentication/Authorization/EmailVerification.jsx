@@ -99,7 +99,7 @@ const EmailVerification = () => {
             setDisplayAlert(true);
           }, 1000);
         }}
-        className="alert mt-3 position-absolute fw-light rounded-4 d-flex gap-2 align-items-center text-center text-dark"
+        className="alert mt-3 position-absolute z-3 fw-light rounded-4 d-flex gap-2 align-items-center text-center text-dark"
       >
         <div className="alert-img bg-primary">
           <img src={alertImg} alt="alert" />
@@ -112,7 +112,7 @@ const EmailVerification = () => {
           onClose={() => {
             setDisplayAlert(false);
           }}
-          className="alert mt-3 alert__code position-absolute rounded-4 text-dark"
+          className="alert mt-3 z-3 alert__code position-absolute rounded-4 text-dark"
         >
           <Alert.Heading className="text-center h6 ">
             Your verification code is{' '}

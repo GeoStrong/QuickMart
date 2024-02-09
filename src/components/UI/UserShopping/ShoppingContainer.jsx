@@ -31,7 +31,7 @@ const ShoppingContainer = ({ itemsContainerState, element, emptyItemInfo }) => {
 
   return (
     <>
-      <div className="container__content mb-6 d-flex flex-column flex-lg-row gap-5 justify-content-lg-between">
+      <div className="container__content mb-6 pt-5 d-flex flex-column flex-lg-row gap-5 justify-content-lg-between">
         {itemsContainer.length > 0 ? (
           <ShoppingItem
             onItemsModify={[

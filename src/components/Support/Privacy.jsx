@@ -11,7 +11,7 @@ const Privacy = () => {
   });
 
   return (
-    <Col xs={12} lg={9} className="support">
+    <Col xs={12} lg={9} className="support mt-6 mt-md-0">
       <h1 className="support__title">Our Policy</h1>
       <p className="support__descr">
         At QuickMart, we are committed to protecting the privacy and security of

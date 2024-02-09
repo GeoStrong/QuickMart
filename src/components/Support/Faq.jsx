@@ -11,7 +11,7 @@ const Faq = () => {
   });
 
   return (
-    <Col xs={12} lg={9} className="support">
+    <Col xs={12} lg={9} className="support mt-6 mt-md-0">
       <h1 className="support__title">FAQs</h1>
       <ul className="support__list support__list--unordered">
         <li className="support__item">

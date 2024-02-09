@@ -98,7 +98,7 @@ const Payment = () => {
   return (
     <Container>
       {isScreenMobile && <HeaderNavigation page="Payment Method" />}
-      <Form className="d-flex flex-column  mt-3" onSubmit={formik.handleSubmit}>
+      <Form className="d-flex flex-column mt-6" onSubmit={formik.handleSubmit}>
         <Form.Group className="mb-2">
           <Form.Label className="fw-medium">
             Card Holder Name{' '}

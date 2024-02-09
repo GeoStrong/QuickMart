@@ -177,7 +177,7 @@ const ShippingAddress = () => {
   return (
     <Container className="mb-6">
       {isScreenMobile && <HeaderNavigation page="Shipping Address" />}
-      <Form className="mt-2 d-flex flex-column" onSubmit={formik.handleSubmit}>
+      <Form className="mt-6 d-flex flex-column" onSubmit={formik.handleSubmit}>
         <Form.Group className="mb-2">
           <Form.Label className="fw-medium">
             Full Name

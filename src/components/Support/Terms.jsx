@@ -11,7 +11,7 @@ const Terms = () => {
   });
 
   return (
-    <Col xs={12} lg={9} className="support">
+    <Col xs={12} lg={9} className="support mt-6 mt-md-0">
       <h1 className="support__title">Terms &amp; Conditions</h1>
       <p className="support__descr">
         Welcome to QuickMart! These Terms and Conditions (&quot;Terms&quot;)

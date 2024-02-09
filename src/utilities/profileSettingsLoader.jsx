@@ -1,18 +1,11 @@
-import { defer, json } from 'react-router-dom';
-
-const accountUrl = 'https://quickmart-21bf3-default-rtdb.firebaseio.com/users';
-const authToken = '?auth=LqYQArvL3uTpuLrsicJHxuDbzsXH2DfsXZosxsi2';
-const regionsUrl = 'https://api.countrystatecity.in/v1/countries';
-const geoApiKey = 'S2laQWljdUwwVW90MWo4c1JIaGdiM2lnRkFTTmJDU1pCTjcwN3NQOQ==';
-
-const getData = async (url, init) => {
-  const response = await fetch(url, init);
-  if (!response.ok) {
-    return json({ message: 'Error loading data' }, { status: 500 });
-  }
-  const data = await response.json();
-  return data;
-};
+import { defer } from 'react-router-dom';
+import {
+  accountUrl,
+  authToken,
+  regionsUrl,
+  geoApiKey,
+  getData,
+} from './config';
 
 const getProfileSettings = async (id, setting) => {
   return await getData(`${accountUrl}/user_${id}/${setting}.json${authToken}`);

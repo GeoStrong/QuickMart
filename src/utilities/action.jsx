@@ -1,7 +1,5 @@
 import { json, redirect } from 'react-router-dom';
-
-const url = 'https://quickmart-21bf3-default-rtdb.firebaseio.com/users';
-const authToken = '?auth=LqYQArvL3uTpuLrsicJHxuDbzsXH2DfsXZosxsi2';
+import { accountUrl, authToken } from './config';
 
 const getFormData = async (formData, values) => {
   const eventData = {};
@@ -47,7 +45,7 @@ const checkAccountEmail = (data, eventData) =>
   });
 
 const changePasswordHandler = async (id, method, eventData) => {
-  await getAccountData(`${url}/user_${id}.json${authToken}`, {
+  await getAccountData(`${accountUrl}/user_${id}.json${authToken}`, {
     method,
     headers: {
       'Content-Type': 'application/json',
@@ -71,7 +69,7 @@ export const action =
     const paymentPage = intent === 'payment';
 
     let eventData;
-    let fetchParams = [`${url}.json${authToken}`];
+    let fetchParams = [`${accountUrl}.json${authToken}`];
     let message;
 
     const allAccountsData = await getAccountData(fetchParams);
@@ -82,11 +80,11 @@ export const action =
 
     if (newPasswordPage) {
       eventData = await getFormData(formData, ['password']);
-      fetchParams = [`${url}/user_${id}.json${authToken}`];
+      fetchParams = [`${accountUrl}/user_${id}.json${authToken}`];
     }
 
     if (signupPage) {
-      const id = Math.floor(Math.random() * 100);
+      const id = crypto.getRandomValues(new Uint32Array(1))[0];
 
       eventData = await getFormData(formData, [
         'fullName',
@@ -96,7 +94,7 @@ export const action =
 
       if (!checkAccountEmail(allAccountsData.data, eventData).length > 0) {
         fetchParams = [
-          `${url}/user_${id}.json${authToken}`,
+          `${accountUrl}/user_${id}.json${authToken}`,
           {
             method: request.method,
             headers: {
@@ -120,7 +118,7 @@ export const action =
         'phoneNumber',
       ]);
       fetchParams = [
-        `${url}/user_${id}.json${authToken}`,
+        `${accountUrl}/user_${id}.json${authToken}`,
         {
           method: request.method,
           headers: {
@@ -139,7 +137,7 @@ export const action =
         'CVV',
       ]);
       fetchParams = [
-        `${url}/user_${id}.json${authToken}`,
+        `${accountUrl}/user_${id}.json${authToken}`,
         {
           method: request.method,
           headers: {

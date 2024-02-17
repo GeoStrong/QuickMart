@@ -10,7 +10,7 @@ import { useEffectOnce } from 'react-use';
 
 const Order = () => {
   const [activeTab, setActiveTab] = useState('ongoing');
-  const setDisplayProfilePanel = useOutletContext();
+  const { setDisplayProfilePanel } = useOutletContext();
   const { isScreenMobile } = useCheckScreenSize();
 
   useEffectOnce(() => {
@@ -23,16 +23,16 @@ const Order = () => {
   const [ongoingItemsContainer, setOngoingItemsContainer] = useState([
     {
       id: 33,
-      name: 'Loop Silicone Strong Magnetic Watch',
+      title: 'Loop Silicone Strong Magnetic Watch',
       price: 20.25,
-      img: emptyCart,
+      image: emptyCart,
       quantity: 2,
     },
     {
       id: 99,
-      name: 'Loop Silicone Strong Magnetic Watch',
+      title: 'Loop Silicone Strong Magnetic Watch',
       price: 15.25,
-      img: emptyCart,
+      image: emptyCart,
       quantity: 1,
     },
   ]);

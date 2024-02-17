@@ -36,6 +36,10 @@ const App = () => {
 
   const Profile = LazyComponent(() => import('./components/Profile/Profile'));
 
+  const SettingsPage = LazyComponent(() =>
+    import('./pages/MainPages/SettingsPage')
+  );
+
   const ShippingAddress = LazyComponent(() =>
     import('./components/Profile/ProfileSettings/ShippingAddress')
   );
@@ -160,26 +164,49 @@ const App = () => {
               element: <Profile />,
             },
             {
-              path: 'shipping address',
-              id: 'settings',
+              path: 'settings',
+              element: <SettingsPage />,
               async loader() {
                 return await lazyLoadUtilities('profileSettingsLoader');
               },
-              async action(meta) {
-                return await lazyLoadUtilities('action', meta, [id]);
-              },
-              element: <ShippingAddress />,
+              children: [
+                {
+                  path: 'shipping address',
+                  element: <ShippingAddress />,
+                  async action(meta) {
+                    return await lazyLoadUtilities('action', meta, [id]);
+                  },
+                },
+                {
+                  path: 'payment',
+                  element: <Payment />,
+                  async action(meta) {
+                    return await lazyLoadUtilities('action', meta, [id]);
+                  },
+                },
+              ],
             },
-            {
-              path: 'payment',
-              element: <Payment />,
-              async loader() {
-                return await lazyLoadUtilities('profileSettingsLoader');
-              },
-              async action(meta) {
-                return await lazyLoadUtilities('action', meta, [id]);
-              },
-            },
+            // {
+            //   path: 'shipping address',
+            //   id: 'settings',
+            //   async loader() {
+            //     return await lazyLoadUtilities('profileSettingsLoader');
+            //   },
+            //   async action(meta) {
+            //     return await lazyLoadUtilities('action', meta, [id]);
+            //   },
+            //   element: <ShippingAddress />,
+            // },
+            // {
+            //   path: 'payment',
+            //   element: <Payment />,
+            //   async loader() {
+            //     return await lazyLoadUtilities('profileSettingsLoader');
+            //   },
+            //   async action(meta) {
+            //     return await lazyLoadUtilities('action', meta, [id]);
+            //   },
+            // },
             {
               path: 'order history',
               element: <Order />,

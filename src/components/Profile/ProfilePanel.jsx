@@ -54,9 +54,13 @@ const ProfilePanel = () => {
           {
             name: 'Shipping Address',
             icon: address,
-            navigateTo: 'shipping address',
+            navigateTo: `/${originPath}/profile/settings/shipping address`,
           },
-          { name: 'Payment Method', icon: payment, navigateTo: 'payment' },
+          {
+            name: 'Payment Method',
+            icon: payment,
+            navigateTo: `/${originPath}/profile/settings/payment`,
+          },
           { name: 'Order History', icon: order, navigateTo: 'order history' },
         ])}
         {renderListGroup('Support & Information', [

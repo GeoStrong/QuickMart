@@ -13,7 +13,7 @@ const Profile = () => {
   );
   const { originPath } = useParentUrl();
 
-  const setDisplayProfilePanel = useOutletContext();
+  const { setDisplayProfilePanel } = useOutletContext();
 
   useEffectOnce(() => {
     setDisplayProfilePanel(false);

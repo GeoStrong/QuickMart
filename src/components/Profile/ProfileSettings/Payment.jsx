@@ -1,17 +1,11 @@
 import HeaderNavigation from '@/components/UI/GlobalUI/HeaderNavigation';
 import { Button, Container, Form } from 'react-bootstrap';
-import {
-  Link,
-  useLoaderData,
-  useOutletContext,
-  useSubmit,
-} from 'react-router-dom';
-import { useEffectOnce } from 'react-use';
+import { Link, useFetcher, useOutletContext } from 'react-router-dom';
 import { PatternFormat } from 'react-number-format';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import useCheckScreenSize from '@/hooks/useCheckScreenSize';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { settingsActions } from '@/store/settings';
 import { useEffect, useState } from 'react';
 import PopupModal from '@/components/UI/GlobalUI/PopupModal';
@@ -19,27 +13,15 @@ import useParentUrl from '@/hooks/useParentUrl';
 
 const Payment = () => {
   const dispatch = useDispatch();
-  const submit = useSubmit();
-  const { getProfileSettings } = useLoaderData('settings');
-  const { id } = useSelector((state) => state.account);
-  const { paymentMethod } = useSelector((state) => state.settings);
+  const fetcher = useFetcher();
   const [popup, setPopup] = useState(false);
-  const setDisplayProfilePanel = useOutletContext();
+  const { profileSettings } = useOutletContext();
   const { isScreenMobile } = useCheckScreenSize();
   const { originPath } = useParentUrl();
 
   useEffect(() => {
-    const getPaymentMethodData = async () => {
-      const data = await getProfileSettings(id, 'payment method');
-      dispatch(settingsActions.setPaymentMethod(data));
-    };
-
-    getPaymentMethodData();
-  }, [dispatch, getProfileSettings, id]);
-
-  useEffectOnce(() => {
-    setDisplayProfilePanel(true);
-  });
+    dispatch(settingsActions.setPaymentMethod(profileSettings));
+  }, [dispatch, profileSettings]);
 
   const getDate = (cardYear = 0) => {
     const date = new Date();
@@ -52,10 +34,10 @@ const Payment = () => {
 
   const formik = useFormik({
     initialValues: {
-      cardName: paymentMethod?.cardName || '',
-      cardNumber: paymentMethod?.cardNumber || '',
-      expiration: paymentMethod?.expiration || '',
-      CVV: paymentMethod?.CVV || '',
+      cardName: profileSettings.cardName,
+      cardNumber: profileSettings.cardNumber,
+      expiration: profileSettings.expiration,
+      CVV: profileSettings.CVV,
     },
     validationSchema: Yup.object({
       cardName: Yup.string()
@@ -87,7 +69,7 @@ const Payment = () => {
       CVV: Yup.string().required('Required'),
     }),
     onSubmit: (values) => {
-      submit(values, { method: 'PATCH' });
+      fetcher.submit(values, { method: 'PATCH' });
       dispatch(settingsActions.setPaymentMethod(values));
       setPopup(true);
     },

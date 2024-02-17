@@ -4,17 +4,15 @@ import * as Yup from 'yup';
 import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
 import { Suspense, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   Await,
   Link,
   useActionData,
-  useLoaderData,
+  useFetcher,
   useNavigation,
   useOutletContext,
-  useSubmit,
 } from 'react-router-dom';
-import { useEffectOnce } from 'react-use';
 import postalCodes from 'postal-codes-js';
 import HeaderNavigation from '@/components/UI/GlobalUI/HeaderNavigation';
 import useCheckScreenSize from '@/hooks/useCheckScreenSize';
@@ -23,40 +21,43 @@ import PopupModal from '@/components/UI/GlobalUI/PopupModal';
 import useParentUrl from '@/hooks/useParentUrl';
 import useManageActionData from '@/hooks/useManageActionData';
 import './ShippingAddress.scss';
+import { useEffectOnce } from 'react-use';
 
 const ShippingAddress = () => {
-  const submit = useSubmit();
-  const dispatch = useDispatch();
+  const fetcher = useFetcher();
   const navigation = useNavigation();
   const actionData = useActionData();
-  const setDisplayProfilePanel = useOutletContext();
-  const { getGeoData, getProfileSettings } = useLoaderData();
-  const { id } = useSelector((state) => state.account);
-  const { addressInfo } = useSelector((state) => state.settings);
-  const [phoneNumber, setPhoneNumber] = useState(addressInfo?.phoneNumber);
-  const [phoneNumberFocused, setPhoneNumberFocused] = useState(false);
-  const [provinceCode, setProvinceCode] = useState(addressInfo?.provinceCode);
-  const [provinceName, setProvinceName] = useState(addressInfo?.provinceName);
-  const [popup, setPopup] = useState(false);
+  const { getGeoData, profileSettings } = useOutletContext();
+
+  const dispatch = useDispatch();
+
   const countryRef = useRef();
+
+  const [phoneNumber, setPhoneNumber] = useState(profileSettings.phoneNumber);
+  const [provinceCode, setProvinceCode] = useState(
+    profileSettings.provinceCode
+  );
+  const [provinceName, setProvinceName] = useState(
+    profileSettings.provinceName
+  );
+
+  const [phoneNumberFocused, setPhoneNumberFocused] = useState(false);
+  const [popup, setPopup] = useState(false);
+
   const { customError } = useManageActionData(actionData);
   const { isScreenMobile } = useCheckScreenSize();
   const { originPath } = useParentUrl();
 
   const submittingState = navigation.state === 'submitting';
 
-  useEffect(() => {
-    const getShippingAddressData = async () => {
-      const data = await getProfileSettings(id, 'shipping address');
-      dispatch(settingsActions.setAddress(data));
-    };
-
-    getShippingAddressData();
-  }, [dispatch, getProfileSettings, id]);
-
   useEffectOnce(() => {
-    setDisplayProfilePanel(true);
+    countryRef.current.focus();
+    countryRef.current.blur();
   });
+
+  useEffect(() => {
+    dispatch(settingsActions.setAddress(profileSettings));
+  }, [dispatch, profileSettings]);
 
   const countryName = countryRef.current?.previousSibling
     .querySelector('.PhoneInputCountrySelect')
@@ -73,15 +74,13 @@ const ShippingAddress = () => {
   const getCities =
     provinceCode !== null && getGeoData(countryName, provinceCode);
 
-  console.log(actionData);
-
   const formik = useFormik({
     initialValues: {
-      fullName: addressInfo?.fullName || '',
-      province: addressInfo?.province || '',
-      city: addressInfo?.city || '',
-      street: addressInfo?.street || '',
-      postalCode: addressInfo?.postalCode || '',
+      fullName: profileSettings.fullName,
+      province: profileSettings.province,
+      city: profileSettings.city,
+      street: profileSettings.street,
+      postalCode: profileSettings.postalCode,
     },
     validationSchema: Yup.object({
       fullName: Yup.string()
@@ -109,6 +108,7 @@ const ShippingAddress = () => {
         })
         .required('Required'),
     }),
+
     onSubmit: (values) => {
       const addressInfo = {
         ...values,
@@ -117,7 +117,7 @@ const ShippingAddress = () => {
         phoneNumber,
       };
       dispatch(settingsActions.setAddress(addressInfo));
-      submit(addressInfo, { method: 'PATCH' });
+      fetcher.submit(addressInfo, { method: 'PATCH' });
       setPopup(true);
     },
   });
@@ -131,8 +131,8 @@ const ShippingAddress = () => {
     onGeoDataChangeHandler
   ) => {
     const dislaySelect =
-      addressInfo && addressInfo[name] !== undefined
-        ? addressInfo[name] !== undefined
+      profileSettings && profileSettings[name] !== undefined
+        ? profileSettings[name] !== undefined
         : geoDataName !== undefined &&
           geoDataName !== 'ZZ' &&
           geoDataName !== null;
@@ -150,8 +150,8 @@ const ShippingAddress = () => {
             formik.handleChange(event);
           }}
         >
-          {addressInfo && addressInfo[name] ? (
-            <option>{addressInfo[name]}</option>
+          {profileSettings && profileSettings[name] ? (
+            <option>{profileSettings[name]}</option>
           ) : (
             <option>{`Select ${
               name === 'province' ? 'Province' : 'City'
@@ -201,9 +201,7 @@ const ShippingAddress = () => {
             ref={countryRef}
             international
             placeholder="Enter phone number"
-            value={
-              addressInfo?.phoneNumber ? addressInfo?.phoneNumber : phoneNumber
-            }
+            value={phoneNumber}
             onChange={setPhoneNumber}
             onFocus={() => setPhoneNumberFocused(true)}
             className={`${

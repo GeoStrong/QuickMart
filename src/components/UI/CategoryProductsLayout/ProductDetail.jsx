@@ -6,14 +6,20 @@ import { useEffect, useState } from 'react';
 import { Rating } from 'react-simple-star-rating';
 import cartSvg from '@/assets/svg/cart.svg';
 import './ProductDetail.scss';
+import useCustomSvg from '@/hooks/useCustomSvg';
+import { useEffectOnce } from 'react-use';
 
 const ProductDetail = () => {
+  const fetcher = useFetcher();
   const loaderData = useLoaderData();
-  const { renderFooter, isScreenMobile } = useCheckScreenSize();
   const [product, setProduct] = useState(null);
   const [isDescriptionShort, setIsDescriptionShort] = useState(true);
   const [quantity, setQuantity] = useState(1);
-  const fetcher = useFetcher();
+  const [isItemFavoirite, setIsItemFavoirite] = useState(false);
+  const [randomRatingRate, setRandomRatingRate] = useState(null);
+  const [randomRatingCount, setRandomRatingCount] = useState(null);
+  const { renderFooter } = useCheckScreenSize();
+  const { getWishlistSvg } = useCustomSvg();
 
   let description;
 
@@ -52,6 +58,11 @@ const ProductDetail = () => {
     }
   };
 
+  useEffectOnce(() => {
+    setRandomRatingRate((Math.random() * (5 - 1 - 0 + 1) + 0).toFixed(1));
+    setRandomRatingCount(Math.floor(Math.random() * (1000 - 1 - 0 + 1) + 0));
+  });
+
   const productWithUpdatedImg = {
     ...product,
     image: product?.image || getFullImage(product?.images[0]),
@@ -71,12 +82,21 @@ const ProductDetail = () => {
                 alt={productWithUpdatedImg.title}
               />
             </div>
-            <div className="product__detail bg-white p-3 rounded-4">
+            <div className="product__detail bg-white position-relative p-3 rounded-4">
+              <Button
+                variant="white"
+                className="product__detail--favorite position-absolute border-0"
+                onClick={() => {
+                  setIsItemFavoirite((prevValue) => !prevValue);
+                }}
+              >
+                {getWishlistSvg('#000', isItemFavoirite)}
+              </Button>
               <div className="product__detail-start d-flex justify-content-between align-items-center">
-                <h1 className="h4 w-75 fw-bold">
+                <h1 className="h4 w-75 m-0 fw-bold">
                   {productWithUpdatedImg.title}
                 </h1>
-                <p className="fw-bold">$ {productWithUpdatedImg.price}</p>
+                <p className="fw-bold m-0">$ {productWithUpdatedImg.price}</p>
               </div>
               <div className="product__detail-middle">
                 <div className="product__detail-testimonials d-flex gap-1 align-items-center">
@@ -85,7 +105,7 @@ const ProductDetail = () => {
                     initialValue={
                       productWithUpdatedImg.rating
                         ? productWithUpdatedImg.rating.rate
-                        : (Math.random() * (5 - 1 - 0 + 1) + 0).toFixed(1)
+                        : randomRatingRate
                     }
                     readonly
                     allowFraction
@@ -97,7 +117,7 @@ const ProductDetail = () => {
                     (
                     {productWithUpdatedImg.rating
                       ? productWithUpdatedImg.rating.count
-                      : Math.floor(Math.random() * (1000 - 1 - 0 + 1) + 0)}{' '}
+                      : randomRatingCount}{' '}
                     reviews)
                   </span>
                 </div>
@@ -137,32 +157,28 @@ const ProductDetail = () => {
                   </ButtonGroup>
                 </ButtonToolbar>
               </div>
-              <Link className="btn btn-white w-50 fw-bold py-3 rounded-3">
-                Buy Now
-              </Link>
-              <Button
-                variant="dark fw-bold"
-                style={{
-                  backgroundImage: `url(${cartSvg})`,
-                  backgroundRepeat: 'no-repeat',
-                  backgroundPosition: `right ${
-                    isScreenMobile ? '7px' : '20px'
-                  } center`,
-                }}
-                className="w-50 py-3 rounded-3"
-                type="submit"
-                onClick={() => {
-                  fetcher.submit(
-                    {
-                      intent: 'add to cart',
-                      product: JSON.stringify(productInfo),
-                    },
-                    { method: 'patch' }
-                  );
-                }}
-              >
-                Add to Cart
-              </Button>
+              <div className="d-flex">
+                <Link className="btn btn-white w-50 fw-bold py-3 rounded-3">
+                  Buy Now
+                </Link>
+                <Button
+                  variant="dark fw-bold"
+                  className="w-50 d-flex align-items-center justify-content-center py-3 rounded-3"
+                  type="submit"
+                  onClick={() => {
+                    fetcher.submit(
+                      {
+                        intent: 'add to cart',
+                        product: JSON.stringify(productInfo),
+                      },
+                      { method: 'patch' }
+                    );
+                  }}
+                >
+                  <span>Add to Cart</span>
+                  <img src={cartSvg} alt="cart" />
+                </Button>
+              </div>
             </div>
           </main>
         </Container>

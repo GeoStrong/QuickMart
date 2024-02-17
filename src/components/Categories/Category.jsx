@@ -17,7 +17,7 @@ const Category = () => {
         {loaderData.category.length > 0 ? (
           <Products productList={loaderData.category} />
         ) : (
-          <h1 className="text-center mt-5">No products found</h1>
+          <h1 className="text-center pt-6">No products found</h1>
         )}
       </Container>
       {renderFooter}

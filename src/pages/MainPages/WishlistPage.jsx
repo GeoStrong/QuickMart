@@ -12,16 +12,16 @@ const WishlistPage = () => {
   const [wishlistContainer, setWishlistContainer] = useState([
     {
       id: 15,
-      name: 'Loop Silicone Strong Magnetic Watch',
+      title: 'Loop Silicone Strong Magnetic Watch',
       price: 20.25,
-      img: emptyWishlist,
+      image: emptyWishlist,
       quantity: 2,
     },
     {
       id: 20,
-      name: 'Loop Silicone Strong Magnetic Watch',
+      title: 'Loop Silicone Strong Magnetic Watch',
       price: 15.25,
-      img: emptyWishlist,
+      image: emptyWishlist,
       quantity: 1,
     },
   ]);

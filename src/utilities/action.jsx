@@ -61,12 +61,17 @@ export const action =
     const formData = await request.formData();
     const intent = formData.get('intent');
 
+    console.log(intent);
+    console.log(formData.get('itemId'));
+
     const loginPage = intent === 'login';
     const resetPage = intent === 'reset';
     const newPasswordPage = intent === 'new password';
     const signupPage = intent === 'signup';
     const addressPage = intent === 'address';
     const paymentPage = intent === 'payment';
+    const productDetailPage = intent === 'add to cart';
+    const removeCartItem = intent === 'remove item from cart';
 
     let eventData;
     let fetchParams = [`${accountUrl}.json${authToken}`];
@@ -144,6 +149,34 @@ export const action =
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ 'payment method': eventData }),
+        },
+      ];
+    }
+
+    if (productDetailPage) {
+      eventData = JSON.parse(formData.get('product'));
+      fetchParams = [
+        `${accountUrl}/user_${id}/cart/cart_${eventData.id}.json${authToken}`,
+        {
+          method: request.method,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ ...eventData }),
+        },
+      ];
+    }
+
+    if (removeCartItem) {
+      fetchParams = [
+        `${accountUrl}/user_${id}/cart/cart_${formData.get(
+          'itemId'
+        )}.json${authToken}`,
+        {
+          method: request.method,
+          headers: {
+            'Content-Type': 'application/json',
+          },
         },
       ];
     }

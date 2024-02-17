@@ -8,14 +8,19 @@ import {
   Row,
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import usePlaceholder from '../../hooks/usePlaceholder';
 import CategoryList from '../UI/CategoryProductsLayout/CategoryList';
+import usePlaceholder from '@/hooks/usePlaceholder';
+import useParentUrl from '@/hooks/useParentUrl';
+import useLocalStorageData from '@/hooks/useLocalStorageData';
+import { productsActions } from '@/store/products';
 import './Main.scss';
 
 const Main = ({ categoryList, children, discountProducts }) => {
-  const { carouselItemPlaceholder, listItemPlaceholder } = usePlaceholder();
   const [index, setIndex] = useState(0);
   const [isCategoryLoaded, setIsCategoryLoaded] = useState(false);
+  const { carouselItemPlaceholder, listItemPlaceholder } = usePlaceholder();
+  const { setCustomStorageValue } = useLocalStorageData('activeCategory');
+  const { originPath } = useParentUrl();
 
   const someCategories = categoryList.slice(0, 8);
 
@@ -32,6 +37,7 @@ const Main = ({ categoryList, children, discountProducts }) => {
       <Row className="main__start d-flex">
         <Col xs={12} lg={6}>
           <Carousel
+            interval={null}
             activeIndex={index}
             onSelect={handleSelect}
             className="main__carousel h-100"
@@ -42,8 +48,14 @@ const Main = ({ categoryList, children, discountProducts }) => {
                     key={product.id}
                     id={product.id}
                     className="main__carousel-item h-100"
+                    onClick={() => {
+                      setCustomStorageValue(
+                        { id: product.id, name: product.category },
+                        productsActions.setActiveCategory
+                      );
+                    }}
                   >
-                    <Link>
+                    <Link to={`/${originPath}/categories/${product.category}`}>
                       <Card className="h-100 flex-row bg-secondary bg-opacity-10">
                         <Card.Img
                           src={product.image}

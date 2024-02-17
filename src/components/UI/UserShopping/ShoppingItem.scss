@@ -29,11 +29,11 @@
   }
 
   &__card {
-    height: 10rem;
+    height: 11rem;
   }
   &__img {
     max-width: 40%;
-    object-fit: contain;
+    object-fit: cover;
   }
 
   &__body {

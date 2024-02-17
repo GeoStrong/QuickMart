@@ -12,15 +12,17 @@ import { useEffect, useState } from 'react';
 import PopupModal from '../GlobalUI/PopupModal';
 import RemoveItemSvg from '@/assets/svg/RemoveItemSvg';
 import './ShoppingItem.scss';
+import { useFetcher } from 'react-router-dom';
 
 const ShoppingItem = ({ onItemsModify, readyItemsState, page }) => {
-  const [items, onRemoveItem, onChangeItem] = onItemsModify;
-  const [readyItems, readyItemsHandler] = readyItemsState;
+  const fetcher = useFetcher();
   const [showPopup, setShowPopup] = useState(false);
   const [itemId, setItemId] = useState(null);
+  const [items, onRemoveItem, onChangeItem] = onItemsModify;
   const [checkedItems, setCheckedItems] = useState(
     items.reduce((acc, item) => ({ ...acc, [item.id]: true }), {})
   );
+  const [readyItems, readyItemsHandler] = readyItemsState;
   const cartPage = page === 'cart';
   const orderPage = page === 'order';
 
@@ -95,11 +97,14 @@ const ShoppingItem = ({ onItemsModify, readyItemsState, page }) => {
               </Alert>
             )}
             <Card className="shoppingItem__card w-100 flex-row">
-              <Card.Img className="shoppingItem__img" src={item.img} />
+              <Card.Img
+                className="shoppingItem__img"
+                src={item.image || item.images[0]}
+              />
               <Card.Body className="shoppingItem__body">
-                <div className="shoppingItem__body-header d-flex gap-3">
+                <div className="shoppingItem__body-header d-flex gap-3 justify-content-between">
                   <Card.Title className="shoppingItem__body-title fw-medium small">
-                    {item.name}
+                    {item.title}
                   </Card.Title>
                   {cartPage && (
                     <Form.Check
@@ -174,6 +179,10 @@ const ShoppingItem = ({ onItemsModify, readyItemsState, page }) => {
           onClick={() => {
             onRemoveItem(itemId);
             setShowPopup(false);
+            fetcher.submit(
+              { intent: 'remove item from cart', itemId },
+              { method: 'DELETE' }
+            );
           }}
         >
           Delete product

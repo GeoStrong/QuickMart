@@ -132,6 +132,9 @@ const App = () => {
                       meta
                     );
                   },
+                  async action(meta) {
+                    return await lazyLoadUtilities('action', meta, [id]);
+                  },
                 },
               ],
             },
@@ -140,6 +143,9 @@ const App = () => {
         {
           path: 'cart',
           element: <CartPage />,
+          async action(meta) {
+            return await lazyLoadUtilities('action', meta, [id]);
+          },
         },
         {
           path: 'wishlist',

@@ -1,30 +1,18 @@
 import useCheckScreenSize from '@/hooks/useCheckScreenSize';
 import { useState } from 'react';
-import emptyCart from '../../assets/images/empty-cart.png';
 import { Container } from 'react-bootstrap';
 import HeaderNavigation from '@/components/UI/GlobalUI/HeaderNavigation';
 import ShoppingContainer from '@/components/UI/UserShopping/ShoppingContainer';
 import emptyCartImg from '../../assets/images/empty-cart.png';
+import { useRouteLoaderData } from 'react-router-dom';
 
 const CartPage = () => {
   const { renderFooter } = useCheckScreenSize();
+  const loaderData = useRouteLoaderData('root');
 
-  const [cartContainer, setCartContainer] = useState([
-    {
-      id: 15,
-      name: 'Loop Silicone Strong Magnetic Watch',
-      price: 20.25,
-      img: emptyCart,
-      quantity: 2,
-    },
-    {
-      id: 20,
-      name: 'Loop Silicone Strong Magnetic Watch',
-      price: 15.25,
-      img: emptyCart,
-      quantity: 1,
-    },
-  ]);
+  const { cart } = loaderData !== null && loaderData;
+
+  const [cartContainer, setCartContainer] = useState(Object.values(cart));
 
   const emptyCartTitle = 'Your cart is empty';
   const emptyCartText =

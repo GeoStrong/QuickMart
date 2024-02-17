@@ -21,7 +21,7 @@ const accountSlice = createSlice({
       state.email = email;
       state.password = password;
       // console.log(action.payload);
-      console.log(state.id);
+      // console.log(state.id);
     },
 
     removeAccount(state) {

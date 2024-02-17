@@ -13,6 +13,14 @@
     &-description {
       color: $gray-700;
     }
+
+    &-group {
+      border: 1px solid $gray-100;
+
+      button {
+        border: none;
+      }
+    }
   }
 }
 

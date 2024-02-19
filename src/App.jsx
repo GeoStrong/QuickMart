@@ -2,11 +2,12 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { useState } from 'react';
 import LazyComponent from './utilities/LazyComponent';
 import Root from './pages/Root';
-import Error from './pages/Error';
+import Error from './pages/Errors/Error';
+import ProductError from './pages/Errors/ProductError';
+import AuthError from './pages/Errors/AuthError';
 import LoginPage from './pages/AuthorizationPages/LoginPage';
 import SignupPage from './pages/AuthorizationPages/SignupPage';
 import Authentication from './pages/AuthorizationPages/Authentication';
-import AuthError from './pages/AuthorizationPages/AuthError';
 import Login from './components/Authentication/Authorization/Login/Login';
 import EmailConfirmation from './components/Authentication/Authorization/Login/EmailConfirmation';
 import ProfilePage from './pages/MainPages/ProfilePage';
@@ -25,8 +26,8 @@ const App = () => {
   const Category = LazyComponent(() =>
     import('./components/Categories/Category')
   );
-  const ProductDetail = LazyComponent(() =>
-    import('./components/UI/CategoryProductsLayout/ProductDetail')
+  const Product = LazyComponent(() =>
+    import('./components/UI/CategoryProductsLayout/Product')
   );
 
   const CartPage = LazyComponent(() => import('./pages/MainPages/CartPage'));
@@ -129,7 +130,8 @@ const App = () => {
                 },
                 {
                   path: 'product/:product',
-                  element: <ProductDetail />,
+                  element: <Product />,
+                  errorElement: <ProductError />,
                   async loader(meta) {
                     return await lazyLoadUtilities(
                       'categoryProductsLoader',
@@ -154,6 +156,9 @@ const App = () => {
         {
           path: 'wishlist',
           element: <WishlistPage />,
+          async action(meta) {
+            return await lazyLoadUtilities('action', meta, [id]);
+          },
         },
         {
           path: 'profile',

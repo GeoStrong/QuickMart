@@ -6,7 +6,7 @@ import { useRouteError } from 'react-router-dom';
 const Error = () => {
   const error = useRouteError();
   const { renderFooter } = useCheckScreenSize();
-  console.log(error);
+  // console.log(error);
 
   return (
     <>

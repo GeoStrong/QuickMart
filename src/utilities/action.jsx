@@ -61,17 +61,16 @@ export const action =
     const formData = await request.formData();
     const intent = formData.get('intent');
 
-    console.log(intent);
-    console.log(formData.get('itemId'));
-
     const loginPage = intent === 'login';
     const resetPage = intent === 'reset';
     const newPasswordPage = intent === 'new password';
     const signupPage = intent === 'signup';
     const addressPage = intent === 'address';
     const paymentPage = intent === 'payment';
-    const productDetailPage = intent === 'add to cart';
+    const addCartItem = intent === 'add to cart';
     const removeCartItem = intent === 'remove item from cart';
+    const addFavoriteItem = intent === 'add to favorite';
+    const removeFavoriteItem = intent === 'remove item from favorite';
 
     let eventData;
     let fetchParams = [`${accountUrl}.json${authToken}`];
@@ -153,10 +152,12 @@ export const action =
       ];
     }
 
-    if (productDetailPage) {
+    if (addCartItem || addFavoriteItem) {
+      const objName = addCartItem ? 'cart' : 'favorite';
+
       eventData = JSON.parse(formData.get('product'));
       fetchParams = [
-        `${accountUrl}/user_${id}/cart/cart_${eventData.id}.json${authToken}`,
+        `${accountUrl}/user_${id}/${objName}/${objName}_${eventData.id}.json${authToken}`,
         {
           method: request.method,
           headers: {
@@ -167,9 +168,11 @@ export const action =
       ];
     }
 
-    if (removeCartItem) {
+    if (removeCartItem || removeFavoriteItem) {
+      const objName = removeCartItem ? 'cart' : 'favorite';
+
       fetchParams = [
-        `${accountUrl}/user_${id}/cart/cart_${formData.get(
+        `${accountUrl}/user_${id}/${objName}/${objName}_${formData.get(
           'itemId'
         )}.json${authToken}`,
         {

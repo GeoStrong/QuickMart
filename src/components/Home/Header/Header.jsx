@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useRouteLoaderData } from 'react-router-dom';
 import { Badge, Button, Stack } from 'react-bootstrap';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -13,13 +13,30 @@ import cancel from '../../../assets/svg/cancel.svg';
 import './Header.scss';
 
 const Header = (submitHandler) => {
+  const loaderData = useRouteLoaderData('root');
   const searchRef = useRef();
   const [isSearchActive, setIsSearchActive] = useState(false);
+  const [emptyProduct, setEmptyProduct] = useState({
+    cartIsEmpty: true,
+    wishlistIsEmpty: true,
+  });
+  const { avatarImage } = useSelector((state) => state.account);
   const { originPath } = useParentUrl();
   const { isLoggedIn } = useCheckAuth();
   const { isScreenMobile } = useCheckScreenSize();
   const { getCartSvg, getWishlistSvg } = useCustomSvg();
-  const { avatarImage } = useSelector((state) => state.account);
+
+  useEffect(() => {
+    if (loaderData?.cart) {
+      setEmptyProduct((prevState) => ({ ...prevState, cartIsEmpty: false }));
+    }
+    if (loaderData?.favorite) {
+      setEmptyProduct((prevState) => ({
+        ...prevState,
+        wishlistIsEmpty: false,
+      }));
+    }
+  }, [loaderData]);
 
   useEffect(() => {
     !isScreenMobile && setIsSearchActive(true);
@@ -73,10 +90,13 @@ const Header = (submitHandler) => {
                   className="d-none d-lg-flex position-relative"
                 >
                   {getCartSvg('#1c1b1b')}
-                  <Badge
-                    bg="danger"
-                    className="stack__badge position-absolute end-0 d-inline rounded-5"
-                  ></Badge>
+
+                  {!emptyProduct.cartIsEmpty && (
+                    <Badge
+                      bg="danger"
+                      className="stack__badge position-absolute end-0 d-inline rounded-5"
+                    ></Badge>
+                  )}
                 </Link>
 
                 <Link
@@ -84,10 +104,12 @@ const Header = (submitHandler) => {
                   className="d-none d-lg-flex position-relative"
                 >
                   {getWishlistSvg('#1c1b1b')}
-                  <Badge
-                    bg="danger"
-                    className="stack__badge position-absolute end-0 d-inline rounded-5"
-                  ></Badge>
+                  {!emptyProduct.wishlistIsEmpty && (
+                    <Badge
+                      bg="danger"
+                      className="stack__badge position-absolute end-0 d-inline rounded-5"
+                    ></Badge>
+                  )}
                 </Link>
               </>
             ) : (

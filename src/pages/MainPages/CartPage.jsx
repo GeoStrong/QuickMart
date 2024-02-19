@@ -10,9 +10,9 @@ const CartPage = () => {
   const { renderFooter } = useCheckScreenSize();
   const loaderData = useRouteLoaderData('root');
 
-  const { cart } = loaderData !== null && loaderData;
-
-  const [cartContainer, setCartContainer] = useState(Object.values(cart));
+  const [cartContainer, setCartContainer] = useState(
+    loaderData?.cart ? Object.values(loaderData.cart) : []
+  );
 
   const emptyCartTitle = 'Your cart is empty';
   const emptyCartText =

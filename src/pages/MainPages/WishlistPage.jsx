@@ -1,30 +1,18 @@
 import useCheckScreenSize from '@/hooks/useCheckScreenSize';
 import { useState } from 'react';
-import emptyWishlist from '../../assets/images/empty-wishlist.png';
 import { Container } from 'react-bootstrap';
 import HeaderNavigation from '@/components/UI/GlobalUI/HeaderNavigation';
 import ShoppingContainer from '@/components/UI/UserShopping/ShoppingContainer';
 import emptyWishlistImg from '../../assets/images/empty-wishlist.png';
+import { useRouteLoaderData } from 'react-router-dom';
 
 const WishlistPage = () => {
   const { renderFooter } = useCheckScreenSize();
+  const loaderData = useRouteLoaderData('root');
 
-  const [wishlistContainer, setWishlistContainer] = useState([
-    {
-      id: 15,
-      title: 'Loop Silicone Strong Magnetic Watch',
-      price: 20.25,
-      image: emptyWishlist,
-      quantity: 2,
-    },
-    {
-      id: 20,
-      title: 'Loop Silicone Strong Magnetic Watch',
-      price: 15.25,
-      image: emptyWishlist,
-      quantity: 1,
-    },
-  ]);
+  const [wishlistContainer, setWishlistContainer] = useState(
+    loaderData?.favorite ? Object.values(loaderData.favorite) : []
+  );
 
   const emptyWishlistTitle = 'Your wishlist is empty';
   const emptyWishlistText =

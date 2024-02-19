@@ -3,7 +3,7 @@ import './SpinnerLoader.scss';
 
 const SpinnerLoader = () => {
   return (
-    <div className="spinner-container">
+    <div className="spinner-container bg-transparent">
       <Spinner animation="border" variant="primary" />
     </div>
   );

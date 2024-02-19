@@ -158,7 +158,7 @@ const ShoppingItem = ({ onItemsModify, readyItemsState, page }) => {
         ))}
       </Row>
       <PopupModal
-        title="Delete product from wishlist"
+        title={`Delete product from ${cartPage ? 'cart' : 'wishlist'}`}
         show={showPopup}
         onClose={() => {
           setShowPopup(false);
@@ -180,7 +180,10 @@ const ShoppingItem = ({ onItemsModify, readyItemsState, page }) => {
             onRemoveItem(itemId);
             setShowPopup(false);
             fetcher.submit(
-              { intent: 'remove item from cart', itemId },
+              {
+                intent: `remove item from ${cartPage ? 'cart' : 'favorite'}`,
+                itemId,
+              },
               { method: 'DELETE' }
             );
           }}

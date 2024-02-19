@@ -8,7 +8,7 @@ import privacy from '@/assets/svg/privacy.svg';
 import terms from '@/assets/svg/terms.svg';
 import faq from '@/assets/svg/faq.svg';
 import password from '@/assets/svg/password.svg';
-import theme from '@/assets/svg/theme.svg';
+// import theme from '@/assets/svg/theme.svg';
 import arrow from '@/assets/svg/arrow.svg';
 import './ProfilePanel.scss';
 
@@ -24,7 +24,7 @@ const ProfilePanel = () => {
             <ListGroup.Item
               as="li"
               key={index}
-              className="profile__panel-item px-0"
+              className="profile__panel-item px-0 bg-light"
             >
               <NavLink
                 to={item.navigateTo}
@@ -48,7 +48,7 @@ const ProfilePanel = () => {
   };
 
   return (
-    <div className="profile__panel z-1 bg-white">
+    <div className="profile__panel z-1 bg-light">
       <Container className="pt-3 pb-6">
         {renderListGroup('Personal Information', [
           {

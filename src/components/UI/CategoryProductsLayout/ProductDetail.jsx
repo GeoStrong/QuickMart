@@ -9,14 +9,17 @@ import cartSvg from '@/assets/svg/cart.svg';
 import SpinnerLoader from '../SpinnerLoaders/SpinnerLoader';
 import './ProductDetail.scss';
 
-const ProductDetail = ({ product }) => {
+const ProductDetail = ({
+  product,
+  isDescriptionShort,
+  setIsDescriptionShort,
+}) => {
   const fetcher = useFetcher();
-  const [isDescriptionShort, setIsDescriptionShort] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [isItemFavoirite, setIsItemFavoirite] = useState(false);
   const [randomRatingRate, setRandomRatingRate] = useState(null);
   const [randomRatingCount, setRandomRatingCount] = useState(null);
-  const { renderFooter, isScreenMobile, setFooterFade } = useCheckScreenSize();
+  const { isScreenMobile, setFooterFade } = useCheckScreenSize();
   const { getWishlistSvg } = useCustomSvg();
   const { y } = useWindowScroll();
 
@@ -28,7 +31,7 @@ const ProductDetail = ({ product }) => {
     } else {
       setIsDescriptionShort(false);
     }
-  }, [product]);
+  }, [product, setIsDescriptionShort]);
 
   useEffectOnce(() => {
     setRandomRatingRate((Math.random() * (5 - 1 - 0 + 1) + 0).toFixed(1));
@@ -80,6 +83,11 @@ const ProductDetail = ({ product }) => {
     description = product.description;
   }
 
+  useEffect(() => {
+    if (isScreenMobile && y === 0 && !isDescriptionShort)
+      setIsDescriptionShort(true);
+  }, [isDescriptionShort, isScreenMobile, setIsDescriptionShort, y]);
+
   const handleQuantity = (action) => {
     if (action === '+') {
       setQuantity((prevValue) => prevValue + 1);
@@ -87,9 +95,6 @@ const ProductDetail = ({ product }) => {
       setQuantity((prevValue) => prevValue - 1);
     }
   };
-
-  if (isScreenMobile && y === 0 && !isDescriptionShort)
-    setIsDescriptionShort(true);
 
   return (
     <>
@@ -162,7 +167,9 @@ const ProductDetail = ({ product }) => {
                 >
                   -
                 </Button>
-                <span className="">{quantity}</span>
+                <span className="h-100 d-flex align-items-center bg-white">
+                  {quantity}
+                </span>
                 <Button
                   onClick={() => {
                     handleQuantity('+');
@@ -199,7 +206,7 @@ const ProductDetail = ({ product }) => {
           </div>
         </div>
       </main>
-      {isDescriptionShort && renderFooter}
+      {/* {isDescriptionShort && renderFooter} */}
       {fetcher.state === 'submitting' && <SpinnerLoader />}
     </>
   );

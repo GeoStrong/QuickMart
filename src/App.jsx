@@ -26,8 +26,8 @@ const App = () => {
   const Category = LazyComponent(() =>
     import('./components/Categories/Category')
   );
-  const Product = LazyComponent(() =>
-    import('./components/UI/CategoryProductsLayout/Product')
+  const ProductPage = LazyComponent(() =>
+    import('./pages/MainPages/ProductPage')
   );
 
   const CartPage = LazyComponent(() => import('./pages/MainPages/CartPage'));
@@ -130,7 +130,7 @@ const App = () => {
                 },
                 {
                   path: 'product/:product',
-                  element: <Product />,
+                  element: <ProductPage />,
                   errorElement: <ProductError />,
                   async loader(meta) {
                     return await lazyLoadUtilities(

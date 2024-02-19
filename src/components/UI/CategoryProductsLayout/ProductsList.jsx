@@ -34,7 +34,7 @@ const ProductsList = ({ productList }) => {
     <Fragment>
       <Row
         className={`mt-0 products mb-5 ${
-          currentPath !== originPath && 'pt-5'
+          currentPath !== originPath && 'pt-5 pt-lg-4'
         } pb-4`}
       >
         <h1 className="h1 fw-bold">Latest Products</h1>

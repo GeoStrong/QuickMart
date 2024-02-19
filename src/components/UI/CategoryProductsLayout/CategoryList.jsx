@@ -12,7 +12,7 @@ const CategoryList = ({ categories }) => {
   return (
     <ListGroup
       className={`categories__list mb-2 ${
-        currentPath !== originPath && 'pt-6'
+        currentPath !== originPath && 'pt-6 pt-lg-4'
       } text-center flex-row flex-wrap justify-content-around gap-2`}
     >
       {categories.map((category) => (

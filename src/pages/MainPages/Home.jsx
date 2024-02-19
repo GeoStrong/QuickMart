@@ -15,7 +15,7 @@ const Home = () => {
 
   return (
     <>
-      <Container className="mt-3">
+      <Container className="mt-3 mt-lg-0">
         <Header />
         <Suspense fallback={<SuspenseSpinnerLoader />}>
           <Await resolve={promises}>

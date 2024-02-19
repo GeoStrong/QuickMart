@@ -98,7 +98,7 @@ const ProductDetail = ({
 
   return (
     <>
-      <main className="product pt-6 w-100 d-flex flex-column flex-lg-row gap-3">
+      <main className="product pt-6 pt-lg-4 w-100 d-flex flex-column flex-lg-row gap-3">
         <div className="product__image d-flex position-sticky justify-content-center d-lg-block">
           <img
             src={productWithUpdatedImg.image}

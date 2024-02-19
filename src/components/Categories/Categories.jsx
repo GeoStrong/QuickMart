@@ -1,11 +1,11 @@
 import useCheckScreenSize from '@/hooks/useCheckScreenSize';
 import { Container } from 'react-bootstrap';
 import logo from '../../assets/images/logo.png';
-import HeaderNavigation from '../UI/GlobalUI/HeaderNavigation';
 import CategoryList from '../UI/CategoryProductsLayout/CategoryList';
 
 const Categories = ({ categories, moreCategories }) => {
-  const { renderFooter } = useCheckScreenSize();
+  const { renderFooter, renderHeader } =
+    useCheckScreenSize();
   const categoryList = [];
   categoryList.push(...categories);
 
@@ -22,7 +22,7 @@ const Categories = ({ categories, moreCategories }) => {
   return (
     <>
       <Container className="mb-7">
-        <HeaderNavigation page="Categories" whereTo=".." />
+        {renderHeader('Categories', '..')}
         <CategoryList categories={categoryList} />
       </Container>
       {renderFooter}

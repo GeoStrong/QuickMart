@@ -1,3 +1,4 @@
+import Header from '@/components/Home/Header/Header';
 import useCheckAuth from '@/hooks/useCheckAuth';
 import useCheckScreenSize from '@/hooks/useCheckScreenSize';
 import useParentUrl from '@/hooks/useParentUrl';
@@ -7,7 +8,7 @@ import { Outlet } from 'react-router-dom';
 
 const ProfilePage = () => {
   const [displayProfilePanel, setDisplayProfilePanel] = useState(true);
-  const { renderHeader, renderFooter, renderProfilePanel } =
+  const { isScreenMobile, renderFooter, renderProfilePanel } =
     useCheckScreenSize();
   const { originPath } = useParentUrl();
 
@@ -20,7 +21,7 @@ const ProfilePage = () => {
   return (
     <>
       <Container>
-        {renderHeader}
+        {!isScreenMobile && <Header />}
         <div className="profile pt-3 d-flex flex-column-reverse flex-md-row gap-3">
           {displayProfilePanel && renderProfilePanel}
           <Outlet context={{ setDisplayProfilePanel }} />

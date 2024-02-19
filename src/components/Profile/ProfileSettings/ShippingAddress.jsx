@@ -14,14 +14,13 @@ import {
   useOutletContext,
 } from 'react-router-dom';
 import postalCodes from 'postal-codes-js';
-import HeaderNavigation from '@/components/UI/GlobalUI/HeaderNavigation';
+import { useEffectOnce } from 'react-use';
 import useCheckScreenSize from '@/hooks/useCheckScreenSize';
 import { settingsActions } from '@/store/settings';
 import PopupModal from '@/components/UI/GlobalUI/PopupModal';
 import useParentUrl from '@/hooks/useParentUrl';
 import useManageActionData from '@/hooks/useManageActionData';
 import './ShippingAddress.scss';
-import { useEffectOnce } from 'react-use';
 
 const ShippingAddress = () => {
   const fetcher = useFetcher();
@@ -45,7 +44,7 @@ const ShippingAddress = () => {
   const [popup, setPopup] = useState(false);
 
   const { customError } = useManageActionData(actionData);
-  const { isScreenMobile } = useCheckScreenSize();
+  const { renderHeader } = useCheckScreenSize();
   const { originPath } = useParentUrl();
 
   const submittingState = navigation.state === 'submitting';
@@ -176,7 +175,7 @@ const ShippingAddress = () => {
 
   return (
     <Container className="mb-6">
-      {isScreenMobile && <HeaderNavigation page="Shipping Address" />}
+      {renderHeader('Shipping Address')}
       <Form className="mt-6 d-flex flex-column" onSubmit={formik.handleSubmit}>
         <Form.Group className="mb-2">
           <Form.Label className="fw-medium">

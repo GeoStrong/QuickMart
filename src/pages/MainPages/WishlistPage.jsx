@@ -1,14 +1,13 @@
 import useCheckScreenSize from '@/hooks/useCheckScreenSize';
 import { Suspense } from 'react';
 import { Container } from 'react-bootstrap';
-import HeaderNavigation from '@/components/UI/GlobalUI/HeaderNavigation';
 import ShoppingContainer from '@/components/UI/UserShopping/ShoppingContainer';
 import emptyWishlistImg from '../../assets/images/empty-wishlist.png';
 import { Await, useRouteLoaderData } from 'react-router-dom';
 import SpinnerLoader from '@/components/UI/SpinnerLoaders/SpinnerLoader';
 
 const WishlistPage = () => {
-  const { renderFooter } = useCheckScreenSize();
+  const { renderHeader, renderFooter } = useCheckScreenSize();
   const loaderData = useRouteLoaderData('root');
 
   const emptyWishlistTitle = 'Your wishlist is empty';
@@ -18,7 +17,7 @@ const WishlistPage = () => {
   return (
     <>
       <Container>
-        <HeaderNavigation page="Wishlist" />
+        {renderHeader('Wishlist')}
         <Suspense fallback={<SpinnerLoader />}>
           <Await resolve={loaderData.accountData}>
             {(resolvedData) => (

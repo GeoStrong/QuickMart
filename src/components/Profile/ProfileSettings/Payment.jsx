@@ -1,4 +1,3 @@
-import HeaderNavigation from '@/components/UI/GlobalUI/HeaderNavigation';
 import { Button, Container, Form } from 'react-bootstrap';
 import { Link, useFetcher, useOutletContext } from 'react-router-dom';
 import { PatternFormat } from 'react-number-format';
@@ -16,8 +15,8 @@ const Payment = () => {
   const fetcher = useFetcher();
   const [popup, setPopup] = useState(false);
   const { profileSettings } = useOutletContext();
-  const { isScreenMobile } = useCheckScreenSize();
   const { originPath } = useParentUrl();
+  const { renderHeader } = useCheckScreenSize();
 
   useEffect(() => {
     dispatch(settingsActions.setPaymentMethod(profileSettings));
@@ -79,7 +78,7 @@ const Payment = () => {
 
   return (
     <Container>
-      {isScreenMobile && <HeaderNavigation page="Payment Method" />}
+      {renderHeader('Payment Method')}
       <Form className="d-flex flex-column mt-6" onSubmit={formik.handleSubmit}>
         <Form.Group className="mb-2">
           <Form.Label className="fw-medium">

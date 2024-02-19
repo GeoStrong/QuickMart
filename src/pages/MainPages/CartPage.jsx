@@ -1,14 +1,13 @@
 import useCheckScreenSize from '@/hooks/useCheckScreenSize';
 import { Suspense } from 'react';
 import { Container } from 'react-bootstrap';
-import HeaderNavigation from '@/components/UI/GlobalUI/HeaderNavigation';
 import ShoppingContainer from '@/components/UI/UserShopping/ShoppingContainer';
 import emptyCartImg from '../../assets/images/empty-cart.png';
 import { Await, useRouteLoaderData } from 'react-router-dom';
 import SpinnerLoader from '@/components/UI/SpinnerLoaders/SpinnerLoader';
 
 const CartPage = () => {
-  const { renderFooter } = useCheckScreenSize();
+  const { renderHeader, renderFooter } = useCheckScreenSize();
   const loaderData = useRouteLoaderData('root');
 
   const emptyCartTitle = 'Your cart is empty';
@@ -18,7 +17,7 @@ const CartPage = () => {
   return (
     <>
       <Container>
-        <HeaderNavigation page="My Cart" />
+        {renderHeader('My Cart')}
         <Suspense fallback={<SpinnerLoader />}>
           <Await resolve={loaderData.accountData}>
             {(resolvedData) => (

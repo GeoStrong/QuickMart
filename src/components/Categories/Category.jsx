@@ -1,21 +1,20 @@
 import { useLoaderData } from 'react-router-dom';
-import Products from '../UI/CategoryProductsLayout/ProductsList';
+import ProductsList from '../UI/CategoryProductsLayout/ProductsList';
 import { Container } from 'react-bootstrap';
-import HeaderNavigation from '../UI/GlobalUI/HeaderNavigation';
 import { useSelector } from 'react-redux';
 import useCheckScreenSize from '@/hooks/useCheckScreenSize';
 
 const Category = () => {
   const loaderData = useLoaderData();
   const { activeCategory } = useSelector((state) => state.products);
-  const { renderFooter } = useCheckScreenSize();
+  const { renderFooter, renderHeader } = useCheckScreenSize();
 
   return (
     <>
       <Container>
-        <HeaderNavigation page={activeCategory.name} whereTo=".." />
+        {renderHeader(activeCategory.name, '..')}
         {loaderData.category.length > 0 ? (
-          <Products productList={loaderData.category} />
+          <ProductsList productList={loaderData.category} />
         ) : (
           <h1 className="text-center pt-6">No products found</h1>
         )}

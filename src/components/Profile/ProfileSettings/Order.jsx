@@ -1,4 +1,3 @@
-import HeaderNavigation from '@/components/UI/GlobalUI/HeaderNavigation';
 import useCheckScreenSize from '@/hooks/useCheckScreenSize';
 import { useState } from 'react';
 import { Button, ButtonGroup, Container } from 'react-bootstrap';
@@ -11,7 +10,7 @@ import { useEffectOnce } from 'react-use';
 const Order = () => {
   const [activeTab, setActiveTab] = useState('ongoing');
   const { setDisplayProfilePanel } = useOutletContext();
-  const { isScreenMobile } = useCheckScreenSize();
+  const { renderHeader } = useCheckScreenSize();
 
   useEffectOnce(() => {
     setDisplayProfilePanel(true);
@@ -20,7 +19,7 @@ const Order = () => {
   const ongoingTab = activeTab === 'ongoing';
   const completedTab = activeTab === 'completed';
 
-  const [ongoingItemsContainer, setOngoingItemsContainer] = useState([
+  const ongoingItemsContainer = [
     {
       id: 33,
       title: 'Loop Silicone Strong Magnetic Watch',
@@ -35,8 +34,8 @@ const Order = () => {
       image: emptyCart,
       quantity: 1,
     },
-  ]);
-  const [completedItemsContainer, setCompletedItemsContainer] = useState([]);
+  ];
+  const completedItemsContainer = [];
 
   const emptyOngoingOrderTitle = 'No ongoing order';
   const emptyOngoingOrderText = `We currently don't have any active orders in progress. Feel free to explore our products and place a new order.`;
@@ -46,7 +45,7 @@ const Order = () => {
 
   return (
     <Container>
-      {isScreenMobile && <HeaderNavigation page="Order History" />}
+      {renderHeader('Order History')}
       <ButtonGroup className="mb-3 mt-6 mt-md-3 w-100 gap-2 bg-secondary">
         <Button
           variant={`${ongoingTab ? 'dark' : 'secondary'}`}
@@ -69,10 +68,7 @@ const Order = () => {
       </ButtonGroup>
       {ongoingTab && (
         <ShoppingContainer
-          itemsContainerState={[
-            ongoingItemsContainer,
-            setOngoingItemsContainer,
-          ]}
+          randomData={ongoingItemsContainer}
           emptyItemInfo={[
             emptyOngoingOrderTitle,
             emptyOngoingOrderText,
@@ -83,10 +79,7 @@ const Order = () => {
       )}
       {completedTab && (
         <ShoppingContainer
-          itemsContainerState={[
-            completedItemsContainer,
-            setCompletedItemsContainer,
-          ]}
+          randomData={completedItemsContainer}
           emptyItemInfo={[
             emptyCompletedOrderTitle,
             emptyCompletedOrderText,

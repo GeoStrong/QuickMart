@@ -1,0 +1,1 @@
+import{getData as r,productsFirstUrl as o,productsSecondUrl as t}from"./config-kZGF-Rfv.js";import{af as e}from"./index-lzPVPVtk.js";const a=async()=>e({products:r(`${o}products`),categories:r(`${o}categories`),discountProducts:r(`${t}?limit=5`),moreCategories:r(`${t}/categories`)});export{a as loader};

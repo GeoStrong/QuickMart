@@ -1,14 +1,16 @@
 import useLocalStorageData from '@/hooks/useLocalStorageData';
 import { accountActions } from '@/store/account';
 import { productsActions } from '@/store/products';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Outlet, useLoaderData } from 'react-router-dom';
-import { useEffectOnce } from 'react-use';
+import { useEffectOnce, usePromise } from 'react-use';
 
 const Root = ({ onIdChange }) => {
   const dispatch = useDispatch();
   const loaderData = useLoaderData();
+  const mounted = usePromise();
+  const [accountData, setAccountData] = useState('accountData');
   const { setDispatchValue } = useLocalStorageData('activeCategory');
   const { setDispatchValue: setProductDispatchValue } =
     useLocalStorageData('activeProduct');
@@ -23,8 +25,15 @@ const Root = ({ onIdChange }) => {
   });
 
   useEffect(() => {
-    dispatch(accountActions.setAccount(loaderData));
-  }, [dispatch, loaderData]);
+    (async () => {
+      const value = await mounted(loaderData.accountData);
+      setAccountData(value);
+    })();
+  });
+
+  useEffect(() => {
+    dispatch(accountActions.setAccount(accountData));
+  }, [accountData, dispatch]);
 
   return (
     <>

@@ -5,9 +5,9 @@ import useParentUrl from '../../../hooks/useParentUrl';
 import { Button, Container, Form, Row, Spinner } from 'react-bootstrap';
 import logo from '../../../assets/images/logo.png';
 import './Authorization.scss';
-import { useEffectOnce } from 'react-use';
+import { useEffectOnce, usePromise } from 'react-use';
 import useCheckAuth from '@/hooks/useCheckAuth';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const Authorization = ({
   page,
@@ -18,6 +18,8 @@ const Authorization = ({
 }) => {
   const navigation = useNavigation();
   const loaderData = useRouteLoaderData('root');
+  const mounted = usePromise();
+  const [accountData, setAccountData] = useState(null);
   const { originPath, getSiblingLocation } = useParentUrl();
   const { removeAccountHandler } = useCheckAuth();
 
@@ -36,9 +38,16 @@ const Authorization = ({
   });
 
   useEffect(() => {
-    if (loaderData) return submitHandler(formik.values);
+    (async () => {
+      const value = await mounted(loaderData.accountData);
+      setAccountData(value);
+    })();
+  });
+
+  useEffect(() => {
+    if (accountData) return submitHandler(formik.values);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loaderData]);
+  }, [accountData]);
 
   const checkPage = page === 'signup';
 

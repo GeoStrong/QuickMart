@@ -11,10 +11,13 @@ import logo from '../../../assets/images/logo.png';
 import search from '../../../assets/svg/search.svg';
 import cancel from '../../../assets/svg/cancel.svg';
 import './Header.scss';
+import { usePromise } from 'react-use';
 
 const Header = (submitHandler) => {
   const loaderData = useRouteLoaderData('root');
   const searchRef = useRef();
+  const mounted = usePromise();
+  const [accountData, setAccountData] = useState();
   const [isSearchActive, setIsSearchActive] = useState(false);
   const [emptyProduct, setEmptyProduct] = useState({
     cartIsEmpty: true,
@@ -27,16 +30,23 @@ const Header = (submitHandler) => {
   const { getCartSvg, getWishlistSvg } = useCustomSvg();
 
   useEffect(() => {
-    if (loaderData?.cart) {
+    (async () => {
+      const value = await mounted(loaderData.accountData);
+      setAccountData(value);
+    })();
+  });
+
+  useEffect(() => {
+    if (accountData?.cart) {
       setEmptyProduct((prevState) => ({ ...prevState, cartIsEmpty: false }));
     }
-    if (loaderData?.favorite) {
+    if (accountData?.favorite) {
       setEmptyProduct((prevState) => ({
         ...prevState,
         wishlistIsEmpty: false,
       }));
     }
-  }, [loaderData]);
+  }, [accountData]);
 
   useEffect(() => {
     !isScreenMobile && setIsSearchActive(true);

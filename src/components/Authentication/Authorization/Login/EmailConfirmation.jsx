@@ -9,15 +9,17 @@ import {
   useSubmit,
 } from 'react-router-dom';
 import useManageActionData from '../../../../hooks/useManageActionData';
-import { useEffectOnce } from 'react-use';
+import { useEffectOnce, usePromise } from 'react-use';
 import useCheckAuth from '@/hooks/useCheckAuth';
 import './EmailConfirmation.scss';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const EmailConfirmation = () => {
   const submit = useSubmit();
   const actionData = useActionData();
   const loaderData = useRouteLoaderData('root');
+  const mounted = usePromise();
+  const [accountData, setAccountData] = useState(null);
   const navigation = useNavigation();
   const { customError } = useManageActionData(actionData);
   const { removeAccountHandler } = useCheckAuth();
@@ -47,9 +49,16 @@ const EmailConfirmation = () => {
   const isError = formik.errors.email && formik.touched.email;
 
   useEffect(() => {
-    if (loaderData) return submitHandler(formik.values);
+    (async () => {
+      const value = await mounted(loaderData.accountData);
+      setAccountData(value);
+    })();
+  });
+
+  useEffect(() => {
+    if (accountData) return submitHandler(formik.values);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loaderData]);
+  }, [accountData]);
 
   return (
     <Container>

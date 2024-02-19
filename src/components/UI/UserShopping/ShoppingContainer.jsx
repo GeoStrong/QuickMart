@@ -5,7 +5,12 @@ import CartCheckout from '@/components/Cart/CartCheckout';
 import { useEffect, useState } from 'react';
 import useCheckAuth from '@/hooks/useCheckAuth';
 
-const ShoppingContainer = ({ accountData, element, emptyItemInfo }) => {
+const ShoppingContainer = ({
+  accountData,
+  element,
+  emptyItemInfo,
+  randomData,
+}) => {
   let container;
 
   if (element === 'cart') {
@@ -14,6 +19,8 @@ const ShoppingContainer = ({ accountData, element, emptyItemInfo }) => {
     container = accountData?.favorite
       ? Object.values(accountData.favorite)
       : [];
+  } else {
+    container = randomData;
   }
 
   const [itemsContainer, setItemsContainer] = useState(container);
@@ -27,6 +34,7 @@ const ShoppingContainer = ({ accountData, element, emptyItemInfo }) => {
   }, [checkAuthHandler, originPath]);
 
   const cartPage = element === 'cart';
+  const orderPage = element === 'order';
 
   const removeItemHandler = (index) =>
     setItemsContainer((prevItems) =>
@@ -42,7 +50,11 @@ const ShoppingContainer = ({ accountData, element, emptyItemInfo }) => {
 
   return (
     <>
-      <div className="container__content mb-6 pt-5 d-flex flex-column flex-lg-row gap-5 justify-content-lg-between">
+      <div
+        className={`container__content mb-6 ${
+          !orderPage && 'pt-5'
+        } d-flex flex-column flex-lg-row gap-5 justify-content-lg-between`}
+      >
         {itemsContainer.length > 0 ? (
           <ShoppingItem
             onItemsModify={[

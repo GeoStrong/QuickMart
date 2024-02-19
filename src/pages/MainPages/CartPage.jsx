@@ -1,18 +1,15 @@
 import useCheckScreenSize from '@/hooks/useCheckScreenSize';
-import { useState } from 'react';
+import { Suspense } from 'react';
 import { Container } from 'react-bootstrap';
 import HeaderNavigation from '@/components/UI/GlobalUI/HeaderNavigation';
 import ShoppingContainer from '@/components/UI/UserShopping/ShoppingContainer';
 import emptyCartImg from '../../assets/images/empty-cart.png';
-import { useRouteLoaderData } from 'react-router-dom';
+import { Await, useRouteLoaderData } from 'react-router-dom';
+import SpinnerLoader from '@/components/UI/SpinnerLoaders/SpinnerLoader';
 
 const CartPage = () => {
   const { renderFooter } = useCheckScreenSize();
   const loaderData = useRouteLoaderData('root');
-
-  const [cartContainer, setCartContainer] = useState(
-    loaderData?.cart ? Object.values(loaderData.cart) : []
-  );
 
   const emptyCartTitle = 'Your cart is empty';
   const emptyCartText =
@@ -22,11 +19,17 @@ const CartPage = () => {
     <>
       <Container>
         <HeaderNavigation page="My Cart" />
-        <ShoppingContainer
-          itemsContainerState={[cartContainer, setCartContainer]}
-          emptyItemInfo={[emptyCartTitle, emptyCartText, emptyCartImg]}
-          element="cart"
-        />
+        <Suspense fallback={<SpinnerLoader />}>
+          <Await resolve={loaderData.accountData}>
+            {(resolvedData) => (
+              <ShoppingContainer
+                accountData={resolvedData}
+                emptyItemInfo={[emptyCartTitle, emptyCartText, emptyCartImg]}
+                element="cart"
+              />
+            )}
+          </Await>
+        </Suspense>
       </Container>
       {renderFooter}
     </>

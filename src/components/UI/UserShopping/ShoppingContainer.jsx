@@ -5,8 +5,19 @@ import CartCheckout from '@/components/Cart/CartCheckout';
 import { useEffect, useState } from 'react';
 import useCheckAuth from '@/hooks/useCheckAuth';
 
-const ShoppingContainer = ({ itemsContainerState, element, emptyItemInfo }) => {
-  const [itemsContainer, setItemsContainer] = itemsContainerState;
+const ShoppingContainer = ({ accountData, element, emptyItemInfo }) => {
+  let container;
+
+  if (element === 'cart') {
+    container = accountData?.cart ? Object.values(accountData.cart) : [];
+  } else if (element === 'wishlist') {
+    container = accountData?.favorite
+      ? Object.values(accountData.favorite)
+      : [];
+  }
+
+  const [itemsContainer, setItemsContainer] = useState(container);
+
   const [readyToCheckoutItems, setReadyToCheckoutItems] = useState();
   const { originPath } = useParentUrl();
   const { checkAuthHandler } = useCheckAuth();

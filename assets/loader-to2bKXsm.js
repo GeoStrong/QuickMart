@@ -1,1 +1,0 @@
-import{getData as r,productsFirstUrl as o,productsSecondUrl as t}from"./config-d2QB9zbQ.js";import{ad as e}from"./index-rHemG52W.js";const a=async()=>e({products:r(`${o}products`),categories:r(`${o}categories`),discountProducts:r(`${t}?limit=5`),moreCategories:r(`${t}/categories`)});export{a as loader};

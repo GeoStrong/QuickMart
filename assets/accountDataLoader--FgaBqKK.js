@@ -1,1 +1,0 @@
-import{getData as t,accountUrl as o,authToken as r}from"./config-aaXLEMMC.js";import{ag as c}from"./index-k63RGkMX.js";const u=async a=>c({accountData:t(`${o}/user_${a}.json${r}`)});export{u as accountDataLoader};

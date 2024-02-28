@@ -13,9 +13,9 @@ import cancel from '../../../assets/svg/cancel.svg';
 import './Header.scss';
 import { usePromise } from 'react-use';
 
-const Header = (submitHandler) => {
-  const loaderData = useRouteLoaderData('root');
+const Header = () => {
   const searchRef = useRef();
+  const loaderData = useRouteLoaderData('root');
   const mounted = usePromise();
   const [accountData, setAccountData] = useState();
   const [isSearchActive, setIsSearchActive] = useState(false);
@@ -72,11 +72,7 @@ const Header = (submitHandler) => {
             <img src={logo} alt="logo" className="stack__logo" />
           </Link>
         </div>
-        <HeaderForm
-          onSubmit={submitHandler}
-          searchState={isSearchActive}
-          searchRef={searchRef}
-        />
+        <HeaderForm searchState={isSearchActive} searchRef={searchRef} />
         <div className="stack__end d-flex gap-2 gap-md-4 align-items-center">
           {!isSearchActive && (
             <Button

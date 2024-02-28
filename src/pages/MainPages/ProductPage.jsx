@@ -13,7 +13,7 @@ const ProductPage = () => {
   return (
     <>
       <div className="pb-7 pb-lg-2">
-        <Container>
+        <Container className="mt-3 mt-lg-0">
           {renderHeader('Product Details', '..')}
           <Suspense fallback={<SpinnerLoader />}>
             <Await resolve={loaderData.product}>

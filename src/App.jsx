@@ -30,6 +30,10 @@ const App = () => {
     import('./pages/MainPages/ProductPage')
   );
 
+  const SearchPage = LazyComponent(() =>
+    import('./pages/MainPages/SearchPage')
+  );
+
   const CartPage = LazyComponent(() => import('./pages/MainPages/CartPage'));
   const WishlistPage = LazyComponent(() =>
     import('./pages/MainPages/WishlistPage')
@@ -84,6 +88,7 @@ const App = () => {
     if (utility === 'accountDataLoader') return module[utility](...options);
     if (utility === 'action') return module[utility](...options)(meta);
     if (utility === 'categoryProductsLoader') return module[utility](meta);
+    if (utility === 'filterProductsLoader') return module[utility](meta);
   };
 
   const router = createBrowserRouter([
@@ -145,6 +150,13 @@ const App = () => {
               ],
             },
           ],
+        },
+        {
+          path: 'search',
+          element: <SearchPage />,
+          async loader() {
+            return await lazyLoadUtilities('filterProductsLoader');
+          },
         },
         {
           path: 'cart',

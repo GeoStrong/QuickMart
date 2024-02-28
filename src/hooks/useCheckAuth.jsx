@@ -14,7 +14,7 @@ const useCheckAuth = () => {
   const id = localStorage.getItem('localAccountId');
 
   useEffect(() => {
-    setIsLoggedIn(email !== '');
+    setIsLoggedIn(email !== '' && email !== undefined);
   }, [email]);
 
   const checkAuthHandler = useCallback(

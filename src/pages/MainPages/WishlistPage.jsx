@@ -16,7 +16,7 @@ const WishlistPage = () => {
 
   return (
     <>
-      <Container>
+      <Container className="mt-3 mt-lg-0">
         {renderHeader('Wishlist')}
         <Suspense fallback={<SpinnerLoader />}>
           <Await resolve={loaderData.accountData}>

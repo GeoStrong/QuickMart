@@ -16,7 +16,7 @@ const CartPage = () => {
 
   return (
     <>
-      <Container>
+      <Container className="mt-3 mt-lg-0">
         {renderHeader('My Cart')}
         <Suspense fallback={<SpinnerLoader />}>
           <Await resolve={loaderData.accountData}>

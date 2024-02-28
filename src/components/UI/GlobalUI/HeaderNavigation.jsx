@@ -4,7 +4,7 @@ import './HeaderNavigation.scss';
 
 const HeaderNavigation = ({ whereTo = -1, page }) => {
   return (
-    <Row className="top w-100 rounded-4 position-fixed bg-white z-2 align-items-center flex-nowrap py-3">
+    <Row className="top w-100 rounded-4 position-fixed bg-white z-2 align-items-center flex-nowrap pb-3">
       <Link to={whereTo} className="row__link">
         <svg
           xmlns="http://www.w3.org/2000/svg"

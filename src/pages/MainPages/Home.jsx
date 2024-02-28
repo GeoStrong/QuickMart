@@ -3,7 +3,7 @@ import Header from '../../components/Home/Header/Header';
 import Main from '../../components/Home/Main';
 import useCheckScreenSize from '../../hooks/useCheckScreenSize';
 import { Await, useLoaderData } from 'react-router-dom';
-import Products from '../../components/UI/CategoryProductsLayout/ProductsList';
+import ProductList from '../../components/UI/CategoryProductsLayout/ProductsList';
 import { Suspense } from 'react';
 import SuspenseSpinnerLoader from '@/components/UI/SpinnerLoaders/SuspenseSpinnerLoader';
 
@@ -24,7 +24,8 @@ const Home = () => {
                 categoryList={loadedProducts[0]}
                 discountProducts={loadedProducts[1]}
               >
-                <Products productList={loadedProducts[2]} />
+                <h1 className="h1 mt-2 fw-bold">Latest Products</h1>
+                <ProductList productList={loadedProducts[2]} />
               </Main>
             )}
           </Await>

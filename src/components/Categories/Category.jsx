@@ -11,10 +11,13 @@ const Category = () => {
 
   return (
     <>
-      <Container>
+      <Container className="mt-3">
         {renderHeader(activeCategory.name, '..')}
         {loaderData.category.length > 0 ? (
-          <ProductsList productList={loaderData.category} />
+          <>
+            <h1 className="h1 pt-5 fw-bold">Latest Products</h1>
+            <ProductsList productList={loaderData.category} />
+          </>
         ) : (
           <h1 className="text-center pt-6">No products found</h1>
         )}

@@ -10,7 +10,7 @@ const Error = () => {
   return (
     <>
       <Container className="mt-3">
-        {renderHeader(Error)}
+        {renderHeader('Error')}
         <div className="text-center pt-6 mt-3 fw-bold fs-3">
           <h1>{error.data ? error.data : error.message}</h1>
           <p>{error.status ? error.status : 500}</p>

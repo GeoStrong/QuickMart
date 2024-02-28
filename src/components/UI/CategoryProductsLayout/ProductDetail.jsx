@@ -8,6 +8,7 @@ import useCheckScreenSize from '@/hooks/useCheckScreenSize';
 import cartSvg from '@/assets/svg/cart.svg';
 import SpinnerLoader from '../SpinnerLoaders/SpinnerLoader';
 import './ProductDetail.scss';
+import useCheckAuth from '@/hooks/useCheckAuth';
 
 const ProductDetail = ({
   product,
@@ -20,6 +21,7 @@ const ProductDetail = ({
   const [randomRatingRate, setRandomRatingRate] = useState(null);
   const [randomRatingCount, setRandomRatingCount] = useState(null);
   const { isScreenMobile, setFooterFade } = useCheckScreenSize();
+  const { isLoggedIn } = useCheckAuth();
   const { getWishlistSvg } = useCustomSvg();
   const { y } = useWindowScroll();
 
@@ -106,15 +108,17 @@ const ProductDetail = ({
           />
         </div>
         <div className="product__detail bg-light d-flex flex-column justify-content-lg-around position-relative p-3 rounded-4">
-          <Button
-            variant="white"
-            className="product__detail--favorite position-absolute border-0"
-            onClick={() => {
-              setIsItemFavoirite((prevValue) => !prevValue);
-            }}
-          >
-            {getWishlistSvg('#000', isItemFavoirite)}
-          </Button>
+          {isLoggedIn && (
+            <Button
+              variant="white"
+              className="product__detail--favorite position-absolute border-0"
+              onClick={() => {
+                setIsItemFavoirite((prevValue) => !prevValue);
+              }}
+            >
+              {getWishlistSvg('#000', isItemFavoirite)}
+            </Button>
+          )}
           <div className="product__detail-start d-flex justify-content-between align-items-center">
             <h1 className="h4 w-75 m-0 fw-bold">
               {productWithUpdatedImg.title}
@@ -182,28 +186,30 @@ const ProductDetail = ({
               </ButtonGroup>
             </ButtonToolbar>
           </div>
-          <div className="d-flex">
-            <Link className="btn btn-white w-50 fw-bold py-3 rounded-3">
-              Buy Now
-            </Link>
-            <Button
-              variant="dark fw-bold"
-              className="w-50 d-flex align-items-center justify-content-center py-3 rounded-3"
-              type="submit"
-              onClick={() => {
-                fetcher.submit(
-                  {
-                    intent: 'add to cart',
-                    product: JSON.stringify(productInfo),
-                  },
-                  { method: 'patch' }
-                );
-              }}
-            >
-              <span>Add to Cart</span>
-              <img src={cartSvg} alt="cart" />
-            </Button>
-          </div>
+          {isLoggedIn && (
+            <div className="d-flex">
+              <Link className="btn btn-white w-50 fw-bold py-3 rounded-3">
+                Buy Now
+              </Link>
+              <Button
+                variant="dark fw-bold"
+                className="w-50 d-flex align-items-center justify-content-center py-3 rounded-3"
+                type="submit"
+                onClick={() => {
+                  fetcher.submit(
+                    {
+                      intent: 'add to cart',
+                      product: JSON.stringify(productInfo),
+                    },
+                    { method: 'patch' }
+                  );
+                }}
+              >
+                <span>Add to Cart</span>
+                <img src={cartSvg} alt="cart" />
+              </Button>
+            </div>
+          )}
         </div>
       </main>
       {/* {isDescriptionShort && renderFooter} */}

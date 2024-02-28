@@ -21,6 +21,7 @@ import PopupModal from '@/components/UI/GlobalUI/PopupModal';
 import useParentUrl from '@/hooks/useParentUrl';
 import useManageActionData from '@/hooks/useManageActionData';
 import './ShippingAddress.scss';
+import HeaderNavigation from '@/components/UI/GlobalUI/HeaderNavigation';
 
 const ShippingAddress = () => {
   const fetcher = useFetcher();
@@ -32,19 +33,21 @@ const ShippingAddress = () => {
 
   const countryRef = useRef();
 
-  const [phoneNumber, setPhoneNumber] = useState(profileSettings.phoneNumber);
+  const [phoneNumber, setPhoneNumber] = useState(
+    profileSettings !== null ? profileSettings.phoneNumber : ''
+  );
   const [provinceCode, setProvinceCode] = useState(
-    profileSettings.provinceCode
+    profileSettings !== null ? profileSettings.provinceCode : ''
   );
   const [provinceName, setProvinceName] = useState(
-    profileSettings.provinceName
+    profileSettings !== null ? profileSettings.provinceName : ''
   );
 
   const [phoneNumberFocused, setPhoneNumberFocused] = useState(false);
   const [popup, setPopup] = useState(false);
 
   const { customError } = useManageActionData(actionData);
-  const { renderHeader } = useCheckScreenSize();
+  const { isScreenMobile } = useCheckScreenSize();
   const { originPath } = useParentUrl();
 
   const submittingState = navigation.state === 'submitting';
@@ -75,11 +78,11 @@ const ShippingAddress = () => {
 
   const formik = useFormik({
     initialValues: {
-      fullName: profileSettings.fullName,
-      province: profileSettings.province,
-      city: profileSettings.city,
-      street: profileSettings.street,
-      postalCode: profileSettings.postalCode,
+      fullName: profileSettings !== null ? profileSettings.fullName : '',
+      province: profileSettings !== null ? profileSettings.province : '',
+      city: profileSettings !== null ? profileSettings.city : '',
+      street: profileSettings !== null ? profileSettings.street : '',
+      postalCode: profileSettings !== null ? profileSettings.postalCode : '',
     },
     validationSchema: Yup.object({
       fullName: Yup.string()
@@ -175,8 +178,11 @@ const ShippingAddress = () => {
 
   return (
     <Container className="mb-6">
-      {renderHeader('Shipping Address')}
-      <Form className="mt-6 d-flex flex-column" onSubmit={formik.handleSubmit}>
+      {isScreenMobile && <HeaderNavigation page="Shipping Address" />}
+      <Form
+        className="mt-6 mt-lg-0 d-flex flex-column"
+        onSubmit={formik.handleSubmit}
+      >
         <Form.Group className="mb-2">
           <Form.Label className="fw-medium">
             Full Name

@@ -9,6 +9,7 @@ import { settingsActions } from '@/store/settings';
 import { useEffect, useState } from 'react';
 import PopupModal from '@/components/UI/GlobalUI/PopupModal';
 import useParentUrl from '@/hooks/useParentUrl';
+import HeaderNavigation from '@/components/UI/GlobalUI/HeaderNavigation';
 
 const Payment = () => {
   const dispatch = useDispatch();
@@ -16,7 +17,7 @@ const Payment = () => {
   const [popup, setPopup] = useState(false);
   const { profileSettings } = useOutletContext();
   const { originPath } = useParentUrl();
-  const { renderHeader } = useCheckScreenSize();
+  const { isScreenMobile } = useCheckScreenSize();
 
   useEffect(() => {
     dispatch(settingsActions.setPaymentMethod(profileSettings));
@@ -33,10 +34,10 @@ const Payment = () => {
 
   const formik = useFormik({
     initialValues: {
-      cardName: profileSettings.cardName,
-      cardNumber: profileSettings.cardNumber,
-      expiration: profileSettings.expiration,
-      CVV: profileSettings.CVV,
+      cardName: profileSettings !== null ? profileSettings.cardName : '',
+      cardNumber: profileSettings !== null ? profileSettings.cardNumber : '',
+      expiration: profileSettings !== null ? profileSettings.expiration : '',
+      CVV: profileSettings !== null ? profileSettings.CVV : '',
     },
     validationSchema: Yup.object({
       cardName: Yup.string()
@@ -78,8 +79,11 @@ const Payment = () => {
 
   return (
     <Container>
-      {renderHeader('Payment Method')}
-      <Form className="d-flex flex-column mt-6" onSubmit={formik.handleSubmit}>
+      {isScreenMobile && <HeaderNavigation page="Payment Method" />}
+      <Form
+        className="d-flex flex-column mt-6 mt-lg-0"
+        onSubmit={formik.handleSubmit}
+      >
         <Form.Group className="mb-2">
           <Form.Label className="fw-medium">
             Card Holder Name{' '}

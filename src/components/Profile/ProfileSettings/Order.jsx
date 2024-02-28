@@ -6,11 +6,12 @@ import emptyCart from '../../../assets/images/empty-cart.png';
 import ShoppingContainer from '@/components/UI/UserShopping/ShoppingContainer';
 import { useOutletContext } from 'react-router-dom';
 import { useEffectOnce } from 'react-use';
+import HeaderNavigation from '@/components/UI/GlobalUI/HeaderNavigation';
 
 const Order = () => {
   const [activeTab, setActiveTab] = useState('ongoing');
   const { setDisplayProfilePanel } = useOutletContext();
-  const { renderHeader } = useCheckScreenSize();
+  const { isScreenMobile } = useCheckScreenSize();
 
   useEffectOnce(() => {
     setDisplayProfilePanel(true);
@@ -45,7 +46,7 @@ const Order = () => {
 
   return (
     <Container>
-      {renderHeader('Order History')}
+      {isScreenMobile && <HeaderNavigation page="Order History" />}
       <ButtonGroup className="mb-3 mt-6 mt-md-3 w-100 gap-2 bg-secondary">
         <Button
           variant={`${ongoingTab ? 'dark' : 'secondary'}`}

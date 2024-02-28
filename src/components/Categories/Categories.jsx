@@ -4,8 +4,7 @@ import logo from '../../assets/images/logo.png';
 import CategoryList from '../UI/CategoryProductsLayout/CategoryList';
 
 const Categories = ({ categories, moreCategories }) => {
-  const { renderFooter, renderHeader } =
-    useCheckScreenSize();
+  const { renderFooter, renderHeader } = useCheckScreenSize();
   const categoryList = [];
   categoryList.push(...categories);
 
@@ -21,7 +20,7 @@ const Categories = ({ categories, moreCategories }) => {
 
   return (
     <>
-      <Container className="mb-7">
+      <Container className="mt-3 mt-lg-0 mb-7">
         {renderHeader('Categories', '..')}
         <CategoryList categories={categoryList} />
       </Container>

@@ -10,6 +10,8 @@ const ProductPage = () => {
   const [description, setDescription] = useState(true);
   const { renderFooter, renderHeader } = useCheckScreenSize();
 
+  console.log('success branch test');
+
   return (
     <>
       <div className="pb-7 pb-lg-2">

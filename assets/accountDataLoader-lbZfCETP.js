@@ -1,1 +1,0 @@
-import{getData as t,accountUrl as o,authToken as r}from"./config-09C4zvAi.js";import{ag as c}from"./index-hZ3WPn2h.js";const u=async a=>c({accountData:t(`${o}/user_${a}.json${r}`)});export{u as accountDataLoader};

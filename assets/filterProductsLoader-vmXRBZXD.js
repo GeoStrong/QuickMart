@@ -1,0 +1,1 @@
+import{getData as t,productsFirstUrl as o}from"./config-h-6_80oT.js";import{ag as a}from"./index-imR5RE01.js";const c=()=>a({searchProducts:async r=>await t(`${o}products/?title=${r}`)});export{c as filterProductsLoader};
